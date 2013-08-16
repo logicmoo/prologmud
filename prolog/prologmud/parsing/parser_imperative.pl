@@ -34,12 +34,16 @@
 
 % :- register_module_type (utility).
 
-:- trim_stacks.
-:- garbage_collect_atoms.
-:- garbage_collect.
 :- if(false).
+:- set_prolog_flag(gc,true).
+:- trim_stacks.
+:- garbage_collect_atoms.   
+:- garbage_collect_clauses.
+:- garbage_collect.
 :- statistics.
+:- set_prolog_flag(gc,false).
 :- endif.
+
 some_term_to_atom(Term,Atom):- must(\+ is_list(Term)), term_to_atom(Term,Atom).
 
 % =====================================================================================================================

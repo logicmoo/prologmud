@@ -416,7 +416,12 @@ Proof end.
 
 % :- ensure_loaded_no_mpreds(prologmud(server/mud_telnet)).
 :- ensure_loaded(prologmud(server/mud_irc)).
+:- if(app_argv('--profile')).
+:- profile(ensure_loaded(prologmud('vworld/world.pfc'))).
+:- else.
 :- ensure_loaded(prologmud('vworld/world.pfc')).
+:- endif.
+
 
 :- ensure_loaded(prologmud(server/mud_testing)).
 
@@ -554,7 +559,12 @@ include_prolog_file_mask(F):- absolute_file_name(F,I),expand_file_name(I,O),mapl
 
 % New Objects
 :- wdmsg(loading_objects).
+:- if(app_argv('--profile')).
+:- profile(include_prolog_file_mask(prologmud('./objs/?*.pl'))).
+:- else.
 :- include_prolog_file_mask(prologmud('./objs/?*.pl')).
+:- endif.
+
 %:- include_prolog_files(prologmud(objs/'?*.pl')).
 %:- exists_directory('../src_assets/objs/')->include_prolog_files('../src_assets/objs/?*.pl');true.
 % :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/actions/?*.pl');true.
