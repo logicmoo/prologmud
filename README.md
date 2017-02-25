@@ -1,4 +1,11 @@
-[[Web Interface]]
+# Installation using SWI-Prolog 7.1 or later:
+
+```prolog
+?- pack_install('https://github.com/TeamSPoon/prologmud').
+
+?- pack_install('https://github.com/TeamSPoon/prologmud_sampleworld').
+
+```
 
 # A Prolog based MUD
 Like "Hello world" that must be implemented in every language, a playable MUD server should also exist!  (MUD servers examples are: LambdaMOO, DikuMUD, PerlMUD, CircleMUD.. etc)   
@@ -33,5 +40,14 @@ Prolog is required programming language at all 4 year universities (though most 
 PrologMUD would been OK in LISP but propositional resolution is a type of calculation PrologMUD does most often and in LISP that ends up 10x slower when compared to a Prolog-in-C native unifier.
 
 
-
-![AdoptedFromKnowRob](http://www.prologmoo.com/downloads/screenshots/KnowRobOnto.png)
+* DOCUMENTATION https://drive.google.com/#folders/0B0QA19UX0ehlV1ZEaXEzc3hjTWM
+* **WEB TELNET** http://prologmoo.com/hmud/
+* TELNET telnet://mud.prologmoo.com:4000
+* WIKI https://github.com/TeamSPoon/PrologMUD/wiki
+* YOUTUBE https://www.youtube.com/watch?v=XUNwYHBWJwQ
+* SOURCE CODE https://github.com/TeamSPoon/PrologMUD
+* SPARQL http://mud.prologmoo.com:3020/
+* MUD HTTP http://mud.prologmoo.com:3020/mud/
+* MESSAGE BOARD THREAD - http://www.intfiction.org/forum/viewtopic.php?f=38&t=13717&sid=e1fe6aa4ebb6fda6f2a502a3c26d495d
+* HOMEPAGE http://www.prologmoo.com/
+* LIVECODING http://livecoding.tv/logicmoo/
