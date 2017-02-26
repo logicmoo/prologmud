@@ -211,7 +211,7 @@ acceptableArg(Arg,Type):-dmsg(acceptableArg(Arg,Type)).
 
 :-export(current_agent/1).
 current_agent(PIn):- get_session_id(O),get_agent_session(P,O),!,P=PIn.
-:-mpred_pfc:import(current_agent/1).
+:-mpred_core:import(current_agent/1).
 
 :-export(current_agent_or_var/1).
 current_agent_or_var(P):- once(current_agent(PIn)),P=PIn,!.

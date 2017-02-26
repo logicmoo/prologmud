@@ -213,6 +213,8 @@ save_fmt_e(_,E):-compound(E),!. % cycPred(_),predStub(_),cycPlus2(_),predStub(_)
 %save_fmt_e(O,E):- string(E),!,must((to_word_list(E,WL),save_fmt_e(O,WL))),!.
 save_fmt_e(O,E):- member_eq0(E,O) -> true ; (O=[_|CDR],nb_setarg(2,O,[E|CDR])).
 
+member_eq0(X, [Y|Ys]) :- X==Y;member_eq0(X,Ys).
+
 save_fmt_a(P,A):-loop_check(save_fmt_a_0(P,A),true),!.
 
 save_fmt_a_0(_,E):-var(E),!.

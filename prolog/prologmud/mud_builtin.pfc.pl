@@ -44,7 +44,7 @@ listing_break(G):-listing(G),break.
 :- dynamic(agent_call_command/2).
 :- import(agent_call_command/2).
 
-:- mpred_pfc:import(baseKB:ttExpressionType/1).
+:- mpred_core:import(baseKB:ttExpressionType/1).
 
 
 :- assert_until_eof(infSupertypeName).
