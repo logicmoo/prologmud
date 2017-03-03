@@ -191,16 +191,16 @@ listing_break(G):-listing(G),break.
 % DYN KB
 :- kb_shared   only_if_pttp/0.
 :- kb_shared   use_kif/2.
-:- kb_shared   is_mpred_prop/2.
+% :- kb_shared   is_mpred_prop/2.
 %:- kb_shared   hasInstance_dyn/2.
 :- kb_shared   arity/2.
-:- kb_shared   mpred_prop/2.
+:- kb_shared   mpred_prop/3.
 :- kb_shared   '<=>'/2.
 % :- kb_shared   ruleForward/2.
 :- kb_shared   ruleRewrite/2.
 % :- kb_shared   ruleBackward/2.
 
-% :-must(not(  mpred_prop(t,prologHybrid))).
+% :-must((  mpred_prop(t,_,prologHybrid))).
 
 
 :- kb_shared   term_specifier_text/2.
@@ -355,7 +355,7 @@ rtQuotedPred(functorIsMacro).
 % tCol(ArgsIsa):-mpred_is_trigger(ArgsIsa).
 % tCol(ArgsIsa):-ttRelationType(ArgsIsa).
 % TODO decide if OK
-%(mpred_prop(_,meta_argtypes(ArgTypes)),{is_declarations(ArgTypes)}) ==> meta_argtypes(ArgTypes).
+%(mpred_prop(_,_,meta_argtypes(ArgTypes)),{is_declarations(ArgTypes)}) ==> meta_argtypes(ArgTypes).
 
 tSet(COL)==>tCol(COL).
 ttExpressionType(COL)==>tCol(COL).
@@ -488,7 +488,7 @@ never_assert_u(mudAtLoc(R,_),isa(R,tRegion)):- isa(R,tRegion).
 
 %deduce_facts_forward(localityOfObject(_,Region),isa(Region,tSpatialThing)).
 deduce_facts_forward(localityOfObject(Obj,_),isa(Obj,tObj)).
-fix_argIsa(F,N,vtDirection(Val),vtDirection):-ain(mpred_prop(F,argSingleValueDefault(N,Val))),!.
+fix_argIsa(F,N,vtDirection(Val),vtDirection):-ain(mpred_prop(F,_,argSingleValueDefault(N,Val))),!.
 
 */
 

@@ -129,9 +129,9 @@ prolog_repl:- !, with_all_dmsg((nl,fmt("Press Ctrl-D to resume to the mud!"),nl,
 prolog_repl:- with_all_dmsg((nl,fmt("Press Ctrl-D to resume to the mud!"),nl,
   current_input(In),
   current_output(Out),
-  current_error(Err),
+  % current_error(Err),
   /*must(lmcache:main_thread_error_stream(Err)),*/
-  set_prolog_IO(In,Out,Err),
+  set_prolog_IO(In,Out,Out),
   % must(get_thread_current_error(O)),
   with_ioe(call_u(break)))).
 */

@@ -75,7 +75,7 @@ cmdLook(Agent,LOC):- garbage_collect_atoms, call_u(call(cmdLook_proc,Agent,LOC))
 
 :-export(cmdLook_proc/3).
 cmdLook_proc(Agent,LOC):- 
-   with_no_modifications(locally(mpred_prop(nameString,prologListValued),cmdLook_proc_0(Agent,LOC))),
+   with_no_modifications(locally(mpred_prop(nameString,2,prologListValued),cmdLook_proc_0(Agent,LOC))),
    ain(props(Agent,mudNeedsLook(vFalse))).
 cmdLook_proc_0(Agent,LOC):-
  findall(Show,on_command_show(Agent,actLook,Show),MORELOOK),

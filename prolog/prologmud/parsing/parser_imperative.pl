@@ -583,7 +583,7 @@ is_counted_for_parse(I):-t(tCountable,I), \+ (excluded_in_parse(I)),!.
 excluded_in_parse(apathFn(_, _)).
 excluded_in_parse(I):-tCol(I).
 excluded_in_parse(I):-ttExpressionType(I).
-excluded_in_parse(I):-mpred_prop(_,meta_argtypes(I)).
+excluded_in_parse(I):-mpred_prop(_,_,meta_argtypes(I)).
 excluded_in_parse(apathFn(_ = _)).
 
 instance_for_parse(I):-is_counted_for_parse(I).
