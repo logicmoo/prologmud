@@ -51,3 +51,26 @@ PrologMUD would been OK in LISP but propositional resolution is a type of calcul
 * MESSAGE BOARD THREAD - http://www.intfiction.org/forum/viewtopic.php?f=38&t=13717&sid=e1fe6aa4ebb6fda6f2a502a3c26d495d
 * HOMEPAGE http://www.prologmoo.com/
 * LIVECODING http://livecoding.tv/logicmoo/
+
+
+# Some TODOs
+
+Document this pack!
+Write tests
+Untangle the 'pack' install deps
+Still in progress (Moving predicates over here from logicmoo_base)
+
+
+[BSD 2-Clause License](LICENSE.md)
+
+Copyright (c) 2017, 
+Douglas Miles <logicmoo@gmail.com> and TeamSPoon
+All rights reserved.
+
+# Dislike having tons of forks that are several commits behind the main git repo?
+
+(Why feel obligated to maintain a git fork just to contribute ?)
+
+Please ask to be added to TeamSPoon !
+
+
