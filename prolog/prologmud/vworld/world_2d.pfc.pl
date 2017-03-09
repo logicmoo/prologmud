@@ -255,7 +255,7 @@ mudExitAtLoc(Region,Dir,xyzFn(Region,X,Y,Z)):- call_u(calc_from_center_xyz(Regio
 :- kb_shared(predInterArgIsa/1).
 :- kb_shared(relationAllExists/3).
 
-singleValuedInArgDefault(localityOfObject, 2, isMissing).
+==>singleValuedInArgDefault(localityOfObject, 2, isMissing).
 
 mudAtLoc(Who,xyzFn(Loc,_,_,_))==>localityOfObject(Who,Loc).
 

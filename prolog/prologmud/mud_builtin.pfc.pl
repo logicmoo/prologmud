@@ -311,7 +311,7 @@ rtBinaryPredicate(arity).
 
 % () <==> rtBinaryPredicate(Pred).
 prologHybrid(relationMostInstance(rtBinaryPredicate,tCol,vtValue)).
-%relationMostInstance(BP,_,_)==>(rtBinaryPredicate(BP),rtRolePredicate(BP)).
+%relationMostInstance(BP,_,_)==>(rtBinaryPredicate(BP),rtBinaryPredicate(BP)).
 prologHybrid(relationAllInstance(rtBinaryPredicate,tCol,vtValue)).
 relationAllInstance(BP,_,_)==>rtBinaryPredicate(BP).
 
@@ -1323,11 +1323,11 @@ tCol(rtStatPred).
 
 prologHybrid(normalAgentGoal(rtStatPred,ftTerm)).
 
-(rtStatPred(Pred)==>(rtRolePredicate(Pred),arity(Pred,2),singleValuedInArg(Pred,2))).
+(rtStatPred(Pred)/must(atom(Pred))==>(arity(Pred,2),rtRolePredicate(Pred),singleValuedInArg(Pred,2),rtBinaryPredicate(Pred))).
 
-(((normalAgentGoal(Pred,N)/atom(Pred) ==>
- ({AT=..[Pred,tAgent,ftPercent]},{kb_shared(Pred,2)},
-     meta_argtypes(AT),argSingleValueDefault(Pred,2,N),rtStatPred(Pred))))).
+(((normalAgentGoal(Pred,N)/must(atom(Pred)) ==>
+ ({kb_shared(Pred/2),AT=..[Pred,tAgent,ftPercent]},rtStatPred(Pred),
+   meta_argtypes(AT),argSingleValueDefault(Pred,2,N))))).
 
 
 normalAgentGoal(mudEnergy,90).
@@ -1358,7 +1358,13 @@ normalAgentGoal(Pred,Val)==>  (tAgent(A)==>mdefault(t(Pred,A,Val))).
 
 genls(tRoom,tRegion).
 
+tAgent(iExplorer7).
 
+mud_listing(M):- xlisting((M,-completely_expanded,-spft,-nt,-pt,- (==>))).
+
+:- mud_listing(iExplorer7).
+
+:- must(mudFun(iExplorer7,_W)).
 
 vtActionTemplate(actImprove(rtStatPred)).
 

@@ -39,7 +39,7 @@
 :- garbage_collect_atoms.
 :- garbage_collect.
 some_term_to_atom(Term,Atom):- must(\+ is_list(Term)), term_to_atom(Term,Atom).
-:- break.
+
 % =====================================================================================================================
 % get_agent_text_command/4
 % =====================================================================================================================
@@ -550,6 +550,7 @@ to_descriptive_name(_For,Desc,Atom):-any_to_atom(Desc,Atom),!.
 :-ain((tSet(ttKeyworded))).
 :-ain((completelyAssertedCollection(ttKeyworded))).
 :-ain((vtActionTemplate(AT)/(get_functor(AT,F))) ==> vtVerb(F)).
+
 :-onSpawn((ttKeyworded(T),{freeze(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(nameString(F,_)),once(guess_nameStrings(F,Txt))}==>(nameString(F,Txt)))).
 :-onSpawn((ttKeyworded(T),{freeze(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(mudDescription(F,_)),once(guess_mudDescription(F,Txt))}==>(mudDescription(F,Txt)))).
 :-ain((ttKeyworded(vtVerb))).
