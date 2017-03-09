@@ -592,21 +592,24 @@ prologSingleValued(location_center(tRegion,xyzFn(tRegion,ftInt,ftInt,ftInt)),pro
 ==> prologSingleValued(mudAgentTurnnum(tAgent,ftInt),[argSingleValueDefault(2,0)],prologHybrid).
 :- listing( prologSingleValued ).
 
-
+:- mpred_trace_exec.
 prologSingleValued(mudArmor(tObj,ftInt),prologHybrid).
 prologSingleValued(mudArmorLevel(tWearAble,ftInt),prologHybrid).
+:- mpred_notrace_exec.
 
 prologSingleValued(mudAtLoc(tObj,xyzFn(tRegion,ftInt,ftInt,ftInt)),prologHybrid).
 prologSingleValued(mudAttack(tObj,ftInt),prologHybrid).
 prologSingleValued(mudBareHandDamage(tAgent,ftInt),prologHybrid).
 % prologSingleValued(mudBareHandDamage(tAgent,ftDiceFn),prologHybrid).
+
+:- mpred_trace_exec.
 % prologSingleValued(mudEnergy(tChargeAble,ftInt(90)),prologHybrid).
 prologSingleValued(mudEnergy(tChargeAble,ftInt),prologHybrid).
 prologSingleValued(mudEnergy(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
 prologSingleValued(mudNonHunger(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
 prologSingleValued(mudHygiene(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
 
-% :- mpred_trace_exec.
+:- mpred_notrace_exec.
 :- ain_expanded((prologSingleValued(mudFacing(tObj,vtDirection),[argSingleValueDefault(2,vNorth)],prologHybrid))).
 
 ==> prologSingleValued(mudHealth(tObj,ftInt),prologHybrid).
