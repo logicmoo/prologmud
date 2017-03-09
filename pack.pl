@@ -1,9 +1,18 @@
 name(prologmud).
-version('0.0.8').
+version('1.1.111').
+title('Online text adventure game - MUD Server').
+keywords([game,ai]).
+
 author('Douglas R. Miles','logicmoo@gmail.com').
-title('Online text adventure game server').
-keywords([mud,mpred,games,ai,logicmoo]).
-home('https://github.com/TeamSPoon/prologmud').
+author('Douglas Miles', 'http://www.linkedin.com/in/logicmoo').
+packager('TeamSPoon', 'https://github.com/TeamSPoon/').
+maintainer('TeamSPoon', 'https://github.com/TeamSPoon/').
+home('https://github.com/TeamSPoon/prologmud.git').
+download( 'https://github.com/TeamSPoon/prologmud/release/*.zip').
+
+requires('logicmoo_base').
 requires('pfc').
-download('https://github.com/TeamSPoon/prologmud').
+
+
+
 

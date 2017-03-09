@@ -85,13 +85,15 @@ mtProlog(world).
 :- include(prologmud(mud_header)).
 % :- register_module_type (utility).
 
-:- ensure_loaded(world_2d).
-:- ensure_loaded(world_text).
-:- ensure_loaded(world_text_output).
-:- ensure_loaded(world_effects).
-:- ensure_loaded(world_events).
-:- ensure_loaded(world_agent).
-:- ensure_loaded(world_npc).
+ensure_pfc_loaded(F):-atom_concat(F,'.pfc',FF),ensure_loaded(FF).
+
+:- ensure_pfc_loaded(world_2d).
+:- ensure_pfc_loaded(world_text).
+:- ensure_pfc_loaded(world_text_output).
+:- ensure_pfc_loaded(world_effects).
+:- ensure_pfc_loaded(world_events).
+:- ensure_pfc_loaded(world_agent).
+:- ensure_pfc_loaded(world_npc).
 
 :- if_file_exists(include(logicmoo('vworld/world_spawning.pl'))).
 

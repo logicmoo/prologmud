@@ -15,7 +15,7 @@
 :- include(prologmud(mud_header)).
 
 
-:- set_prolog_flag(virtual_stubs,true).
+:- set_prolog_flag_until_eof(virtual_stubs,true).
 
 :-export((
     parse_agent_text_command/5,            
@@ -38,9 +38,7 @@
 :- trim_stacks.
 :- garbage_collect_atoms.
 :- garbage_collect.
-:- statistics.
 some_term_to_atom(Term,Atom):- must(\+ is_list(Term)), term_to_atom(Term,Atom).
-:- srtrace.
 :- break.
 % =====================================================================================================================
 % get_agent_text_command/4
@@ -680,7 +678,7 @@ parser_imperative:phrase_parseForTypes_9([isOptional(tRegion, isRandom(tRegion))
 
 
 */
-:- set_prolog_flag(lm_expanders,false).
+ % :- set_prolog_flag(subclause_expansion,false).
 
 
 parseIsa(_T, _, [AT|_], _):- var(AT),!,fail.
@@ -811,7 +809,7 @@ distance_to_current_avatar(Agent,ORDEROUT,L,R):-mudDistance(Agent,L,L1),mudDista
 
 % :- register_new_toString_hook(is_mud_object,name_text).
 
-:- set_prolog_flag(lm_expanders,true).
+ % :- set_prolog_flag(subclause_expansion,true).
 
 mudDistance(Agent,_Obj,(-1)):- var(Agent),!.
 mudDistance(Agent,Obj,0):- mudWielding(Agent,Obj),!.

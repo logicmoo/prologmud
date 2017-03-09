@@ -27,7 +27,7 @@ toCamelAtom(List,O):-((\+((member(IS,List),glue_words(IS))),toCamelAtom00(List,O
 % toCamelAtom00(I,O):-toCamelAtom0(I,O).
 toCamelAtom00(I,O):-toCamelcase(I,O).
 
-:- set_prolog_flag(lm_expanders,true).
+ % :- set_prolog_flag(subclause_expansion,true).
 
 
 vtColor(vRed).
@@ -49,7 +49,7 @@ typeGenls(ttValueType,vtValue).
 :-must((isa(vRed,REDISA),genls(REDISA,vtValue))).
 
 
-:- set_prolog_flag(lm_expanders,false).
+ % :- set_prolog_flag(subclause_expansion,false).
 
 :- baseKB:ensure_loaded(library(multimodal_dcg)).
 
@@ -154,7 +154,7 @@ predicate0(isa)-->is_a.
 predicate0(mudRelates)-->is_was.
 predicate0(isa)-->[is].
 
-:- set_prolog_flag(lm_expanders,true).
+ % :- set_prolog_flag(subclause_expansion,true).
 
 
 tCol('tRoom').

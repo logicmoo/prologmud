@@ -10,10 +10,12 @@
 %
 */
 
-:- '$set_source_module'(baseKB).
+% :- '$set_source_module'(baseKB).
 
 % :- include(logicmoo(mpred/'mpred_header.pi')).
 :- set_prolog_flag(access_level,system).
+
+:- style_check(-discontiguous).
 
 % :- '$current_source_module'(M),once(M==baseKB;on_x_log_cont(add_import_module(baseKB,M,end))).
 

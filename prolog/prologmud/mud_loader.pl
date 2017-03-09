@@ -111,7 +111,7 @@ create_module(M):-current_module(M),!.
 create_module(M):-context_module(CM),module(M),asserta(M:this_is_a_module(M)),writeq(switching_back_to_module(M,CM)),module(CM).
 :-create_module(user).
 :-create_module(t_l).
-:-create_module(baseKB).
+%:-create_module(baseKB).
 %:-create_module(moo).
 
 
@@ -210,7 +210,7 @@ hard_work:-
 :- show_entry(gripe_time(40,ensure_loaded(prologmud('mud_builtin.pfc')))).
 % :- show_entry(gripe_time(40,force_reload_mpred_file(prologmud('mud_builtin.pfc')))).
 
-slow_work:- locally_hide( set_prolog_flag(lm_expanders,false) , within_user(after_boot(hard_work))).
+slow_work:- locally_hide( set_prolog_flag(subclause_expansion,false) , within_user(after_boot(hard_work))).
 
 thread_work:- thread_property(X, status(running)),X=loading_code,!.
 thread_work:- thread_create(slow_work,_,[alias(loading_code)]).
@@ -278,7 +278,7 @@ debug_talk:- debug_repl_wo_cyc(parser_talk,t3).
 
 
 % [Optional] This loads boxer
-% :- after_boot(locally(set_prolog_flag(lm_expanders,false),within_user(ignore(catch(start_boxer,_,true))))).
+% :- after_boot(locally(set_prolog_flag(subclause_expansion,false),within_user(ignore(catch(start_boxer,_,true))))).
 
 % [Optional] Testing PTTP
 % :-is_startup_file('run_debug.pl')->doall(do_pttp_test(_));true.
@@ -416,7 +416,7 @@ Proof end.
 
 % :- ensure_loaded_no_mpreds(prologmud(server/mud_telnet)).
 :- ensure_loaded(prologmud(server/mud_irc)).
-:- ensure_loaded(prologmud(vworld/world)).
+:- ensure_loaded(prologmud('vworld/world.pfc')).
 
 :- ensure_loaded(prologmud(server/mud_testing)).
 

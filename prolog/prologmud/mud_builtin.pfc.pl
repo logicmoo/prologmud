@@ -33,7 +33,7 @@
 :- dynamic lmcache:session_io/4, lmcache:session_agent/2, lmcache:agent_session/2,   telnet_fmt_shown/3,   agent_action_queue/3.
 
 */
-:- '$set_source_module'(baseKB).
+%:- '$set_source_module'(baseKB).
 :- set_prolog_flag(runtime_speed, 0).
 :- set_prolog_flag(runtime_safety, 2).
 :- set_prolog_flag(runtime_debug, 2).
@@ -55,10 +55,10 @@ listing_break(G):-listing(G),break.
 
 % :- gripe_time(60,user:ensure_loaded(library(logicmoo_user))).
 
-:- set_defaultAssertMt(baseKB).
+% :- set_defaultAssertMt(baseKB).
 :- file_begin(pfc).
 
-:- install_constant_renamer_until_eof.
+:- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 :- file_begin(code).
 
@@ -101,7 +101,7 @@ listing_break(G):-listing(G),break.
 :- multifile(user_db:grant_openid_server/2).
 :- dynamic(user_db:grant_openid_server/2).
 
-:- kb_shared '$was_imported_kb_content$'/2.
+:- kb_shared('$was_imported_kb_content$'/2).
 :- discontiguous('$was_imported_kb_content$'/2).
 :- kb_shared(  disabled/1).
 :- discontiguous(  disabled/1).
@@ -124,6 +124,7 @@ listing_break(G):-listing(G),break.
 :-op(1190,fy,  (enabled)).
 :-op(1120,fx,  (export)).
 */
+
 
 :- set_prolog_flag(double_quotes, atom).
 :- set_prolog_flag(double_quotes, string). 
@@ -780,7 +781,7 @@ defnSufficient(ftAction,is_vtActionTemplate).
 defnSufficient(ftAction,vtVerb).
 defnSufficient(ftTerm,vtValue).
 
-:- install_constant_renamer_until_eof.
+:- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 genls('FemaleAnimal',tAgent).
 genls('MaleAnimal',tAgent).
@@ -937,7 +938,7 @@ typeGenls(ttObjectType,tObj).
 typeGenls(ttRegionType,tRegion).
 % cycAssert(A,B):- trace_or_throw(cycAssert(A,B)).
 */
-:- install_constant_renamer_until_eof.
+:- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 genls('SetOrCollection',tCol).
 genls('Collection',tCol).
@@ -1321,14 +1322,9 @@ prologHybrid(normalAgentGoal(rtStatPred,ftTerm)).
 
 (rtStatPred(Pred)==>(rtRolePredicate(Pred),arity(Pred,2),singleValuedInArg(Pred,2))).
 
-:- ain(((normalAgentGoal(Pred,N)/atom(Pred) ==>
+(((normalAgentGoal(Pred,N)/atom(Pred) ==>
  ({AT=..[Pred,tAgent,ftPercent]},{kb_shared(Pred,2)},
-     meta_argtypes(AT),argSingleValueDefault(Pred,2,N),prologHybrid(Pred),rtStatPred(Pred))))).
-
-
-:- ain(((normalAgentGoal(Pred,N)/atom(Pred) ==>
- ({AT=..[Pred,tAgent,ftPercent]},{kb_shared(Pred,2)},
-     meta_argtypes(AT),argSingleValueDefault(Pred,2,N),prologHybrid(Pred),rtStatPred(Pred))))).
+     meta_argtypes(AT),argSingleValueDefault(Pred,2,N),rtStatPred(Pred))))).
 
 
 normalAgentGoal(mudEnergy,90).
@@ -1371,9 +1367,11 @@ vtActionTemplate(actImprove(rtStatPred)).
 :- sanity( \+ clause(baseKB:vtActionTemplate(actImprove),true)).
 
 
-:- set_prolog_flag(dialect_pfc,false).
-:- notrace(kif_to_boxlog(((parent('$VAR'('G'),'$VAR'('P')) & parent('$VAR'('P'),'$VAR'('C'))) => grandparent('$VAR'('G'),'$VAR'('C'))),O)),dmsg(O).
+ 
 /*
+
+% :- set_prolog_flag(dialect_pfc,false).
+:- notrace(kif_to_boxlog(((parent('$VAR'('G'),'$VAR'('P')) & parent('$VAR'('P'),'$VAR'('C'))) => grandparent('$VAR'('G'),'$VAR'('C'))),O)),dmsg(O).
 
  the CycL language extends Prolog''s first order logic capabilities with some higher order logics.  
  It also extrends prolog to show proofs.. one issue is the CycL language never signed up for cuts or other execution  orders.    
@@ -1419,7 +1417,7 @@ O = [
 
 */
 
-:- set_prolog_flag(dialect_pfc,false).
+ % :- set_prolog_flag(dialect_pfc,false).
 
 
 % :- time(must(ain_expanded(prologSingleValued(mudFacing666(tObj,vtDirection),[argSingleValueDefault(2,vNorth)],prologHybrid)))).
