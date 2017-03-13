@@ -47,7 +47,7 @@ do_act_affect(_,_,_).
 % Check to see if last action was successful or not
 :-export(wasSuccess/2).
 %:-start_rtrace.
-wasSuccess(Agent,YN) :- ((mudCmdFailure(Agent,_) -> YN=vFalse ; YN=vTrue)).
+wasSuccess(Agent,What,YN) :- ((mudCmdFailure(Agent,What) -> YN=vFalse ; YN=vTrue)).
 %:-stop_rtrace.
 %:-prolog.
 

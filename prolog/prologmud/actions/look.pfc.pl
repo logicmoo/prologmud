@@ -129,12 +129,12 @@ tLooking(Agent):- tAgent(Agent),not(tDeleted(Agent)).
 % plus the agents score, damage, charge, and if they succeeded at their last action.
 % To make this action take a turn, change the first line to:
 % Impliment(get_all(Agent,Vit,Dam,Suc,Scr,Percepts,Inv)) :-
-get_all(Agent,Vit,Dam,Suc,Scr,Percepts,Inv) :-
+get_all(Agent,Vit,Dam,What=Suc,Scr,Percepts,Inv) :-
   call((
 	tLooking(Agent),
 	mudEnergy(Agent,Vit),
         mudHealth(Agent,Dam),
-	wasSuccess(Agent,Suc),
+	wasSuccess(Agent,What,Suc),
 	mudScore(Agent,Scr),
 	mudPossess(Agent,Inv),
 	mudGetPrecepts(Agent,Percepts))),!.

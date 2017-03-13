@@ -900,7 +900,7 @@ meta_argtypes(mudTexture(tSpatialThing,vtTexture)).
 meta_argtypes(mudWearing(tAgent,tWearAble)).
 meta_argtypes(pathName(tRegion,vtDirection,ftString)).
 meta_argtypes(resultIsa(tFunction,tCol)).
-meta_argtypes(wasSuccess(tAgent,ftBoolean)).
+meta_argtypes(wasSuccess(tAgent,vtActionTemplate,ftBoolean)).
 meta_argtypes(type_action_info(tCol,vtActionTemplate,ftText)).
 %NEXT TODO predTypeMax(mudEnergy,tObj,130).
 %NEXT TODO predTypeMax(mudHealth,tObj,500).
