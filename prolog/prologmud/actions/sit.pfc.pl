@@ -11,10 +11,12 @@
 
 % :- register_module_type (mtCommand).
 
-% tCol(vtPosture).
-tCol(vtPosture).
+tSet(vtPosture).
+ttValueType(vtPosture).
 
 prologSingleValued(mudStance(tAgent,vtPosture),prologHybrid).
+
+prologHybrid(actSetsPosture(vtVerb,vtPosture)).
 
 vtPosture(vSit).
 vtPosture(vStand).
@@ -22,23 +24,34 @@ vtPosture(vLay).
 vtPosture(vSleep).
 vtPosture(vKneel).
 
+% converts vtPosture:"vSleep" to Action vtVerb:"actSleep"
+vtPosture(PostureState)/i_name(act,PostureState,Action) ==>
+   actSetsPosture(Action,PostureState).
 
-action_info(Posture,ftText("sets and agent's stance to ",Posture)):-vtPosture(PostureV),Posture=..[PostureV,isOptional(tFurniture,vHere)].
+actSetsPosture(Action,PostureState) ==>
+   {DO=..[Action,tFurniture]}, 
+  action_info_prefered(DO,txtConcatFn(PostureState, " on ", tFurniture)).
 
-% Sit and do nothing.
-agent_call_command(Agent,Verb):- compound(Verb), functor(Verb,Sit,1),vtPosture(Sit),arg(1,Verb,Where),agent_call_command(Agent,actOnto(Where,Sit)).
+actSetsPosture(Action,PostureState) ==> 
+  action_info_prefered(Action,txtConcatFn("sets and agent's stance to ",PostureState)).
 
-action_info(actOnto(isOptional(tFurniture,vHere),Posture),txtConcatFn("onto tObj do ",Posture)):-vtPosture(Posture).
+action_info(A,I):-action_info_prefered(A,I).
 
-vtPosture(Posture)/i_name(act,Posture,ActPosture) ==> {DO=..[ActPosture,isOptional(tFurniture,vHere)]}, action_info(DO,txtConcatFn("onto tObj do ",Posture)).
-
-
-agent_call_command(Agent,actOnto(Where,Sit)):-
-        fmt('agent ~w is now ~wing on ~w',[Agent,Sit,Where]),
-        padd(Agent,mudStance(Sit)),
+% Become PostureState on Something.
+agent_call_command(Agent,actOnto(Where,PostureState)):-
+        fmt('agent ~w is now ~wing on ~w',[Agent,PostureState,Where]),
+        padd(Agent,mudStance(PostureState)),
         padd(Agent,localityOfObject(Where)),
-	call_update_charge(Agent,Sit).
+	call_update_charge(Agent,PostureState).
 
-update_charge(Agent,Sit) :- vtPosture(Sit), padd(Agent,[mudEnergy(+ -1)]).
+% PostureState Action Direct
+agent_call_command(Agent,Action):- callable(Action),
+     functor(Action,Act,_),
+     actSetsPosture(Act,PostureState),
+     (compound(Action)->arg(1,Action,Where);Where=vHere),
+     agent_call_command(Agent,actOnto(Where,PostureState)).
+
+
+update_charge(Agent,PostureState) :- vtPosture(PostureState), padd(Agent,[mudEnergy(+ -1)]).
 
 :- include(prologmud(mud_footer)).

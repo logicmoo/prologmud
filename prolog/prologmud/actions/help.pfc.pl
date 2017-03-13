@@ -88,12 +88,12 @@ actHelp:- commands_list(ListS),forall(member(E,ListS),show_templ_doc(E)).
 agent_call_command(_Agent,actHelp) :- actHelp.
 agent_call_command(_Agent,actHelp(Str)) :-actHelp(Str).
 
-actHelp(Str):-commands_list(ListS),forall(member(E,ListS),write_string_if_contains(Str,E)).
+actHelp(Str):-commands_list(ListS),forall(member(E,ListS),write_doc_if_contains(Str,E)).
 
-write_string_if_contains('',E):-!,show_templ_doc(E),!.
-write_string_if_contains([],E):-!,show_templ_doc(E),!.
-write_string_if_contains("",E):-!,show_templ_doc(E),!.
-write_string_if_contains(Must,E):-ignore((with_output_to(string(Str),show_templ_doc_all(E)),str_contains_all([Must],Str),fmt(Str))).
+write_doc_if_contains('',E):-!,show_templ_doc(E),!.
+write_doc_if_contains([],E):-!,show_templ_doc(E),!.
+write_doc_if_contains("",E):-!,show_templ_doc(E),!.
+write_doc_if_contains(Must,E):-ignore((with_output_to(string(Str),show_templ_doc_all(E)),str_contains_all([Must],Str),fmt(Str))).
 
 
 (vtActionTemplate(A),{nonvar(A),get_functor(A,Inst)} ==> isa(Inst,vtVerb)).
@@ -105,15 +105,14 @@ impl_coerce_hook(Text,vtVerb,Inst):- isa(Inst,vtVerb),name_text(Inst,Text).
 
 :- include(prologmud(mud_footer)).
 
-% :-ain(((get_all_templates(Templ))==>vtActionTemplate(Templ))).
+% :-ain((({get_all_templates(Templ)})==>vtActionTemplate(Templ))).
 
 (type_action_info(_,TEMPL,Help) ==> action_info(TEMPL,Help)).
 
 (action_info(TEMPL,_Help) ==> vtActionTemplate(TEMPL)).
 
-vtActionTemplate(TEMPL) ==> (\+ action_info(TEMPL,_),{to_param_doc(TEMPL,S)},action_info(TEMPL,S)).
+vtActionTemplate(TEMPL), \+ action_info(TEMPL,_)  ==> ({to_param_doc(TEMPL,S)},action_info(TEMPL,S)).
 
-action_info(TEMPL,_S)==>vtActionTemplate(TEMPL).
 
 
 

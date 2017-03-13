@@ -11,7 +11,7 @@
  */
 
 :- include(prologmud(mud_header)).
-:- include(improve).
+:- include('improve.pfc').
 
 ==>tCol(mobSimian).
 
@@ -22,6 +22,8 @@ defined_affordance([subjType= "Passable",actionVerb= "TravelThru"]).
 
 prologHybrid(mudDescription(ftTerm,ftString)).
 prologHybrid(nameString(ftTerm,ftString)).
+
+rtQuotedPred(defined_affordance).
 
 defined_affordance([subjType= "Television",
 stringMatch= "TV",
