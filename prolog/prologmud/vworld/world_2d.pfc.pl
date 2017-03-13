@@ -189,14 +189,14 @@ mudLocOnSurface(Clothes,Agent):-loop_check(wearsClothing(Agent,Clothes),fail).
 :-export(same_regions/2).
 same_regions(Agent,Obj):-inRegion(Agent,Where1),dif(Agent,Obj),inRegion(Obj,Where2),Where1=Where2.
 
-:-ain_expanded(prologHybrid(inRegion(tObj,tRegion))).
+==>(prologHybrid(inRegion(tObj,tRegion))).
 %prologPTTP(localityOfObject(tObj,tSpatialthing)).
 
 %:- ensure_universal_stub(prologPTTP,inRegion/2).
 %:- ensure_universal_stub(prologPTTP,mudTestAgentWearing/2).
 
-:- ain_expanded(prologHybrid(mudAtLoc/2)).
-:- ain_expanded(meta_argtypes(mudAtLoc(tObj,tSpatialThing))).
+==>(prologHybrid(mudAtLoc/2)).
+==>(meta_argtypes(mudAtLoc(tObj,tSpatialThing))).
 
 
 % compute the most specific location description
@@ -581,7 +581,7 @@ check_for_fall(LOC,XXYY,Agent) :-
 	mudAtLoc(HighObj,LOC),
 	props(HighObj,mudHeight(Hh)),
         % if nothing is there pretend it is 1
-	(not(mudAtLoc(_,XXYY)) -> Hl = 1; mudAtLoc(LowObj,XXYY)),
+	(\+ (mudAtLoc(_,XXYY)) -> Hl = 1; mudAtLoc(LowObj,XXYY)),
 	props(LowObj,mudHeight(Hl)),
 	Hd is Hh - Hl,
 	Hd > 1,

@@ -148,9 +148,10 @@ player_connect_menu(In,Out,Wants,P):-
  skip_failx_u((
    get_session_id_local(O),
    fmt('~N~nHello session ~q!~n',[O]),
-   find_and_call(foc_current_agent(Wants)),
-   find_and_call(foc_current_agent(P)),
-   call_u(assert_isa(P,tHumanControlled)),
+   foc_current_agent(Wants),
+   % must((foc_current_agent(P),sanity(nonvar(P)))),
+   must((foc_current_agent(P),nonvar(P))),
+   ain(isa(P,tHumanControlled)),
    register_player_stream_local(P,In,Out),
    fmt('~N~nWelcome to the MUD ~w!~n',[P]),
    fmt(Out,'~N~nThe stream ~w!~n',[Out]),

@@ -20,7 +20,7 @@
 :- set_prolog_flag(pfc_booted,false).
 
 
-:- multifile(t_l:disable_px/0).
+
 :- thread_local(t_l:disable_px/0).
 :- must(\+ t_l:disable_px).
 :- retractall(t_l:disable_px).
@@ -536,21 +536,23 @@ download_and_install_el:-
 :- set_prolog_flag(runtime_debug,3).
 :- set_prolog_flag(runtime_safety,3).
 
-:- expand_file_name('../prologmud/prolog/prologmud/mobs/?*.pl',O),maplist(ensure_mpred_file_loaded,O).
+include_prolog_file_mask(F):- absolute_file_name(F,I),expand_file_name(I,O),maplist(ensure_mpred_file_loaded,O).
+
+:- include_prolog_file_mask(prologmud('./mobs/?*.pl')).
 %:- include_prolog_files(prologmud(mobs/'?*.pl')).
 %:- exists_directory('../src_assets/mobs/')->include_prolog_files('../src_assets/mobs/?*.pl');true.
 % :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/mobs/?*.pl');true.
 
 % Action/Commands implementation
 :- wdmsg(loading_actions).
-:- expand_file_name('../prologmud/prolog/prologmud/actions/?*.pl',O),maplist(ensure_mpred_file_loaded,O).
+:- include_prolog_file_mask(prologmud('./actions/?*.pl')).
 % :- include_prolog_files(prologmud(actions/'?*.pl')).
 % :- exists_directory('../src_assets/actions/')->include_prolog_files('../src_assets/actions/?*.pl');true.
 % :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/actions/?*.pl');true.
 
 % New Objects
 :- wdmsg(loading_objects).
-:- expand_file_name('../prologmud/prolog/prologmud/objs/?*.pl',O),maplist(ensure_mpred_file_loaded,O).
+:- include_prolog_file_mask(prologmud('./objs/?*.pl')).
 %:- include_prolog_files(prologmud(objs/'?*.pl')).
 %:- exists_directory('../src_assets/objs/')->include_prolog_files('../src_assets/objs/?*.pl');true.
 % :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/actions/?*.pl');true.

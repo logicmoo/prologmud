@@ -276,6 +276,7 @@ guess_session_ids(In):-thread_self(ID),call(call,thread_util:has_console(ID,In,_
 
 
 :-export(my_random_member/2).
+my_random_member(ELE,[LOC]):-nonvar(LOC),!,ELE=LOC.
 my_random_member(LOC,LOCS):- must_det((length(LOCS,Len),Len>0)),random_permutation(LOCS,LOCS2),!,member(LOC,LOCS2).
 
 :-multifile(system:random_instance/3).

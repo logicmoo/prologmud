@@ -226,10 +226,10 @@ baseKB:mud_test_local :- forall(localityOfObject(O,L),dmsg(localityOfObject(O,L)
 
 :-thread_local t_l:is_checking_instance/1.
 
-:-ain_expanded(prologBuiltin(check_consistent(ftTerm,ftInt))).
+==>(prologBuiltin(check_consistent(ftTerm,ftInt))).
 % prologHybrid(check_consistent(ftTerm,ftInt)).
-prologHybrid(lmcache:is_instance_consistent(ftTerm,ftInt)).
-prologHybrid(bad_instance(ftTerm,ftTerm)).
+==>prologHybrid(lmcache:is_instance_consistent(ftTerm,ftInt)).
+==>prologHybrid(bad_instance(ftTerm,ftTerm)).
 % prologHybrid(t_l:is_checking_instance(ftTerm)).
 
 check_consistent(Obj,Scope):-var(Scope),!,check_consistent(Obj,0).

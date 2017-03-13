@@ -24,7 +24,7 @@
 :- dynamic baseKB:agent_action_queue/3.
 
 :- must(\+ t_l:disable_px).
-:- multifile(t_l:disable_px/0).
+
 :- thread_local(t_l:disable_px/0).
 :- retractall(t_l:disable_px).
 
