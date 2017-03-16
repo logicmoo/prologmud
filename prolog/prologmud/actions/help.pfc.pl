@@ -37,9 +37,11 @@ get_bad_templates(Templ):- no_repeats_old((action_info(Templ,_),not(good_templat
 
 :- mpred_core:import(baseKB:get_agent_text_command_0/4).
 
+/*
 ==> ((({between(1,5,L),length(Text,L),
      get_agent_text_command(_A,Text,A2,Goal),(ground(Goal)->TEMPL=Goal;TEMPL=Text)}==>
          action_info(TEMPL, txtConcatFn(Text,"does: ",do(A2,TEMPL)))))).
+*/
 
 (action_rules(_Agent,Verb,[Obj|Objs],List),{atomic(Verb),safe_univ(Syntax,[Verb,Obj|Objs])} ==> 
          action_info(Syntax, txtConcatFn(["makes","happen"|List]))).

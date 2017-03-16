@@ -551,8 +551,10 @@ to_descriptive_name(_For,Desc,Atom):-any_to_atom(Desc,Atom),!.
 :-ain((completelyAssertedCollection(ttKeyworded))).
 :-ain((vtActionTemplate(AT)/(get_functor(AT,F))) ==> vtVerb(F)).
 
-:-onSpawn((ttKeyworded(T),{freeze(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(nameString(F,_)),once(guess_nameStrings(F,Txt))}==>(nameString(F,Txt)))).
-:-onSpawn((ttKeyworded(T),{freeze(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(mudDescription(F,_)),once(guess_mudDescription(F,Txt))}==>(mudDescription(F,Txt)))).
+freeze_safe(A,G):- nonvar(A),freeze(A,G).
+
+:-onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(nameString(F,_)),once(guess_nameStrings(F,Txt))}==>(nameString(F,Txt)))).
+:-onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(mudDescription(F,_)),once(guess_mudDescription(F,Txt))}==>(mudDescription(F,Txt)))).
 :-ain((ttKeyworded(vtVerb))).
 %:-ain((ttKeyworded(tCol))).
 % :-ain((ttKeyworded(tRelation))).
@@ -735,7 +737,7 @@ parseIsaMost(List,Term) --> parseIsa(isAnd(List),Term),{!}.
 
 coerce_as(B,A,C):-coerce(A,B,C).
 
-coerce_hook(A,B,C):- (var(A);var(B)),!,trace_or_throw(freeze(A,coerce_hook(A,B,C))).
+coerce_hook(A,B,C):- (var(A);var(B)),!,fail,trace_or_throw(freeze(A,coerce_hook(A,B,C))).
 % futureAssertion: THIS IS WHAT I THINKL THE CODE SHOULD LIKE
 % coerce_hook(A,B,C):- to_arg_value(A,AStr),A\=@=AStr,!,coerce_hook(AStr,B,C).
 coerce_hook(A,B,C):- to_arg_value(A,AStr),isa(AStr,B),AStr=C.

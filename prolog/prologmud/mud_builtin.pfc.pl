@@ -268,22 +268,22 @@ ttExpressionType(ftChangeQuantity).
 :- dynamic(tItem/1).
 :- dynamic(ttAgentType/1).
 
-typeGenls(ttAgentType,tAgent).
 typeGenls(ttExpressionTypeType,ttExpressionType).
 :- dynamic(tItem/1).
 :- dynamic(ttItemType/1).
 ttTypeType(ttItemType).
 tSet(tItem).
+typeGenls(ttAgentType,tAgent).
 typeGenls(ttItemType,tItem).
 typeGenls(ttObjectType,tObj).
-typeGenls(ttRelationType,tPred).
 typeGenls(ttRegionType,tRegion).
-typeGenls(ttSpatialType,tSpatialThing).
 % :- break.
 
-genls(tSpatialThing,tTemporalThing).
-genls(ttSpatialType,ttTemporalType).
- 
+genls(ttItemType,ttObjectType).
+genls(ttObjectType,ttSpatialType).
+genls(ttRegionType,ttSpatialType).
+genls(ttAgentType,ttTemporalType).
+
 % ttUnverifiableType(ftListFn(ftTerm)).
 %ttUnverifiableType(ftListFn).
 % ttUnverifiableType(ftDiceFn(ftInt,ftInt,ftInt)).
@@ -933,14 +933,7 @@ tChannel(iGossupChannel).
 :-ain_expanded(isa(tObj,ttTemporalType)).
 :-ain_expanded(isa(tRegion,ttTemporalType)).
 
-/*
-already defined
-typeGenls(ttAgentType,tAgent).
-typeGenls(ttItemType,tItem).
-typeGenls(ttObjectType,tObj).
-typeGenls(ttRegionType,tRegion).
 % cycAssert(A,B):- trace_or_throw(cycAssert(A,B)).
-*/
 :- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 genls('SetOrCollection',tCol).

@@ -59,12 +59,13 @@ do_agent_action(_,'',_):-!, npc_tick_tock.
 do_agent_action(P,C,O):- do_gc,with_session(O,agent_call_unparsed(P, C)),!.
 do_agent_action(P,C,_):-wdmsg("skipping_unknown_player_action(~q,~q).~n",[P,C]),!.
 
-check_verb(SVERB):-var(SVERB),!,freeze(SVERB,check_verb(SVERB)),!.
-check_verb(SVERB):-atom(SVERB), atom_concat('[',_,SVERB),trace_or_throw(bad_parse_agent_text_command(SVERB)).
-check_verb(_).
+%check_word(SVERB):- var_non_attvar(SVERB),!, when(nonvar(SVERB),check_word(SVERB)),!.
+check_word(SVERB):- atom(SVERB), atom_concat('[',_,SVERB),trace_or_throw(bad_parse_agent_text_command(SVERB)).
+check_word(_).
 
 :-export(parse_agent_text_command_checked/5).
-parse_agent_text_command_checked(Agent,VERB,ARGS,NewAgent,CMD):- check_verb(VERB), 
+parse_agent_text_command_checked(Agent,VERB,ARGS,NewAgent,CMD):- 
+  % check_word(VERB), 
   catch(( parse_agent_text_command(Agent,VERB,ARGS,NewAgent,CMD),
          nonvar(CMD),must(nonvar(NewAgent))),'$aborted',true),
          ignore((CMD=actTick)),ignore((NewAgent=Agent)).
@@ -131,9 +132,9 @@ agent_call_words(Ag,[A,B|REST]):- atom(A),atom(B),A=='@',atom_concat(A,B,C),!,ag
 
 agent_call_words(Agent,[VERB|ARGS]):-
 
-  check_verb(VERB),
-  sanity(freeze(ARGS,must(is_list(ARGS)))),  
-  sanity(freeze(CMD,sanity(callable(CMD)))),
+  check_word(VERB),
+  %sanity(freeze(ARGS,must(is_list(ARGS)))),  
+  %sanity(freeze(CMD,sanity(callable(CMD)))),
 
       must(on_x_debug(parse_agent_text_command_checked(Agent,VERB,ARGS,NewAgent,CMD))),
       must_ac(agent_call_command_now(NewAgent,CMD)),!.
@@ -152,7 +153,7 @@ where_atloc(Agent,'OffStage'):-fail,nonvar(Agent).
 agent_call_command_now(Agent,CMD  ):- var(CMD),trace_or_throw(var_agent_call_command_now(Agent,CMD)).
 agent_call_command_now(Agent,Text ):- text_to_string_safe(Text,String)->show_call(loop_check(agent_call_unparsed(Agent,String))).
 agent_call_command_now(Agent,CMD  ):- subst(CMD,isSelfAgent,Agent,NewCMD),CMD\=@=NewCMD,!,agent_call_command_now(Agent,NewCMD).
-agent_call_command_now(Agent,Words):- is_list(Words),maplist(check_verb,Words),loop_check(agent_call_words(Agent,Words)).
+agent_call_command_now(Agent,Words):- is_list(Words),maplist(check_word,Words),loop_check(agent_call_words(Agent,Words)).
 agent_call_command_now(Agent,CMD  ):- correctCommand(Agent,CMD,NewCMD),CMD\=@=NewCMD,!,agent_call_command_now(Agent,NewCMD).
 agent_call_command_now(Agent,CMD  ):- \+ where_atloc(Agent,_),!, agent_call_command_now_2(Agent,CMD),!.
 agent_call_command_now(Agent,CMD  ):- where_atloc(Agent,Where),
@@ -234,7 +235,7 @@ with_agent0(P,CALL):-
  ((get_agent_session(P,O),lmcache:session_io(O,_In,_Out,Id),Id\=Self)->Wrap=thread_signal_blocked(Id);Wrap=call),!,
   call(Wrap, 
     locally([t_l:put_server_no_max,lmcache:session_agent(TS,P),lmcache:agent_session(P,TS)],
-      with_output_to_pred(deliver_event(P),CALL))).
+      with_output_to_predicate(deliver_event(P),CALL))).
 
 has_tty(O):-no_repeats(O,lmcache:session_io(O,_,_,_)).
 

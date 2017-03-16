@@ -74,21 +74,21 @@ wotp_lambda(A,    Call,A0):- copy_term(Call+A0,CCall+A),CCall.
 wotp_lambda(A,B,  Call,A0,B0):- copy_term(Call+A0+B0,CCall+A+B),CCall.
 wotp_lambda(A,B,C,Call,A0,B0,C0):- copy_term(Call+A0+B0+C0,CCall+A+B+C),CCall.
 
-with_output_to_pred(HookPred, Call):- !, call(Call).
-with_output_to_pred(HookPred, Call):- fail,with_output_to(string(Atom),Call),atomic_list_concat(List,'\n',Atom), 
+with_out_pred(HookPred, Call):- !, call(Call).
+with_out_pred(HookPred, Call):- fail,with_output_to(string(Atom),Call),atomic_list_concat(List,'\n',Atom), 
   forall(member(E,List),call(HookPred,E)).
 
 % Redirect output stream and read_line_to_string to write to a predicate 
-with_output_to_pred(HookPred, Call):- 
-   with_output_to_pred(read_line_to_string, HookPred, Call).
+with_out_pred(HookPred, Call):- 
+   with_out_pred(read_line_to_string, HookPred, Call).
 
 
 % Redirect output stream to write to a predicate with ReaderPred line [read_line_to_string,get_char,..]
-with_output_to_pred(ReaderPred, HookPred, Call):- thread_self(ID), 
+with_out_pred(ReaderPred, HookPred, Call):- thread_self(ID), 
    wotp_client(ReaderPred, wotp_lambda(Data,thread_signal(ID,call(HookPred,Data))),Call).
 
 
-with_output_to_pred_direct(ReaderPred, HookPred, Call):- 
+with_out_pred_direct(ReaderPred, HookPred, Call):- 
    wotp_client(ReaderPred, HookPred, Call).
 
 
@@ -153,7 +153,7 @@ wotp_create_server:- (wotp_server_port(Port)->wotp_create_server(Port);wotp_crea
 :- wotp_create_server.
 
 % Example  
-% :- with_output_to_pred(say(dmiles), format('Hello Worldly~n',[])).
+% :- with_out_pred(say(dmiles), format('Hello Worldly~n',[])).
 
 
 
