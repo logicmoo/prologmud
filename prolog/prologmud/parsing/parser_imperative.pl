@@ -250,7 +250,7 @@ vtSkippedPrintNames(E):-member(E,[tObj,isThis,the,is,tSpatialThing,ttNotSpatialT
 
 
 must_make_object_string_list(_,Obj,WList):- object_string(Obj,WList),!.
-must_make_object_string_list(P,Obj,WList):- call_tabled(must_make_object_string_list_cached(P,Obj,WList)).
+must_make_object_string_list(P,Obj,WList):- lc_tcall(must_make_object_string_list_cached(P,Obj,WList)).
 must_make_object_string_list_cached(P,Obj,WList):-
   must((object_string(P,Obj,0-5,String),nonvar(String),non_empty(String),string_ci(String,LString),convert_to_string_list(LString,WList))).
 */
