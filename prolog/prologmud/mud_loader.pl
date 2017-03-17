@@ -66,8 +66,10 @@
 % [Optionaly] load the mpred_online system
 % :- if_file_exists(ensure_loaded(library(logicmoo/mpred_online))).
 
-:- prolog_load_context(directory,Dir),asserta(user:file_search_path(prologmud,Dir)).
-
+:- if( \+ user:file_search_path(prologmud,_)).
+:- prolog_load_context(directory,Dir),
+   asserta(user:file_search_path(prologmud,Dir)).
+:- endif.
 
 % xyzFn(R,X,Y,Z):-dmsg(xyzFn(R,X,Y,Z)),trace_or_throw(xyzFn(R,X,Y,Z)).
 
