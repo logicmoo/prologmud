@@ -72,7 +72,7 @@ genls(tDrawer, tPartofFurnature).
 genls(tTopDrawer, tPartofFurnature).
 genls(tMiddleDrawer, tPartofFurnature).
 genls(tBottomDrawer, tPartofFurnature). 
-genls(tHousePlant, tPartofObj).
+ % mdefault(genls(tHousePlant, tPartofObj)).
 genls(tPlanter, tContainer). 
 genls(tGueridon, tLivingRoomFurnature).
 genls(tGardenPlant, tOutdoorFurnature).

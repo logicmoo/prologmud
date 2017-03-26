@@ -32,7 +32,6 @@ deliver_to_irc(Agent,Event):-  baseKB:irc_user_plays(Agent,User,Channel) ->
   eggdrop:say(Channel,[Agent,': ',Event]) ; nop(eggdrop:say(Agent,Event)).
 
 
-
 irc_mud_event_hook(Channel,User,Stuff):- string(User),string_to_atom(User,AUser),!,irc_mud_event_hook(Channel,AUser,Stuff).
 irc_mud_event_hook(Channel,User,Stuff):- string(Channel),string_to_atom(Channel,AChannel),!,irc_mud_event_hook(AChannel,User,Stuff).
 irc_mud_event_hook(Channel,User,ctcp("ACTION", ACT)):-!,irc_mud_event_hook(Channel,User,actDo(ACT)).

@@ -14,7 +14,7 @@
 tSet(vtPosture).
 ttValueType(vtPosture).
 
-prologSingleValued(mudStance(tAgent,vtPosture),prologHybrid).
+==>prologSingleValued(mudStance(tAgent,vtPosture),[prologHybrid,argSingleValueDefault(2,vStand)]).
 
 prologHybrid(actSetsPosture(vtVerb,vtPosture)).
 

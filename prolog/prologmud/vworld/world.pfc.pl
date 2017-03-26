@@ -24,7 +24,6 @@ mtProlog(world).
             %mud_isa/2,
             isa_any/2,
             put_in_world/1,
-            get_session_id/1,
             pathBetween_call/3,
             obj_memb/2,
             prop_memb/2,            

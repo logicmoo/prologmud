@@ -13,13 +13,13 @@
 % :- '$set_source_module'(baseKB).
 
 % :- include(logicmoo(mpred/'mpred_header.pi')).
-:- set_prolog_flag(access_level,system).
-
-:- style_check(-discontiguous).
 
 % :- '$current_source_module'(M),once(M==baseKB;on_x_log_cont(add_import_module(baseKB,M,end))).
 
-:- 
+
+:- set_prolog_flag(access_level,system).
+:- kb_shared(get_session_id/1).
+:- ((
  op(1190,xfx,('::::')),
  op(1180,xfx,('==>')),
  op(1170,xfx,'<==>'),  
@@ -32,11 +32,11 @@
  op(350,xfx,'xor'),
  op(300,fx,'~'),
  op(300,fx,'-'),
- op(1199,fx,('==>')).
+ op(1199,fx,('==>')))).
 
 :- set_prolog_flag(access_level,user).
 
-
 :- enable_mpred_expansion.
+:- style_check(-discontiguous).
 
 

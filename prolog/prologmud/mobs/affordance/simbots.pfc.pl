@@ -23,7 +23,7 @@ defined_affordance([subjType= "Passable",actionVerb= "TravelThru"]).
 prologHybrid(mudDescription(ftTerm,ftString)).
 prologHybrid(nameString(ftTerm,ftString)).
 
-rtQuotedPred(defined_affordance).
+rtArgsVerbatum(defined_affordance).
 
 defined_affordance([subjType= "Television",
 stringMatch= "TV",

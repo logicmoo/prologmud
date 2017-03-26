@@ -37,6 +37,8 @@
 % Dec 13, 2035
 %
 */
+:- kb_shared(get_session_id/1).
+
 
 :- dynamic((lmcache:agent_session/2,
       lmcache:session_agent/2,
@@ -93,8 +95,9 @@ sanify_thread(ID):-
 start_mud_telnet_4000:-
    getenv_safe('LOGICMOO_PORT',Was,3000),
    WebPort is Was + 1000,
-  start_mud_telnet(WebPort),WebPort2 is WebPort + 2,
-  start_prolog_telnet(WebPort2).
+  whenever(run_network,ignore(catch(shell('kill -9 $(lsof -t -i:4010 -sTCP:LISTEN) ; ./hmud/policyd'),E,dmsg(E)))),
+  whenever(run_network,start_mud_telnet(WebPort)),WebPort2 is WebPort + 2,
+  whenever(run_network,start_prolog_telnet(WebPort2)).
 
 start_mud_telnet(Port):-
   must(telnet_server(Port, [allow(_ALL),get_call_pred(login_and_run_nodebug)])),!.
@@ -121,7 +124,7 @@ service_client_call(Call, Slave, In, Out, Host, Peer, Options):-
    call(Call).
 
 get_session_io(In,Out):-
-  must(get_session_id_local(O)),
+  get_session_id_local(O),
   thread_self(Id),
   lmcache:session_io(O,In,Out,Id),!.
 
@@ -132,10 +135,14 @@ get_session_io(In,Out):-
   current_output(Out),
   asserta(lmcache:session_io(O,In,Out,Id)),!.
 
-:- set_prolog_flag(debug_threads,true).
+:- set_prolog_flag(debug_threads,false).
 
-login_and_run_nodebug:- current_prolog_flag(debug_threads,true),!,login_and_run.
-login_and_run_nodebug:- nodebugx(login_and_run).
+% login_and_run_nodebug:- current_prolog_flag(debug_threads,true),!,login_and_run.
+login_and_run_nodebug:- % nodebugx
+   tdebug,
+   guitracer,
+   login_and_run,
+   trace.
 
 get_session_id_local(O):- find_and_call(get_session_id(O)).
 
@@ -145,7 +152,7 @@ ensure_player_attached(In,Out,P):-
     current_agent(P)->true;player_connect_menu(In,Out,_,P))).
 
 player_connect_menu(In,Out,Wants,P):-
- skip_failx_u((
+  must_det((
    get_session_id_local(O),
    fmt('~N~nHello session ~q!~n',[O]),
    foc_current_agent(Wants),
@@ -187,7 +194,7 @@ login_and_run(In,Out):-
   run_session(In,Out).
 
 run_session(In,Out):-
-  skip_failx_u((((
+  must_det((((
      get_session_id_local(O),
      ensure_player_attached(In,Out,P),
      retractall(lmcache:wants_logout(O)))),!,
@@ -202,7 +209,7 @@ run_session(In,Out):-
 
 
 session_loop(In,Out):-
- skip_failx_u((((
+  must_det((((
   get_session_id_local(O),
   ensure_player_attached(In,Out,P),
   find_and_call(start_agent_action_thread),
@@ -214,7 +221,7 @@ session_loop(In,Out):-
 
 :-export(register_player_stream_local/3).
 register_player_stream_local(P,In,Out):-
- skip_failx_u((((
+  must_det((((
    set_player_telnet_options(P),
    get_session_id_local(O),thread_self(Id),
    retractall(lmcache:session_io(_,_,_,Id)),
@@ -228,7 +235,7 @@ register_player_stream_local(P,In,Out):-
    nop(check_console(Id,In,Out,_Err)))))).
 
 deregister_player_stream_local(P,In,Out):-
- skip_failx_u((((
+  must_det((((
    unset_player_telnet_options(P),
    get_session_id_local(O),thread_self(Id),
    retractall(lmcache:session_io(_,_,_,Id)),
@@ -671,8 +678,8 @@ on_telnet_restore :-
          foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
           fmtevent(Out,NewEvent))))),
       start_mud_telnet_4000,
-      http_handler('/hmud/', http_reply_from_files(pack(hMUD), []), [prefix]),!,
-      http_handler('/hmud', http_reply_from_files(pack(hMUD), []), [prefix]),!.
+      http_handler('/hmud/', http_reply_from_files(pack(hMUD), []), [prefix]),
+      http_handler('/hmud', http_reply_from_files(pack(hMUD), []), [prefix]).
 
 
 :- all_source_file_predicates_are_transparent.

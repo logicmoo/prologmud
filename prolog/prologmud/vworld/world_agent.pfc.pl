@@ -209,7 +209,6 @@ correctCommand_0(Who,CMD,OUT):-
 
 acceptableArg(Arg,Type):-dmsg(acceptableArg(Arg,Type)).
 
-
 :-export(current_agent/1).
 current_agent(PIn):- get_session_id(O),get_agent_session(P,O),!,P=PIn.
 :-mpred_core:import(current_agent/1).

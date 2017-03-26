@@ -147,9 +147,7 @@ prolog_repl:- with_all_dmsg((nl,fmt("Press Ctrl-D to resume to the mud!"),nl,
 
 
 :-export(within_user/1).
-:-export(is_startup_file/1).
 
-is_startup_file(Name):- current_prolog_flag(os_argv,ArgV),member(Named,ArgV),atom(Named),atom_concat(Name,_,Named),!.
 
 within_user(Call):- '@'(Call,'user').
 
@@ -672,7 +670,8 @@ lundef :- A = [],
 
 ==> tSourceCode(iSourceCode7).
 :- set_prolog_flag(pfc_booted,true).
-:- set_prolog_flag(assert_attvars,true).
+% should happen *after game loaded %
+% :- set_prolog_flag(assert_attvars,true).
 :- ain(isLoaded(iSourceCode7)).
 
 

@@ -91,17 +91,18 @@ cmdLook_proc_0(Agent,LOC):-
          % for now workarround is 
          call((cmdShowRoomGrid(vHere),!)),
          mudAtLoc(Agent,value),
+         mudFacing(Agent,value),
+         mudStance(Agent,value),
          nameStringsList(vHere,value),
          forEach(mudDescription(vHere,Value),fmt(mudDescription(Value))),
          events=clause_u(mudDeliverableLocationEvents(Agent,LOC,value),true),
          path(D) = pathDirLeadsTo(vHere,D,value),
          pathName(D) = pathName(vHere,D,value),
-         % value = localityOfObject(value,vHere),
-         localityOfObject(value,vHere),
-         mudFacing(Agent,value),
+         
+         localityOfObject(value,vHere), % value = localityOfObject(value,vHere),
          mudNearFeet(Agent,value),
          mudNearReach(Agent,value),
-         mudGetPrecepts(Agent,value),         
+         mudGetPrecepts(Agent,value),                  
          mudMoveDist(Agent,value),
          mudHeightOnObj(Agent,value),
          mudLastCmdSuccess=wasSuccess(Agent,_What,value)

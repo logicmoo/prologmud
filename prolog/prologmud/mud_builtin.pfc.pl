@@ -248,7 +248,7 @@ tWorld(iWorld7).
 */
 ttExpressionType(ftProlog).
 
-% :- mpred_trace_exec.
+% 
 
 % ~tSet(ftChangeQuantity).
 
@@ -268,27 +268,6 @@ ttExpressionType(ftChangeQuantity).
 :- dynamic(tItem/1).
 :- dynamic(ttAgentType/1).
 
-typeGenls(ttExpressionTypeType,ttExpressionType).
-:- dynamic(tItem/1).
-:- dynamic(ttItemType/1).
-ttTypeType(ttItemType).
-tSet(tItem).
-typeGenls(ttAgentType,tAgent).
-typeGenls(ttItemType,tItem).
-typeGenls(ttObjectType,tObj).
-typeGenls(ttRegionType,tRegion).
-% :- break.
-
-genls(ttItemType,ttObjectType).
-genls(ttObjectType,ttSpatialType).
-genls(ttRegionType,ttSpatialType).
-genls(ttAgentType,ttTemporalType).
-
-% ttUnverifiableType(ftListFn(ftTerm)).
-%ttUnverifiableType(ftListFn).
-% ttUnverifiableType(ftDiceFn(ftInt,ftInt,ftInt)).
-% ttUnverifiableType(ftDice).
-ttUnverifiableType(vtDirection).
 
 
 :- dynamic(disjointWith/2).
@@ -323,7 +302,7 @@ relationAllInstance(BP,_,_)==>rtBinaryPredicate(BP).
 
 tCol(vtDirection).
 
-genls(tPartofObj,tItem).
+ % mdefault(genls(tPartofObj,tItem)).
 
 tCol(tCol).
 
@@ -352,7 +331,7 @@ formatted_resultIsa(ftDiceFn(ftInt,ftInt,ftInt),ftInt).
 
 
 
-rtQuotedPred(functorIsMacro).
+rtArgsVerbatum(functorIsMacro).
 % tCol(ArgsIsa):-mpred_is_trigger(ArgsIsa).
 % tCol(ArgsIsa):-ttRelationType(ArgsIsa).
 % TODO decide if OK
@@ -407,7 +386,6 @@ sometimesHack(genls).
 
 tPathway(PATH):- cwc, PATH=@=apathFn(iOfficeRoom7, vNorth),trace_or_throw(error(tPathway(PATH))).
 
-typeGenls(ttAgentType,tAgent).
 
 (sometimesSlow, tCol(Col), {isa_from_morphology(Col,Type)}) ==> isa(Col,Type).
 
@@ -433,7 +411,7 @@ completelyAssertedCollection(Complete)==> {must(\+ ttExpressionType(Complete))}.
 % functorDeclares(Toy),tFunction(Toy),arity(Toy,A),{A2 is A + 1}==>prologArity(Toy,A2).
 
 tCol(completelyAssertedCollection).
-rtQuotedPred(completeIsaAsserted).
+rtArgsVerbatum(completeIsaAsserted).
 tSpatialThing(I)==>completeIsaAsserted(I).
 genls(completelyAssertedCollection,tCol).
 completelyAssertedCollection(tItem).
@@ -542,8 +520,8 @@ tCol(vtVerb).
 % prologHybrid(repl_writer(tAgent,term),[prologSingleValued,argSingleValueDefault(2,default_repl_writer)]).
 %:- forall(ttRelationType(F),dynamic(F/1)).
 %:- foreach(retract(isa(I,C)),assert_hasInstance(C,I)).
-%isa(AT,ttAgentType):- genls(AT,ttAgentGeneric).
-%genls(AT,ttAgentGeneric):- isa(AT,ttAgentType).
+%isa(AT,ttAgentType):- genls(AT,tAgentGeneric).
+%genls(AT,tAgentGeneric):- isa(AT,ttAgentType).
 %subFormat(ftTextType,ftText).
 %prologIsFlag(tItem(ftID)).
 %prologIsFlag(tRegion(ftID),[tSet]).
@@ -574,6 +552,7 @@ prologMultiValued(nameString(ftTerm,ftString),prologHybrid).
 prologMultiValued(pathDirLeadsTo(tRegion,vtDirection,tRegion),prologHybrid).
 prologMultiValued(pathName(tRegion,vtDirection,ftString),prologHybrid).
 prologMultiValued(genls(tCol,tCol),prologHybrid).
+==> prologSingleValued(typeGrid(tCol,ftInt,ftListFn(ftString)),prologHybrid).
 prologMultiValued(typeGrid(tCol,ftInt,ftListFn(ftString)),prologHybrid).
 prologMultiValued(verbAsWell(ftTerm,ftAction,ftAction),prologHybrid).
 
@@ -592,7 +571,7 @@ prologSingleValued(location_center(tRegion,xyzFn(tRegion,ftInt,ftInt,ftInt)),pro
 ==> prologSingleValued(mudAgentTurnnum(tAgent,ftInt),[argSingleValueDefault(2,0)],prologHybrid).
 :- listing( prologSingleValued ).
 
-:- mpred_trace_exec.
+
 prologSingleValued(mudArmor(tObj,ftInt),prologHybrid).
 prologSingleValued(mudArmorLevel(tWearAble,ftInt),prologHybrid).
 :- mpred_notrace_exec.
@@ -602,7 +581,7 @@ prologSingleValued(mudAttack(tObj,ftInt),prologHybrid).
 prologSingleValued(mudBareHandDamage(tAgent,ftInt),prologHybrid).
 % prologSingleValued(mudBareHandDamage(tAgent,ftDiceFn),prologHybrid).
 
-:- mpred_trace_exec.
+
 % prologSingleValued(mudEnergy(tChargeAble,ftInt(90)),prologHybrid).
 prologSingleValued(mudEnergy(tChargeAble,ftInt),prologHybrid).
 prologSingleValued(mudEnergy(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
@@ -632,7 +611,6 @@ prologSingleValued(mudWeight(tObj,ftInt),prologHybrid).
 
 ==> prologSingleValued(spawn_rate(tCol,ftInt)).
 ==> prologSingleValued(stat_total(tAgent,ftInt)).
-==> prologSingleValued(typeGrid(tCol,ftInt,ftListFn(ftString))).
 
 resultIsa(apathFn,tPathway).
 % '<==>'(isa(Whom,tNpcAgent),whenAnd(isa(Whom,tAgent),naf(isa(Whom,tHumanControlled)))).
@@ -642,14 +620,6 @@ resultIsa(apathFn,tPathway).
 
 rtDeduceArgTypes(pathDirLeadsTo).
 rtDeduceArgTypes(F)/current_predicate(F,P),argIsa(F,N,T)/arg(N,P,E),{call(P)}==>isa(E,T).
-
-
-
-ttPredAndValueType("size").
-ttPredAndValueType("texture").
-ttPredAndValueType("color").
-ttPredAndValueType("shape").
-ttPredAndValueType("material").
 
 vtValue(Val)/(atom(Val),i_name_lc(Val,KW))==>mudKeyword(Val,KW).
 
@@ -661,6 +631,14 @@ ttPredAndValueType(Str)/
       mudKeyword(VT,Str),mudKeyword(Pred,Str),
       argIsa(Pred,2,VT),
       argIsa(Pred,1,tTemporalThing)).
+
+
+ttPredAndValueType("size").
+ttPredAndValueType("texture").
+ttPredAndValueType("color").
+ttPredAndValueType("shape").
+ttPredAndValueType("material").
+
 
 %relationMostInstance(arg1Isa,rtRolePredicate,tTemporalThing).
 %relationMostInstance(arg2QuotedIsa,rtRolePredicate,ftTerm).
@@ -677,6 +655,7 @@ prologHybrid(verb_alias(ftText,vtVerb)).
 prologHybrid(typeHasGlyph(tCol,ftString)).
 prologHybrid(mudMaxHitPoints(tAgent,ftInt)).
 prologHybrid(mudStowing(tAgent,tItem)).
+% :- break.
 
 :-dynamic((latitude/2, mudMoveDist/2, longitude/2)).
 prologHybrid(typeHasGlyph,2).
@@ -727,9 +706,8 @@ prologHybrid(mudShape(tSpatialThing,vtShape)).
 prologHybrid(mudSize(tSpatialThing,vtSize)).
 prologHybrid(mudTextSame(ftText,ftText)).
 prologHybrid(mudTexture(tSpatialThing,vtTexture)).
-prologHybrid(typeGrid(tCol,ftInt,ftListFn(ftString))).
 meta_argtypes(aDirectionsFn(ftTerm,ftListFn(ftTerm))).
-:- mpred_trace_exec.
+
 ==>prologListValued(mudGetPrecepts(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(abox)]).
 :- mpred_notrace_exec.
 prologListValued(mudNearFeet(tAgent,ftListFn(tSpatialThing)),[]).
@@ -746,6 +724,7 @@ prologMultiValued(isa(ftTerm,tCol)).
 prologMultiValued(mudActAffect(ftTerm,ftTerm,ftTerm)).
 prologMultiValued(mudActAffect(tItem,vtVerb,ftTerm(ftVoprop))).
 prologMultiValued(mudCmdFailure(tAgent,ftAction)).
+
 
 ==> tPred(isEach(tAgent/1, mudEnergy/2,mudHealth/2, mudAtLoc/2, failure/2, typeGrid/3, gridValue/4, isa/2, tItem/1, mudMemory/2, pathName/3, mudPossess/2, tRegion/1, mudScore/2, mudStm/2, mudFacing/2, localityOfObject/2, tThinking/1, mudWearing/2, mudFacing/2, mudHeight/2, act_term/2, nameString/2, mudDescription/2, pathDirLeadsTo/3, mudAgentTurnnum/2)).
 prologHybrid(mudToHitArmorClass0 / 2).
@@ -811,7 +790,7 @@ meta_argtypes(xyzFn(tRegion,ftInt,ftInt,ftInt)).
 
 genls(ttTypeByAction,tCol).
 
-:-locally(set_prolog_flag(assert_attvars,true),ain(((ttTypeByAction(X) ==> tCol(X))))).
+% :-locally(set_prolog_flag(assert_attvars,true),ain(((ttTypeByAction(X) ==> tCol(X))))).
 
 % (isa(Inst,Type),isa(Type,ttTypeByAction)) ==> isa(Inst,tHasAction).
 
@@ -842,24 +821,20 @@ genls(tItem,tSpatialThing).
 genls(tObj,tSpatialThing).
 genls(tPred,tRelation).
 genls(tRegion,tSpatialThing).
-genls(ttObjectType,tCol).
-genls(ttSpatialType,tCol).
 genls(tFunction,tRelation).
 
 genls(tCarryAble,tItem).
 genls(tChargeAble,tItem).
 genls(tContolDevice,tChargeAble).
 
-tCol(tFurniture).
-
 genls(tDoor,tFurniture).
-genls(tDoor,tItem).
+ % mdefault(genls(tDoor,tItem)).
 genls(tDrinkAble,tItem).
 genls(tEatAble,tItem).
 genls(tFurniture,tObj).
 genls(tFurniture,tPartofObj).
 genls(tHumanControlled,tAgent).
-genls(mobMonster,ttAgentGeneric).
+genls(mobMonster,tAgentGeneric).
 genls(tNpcAgent,tAgent).
 genls(tPathway,tDoor).
 genls(tUseAble,tItem).
@@ -908,7 +883,9 @@ meta_argtypes(type_action_info(tCol,vtActionTemplate,ftText)).
 tCol(ttAgentType).
 
 prologHybrid(pathDirLeadsTo(tRegion,vtDirection,tRegion)).
-prologHybrid(mudAreaConnected(tRegion,tRegion),tSymmetricRelation).
+prologHybrid(mudAreaConnected(tRegion,tRegion),rtSymmetricBinaryPredicate).
+
+:- listing(mudAreaConnected/2).
 
 ttAgentType(mobMonster).
 % instTypeProps(apathFn(Region,_Dir),tPathway,[localityOfObject(Region)]).
@@ -971,8 +948,7 @@ arity(mudAreaConnected,2).
 
 % ensure_some_pathBetween(R1,R2):- cwc,must((ain(pathDirLeadsTo(R1,aRelatedFn(vtDirection,R1,R2),R2)),ain(pathDirLeadsTo(R2,aRelatedFn(vtDirection,R2,R1),R1)))),!.
 
-mudAreaConnected(R1,R2)/ground(mudAreaConnected(R1,R2)) ==>
-   isa(R1,tRegion),isa(R2,tRegion),mudAreaConnected(R2,R1).
+% mudAreaConnected(R1,R2)/ground(mudAreaConnected(R1,R2)) ==> isa(R1,tRegion),isa(R2,tRegion),mudAreaConnected(R2,R1).
 
 (mudAreaConnected(R1,R2)/
  (ground(mudAreaConnected(R1,R2)),
@@ -1063,7 +1039,7 @@ genls(tPartofFurnature,tPartofObj).
 %(isa(I,Sub), disjointWith(Sub, Super)) ==> neg(isa(I,Super)).
 
 
-genls(tPartofObj,tItem).
+ % mdefault(genls(tPartofObj,tItem)).
 
 
 (sometimesBuggy,dividesBetween(S,C1,C2)/ground(v(S,C1,C2))) ==> (disjointWith(C1,C2) , genls(C1,S) ,genls(C2,S)).
@@ -1166,7 +1142,7 @@ action_info(C,_)==>vtActionTemplate(C).
 
 completelyAssertedCollection(cachedPredicate).
 
-argsQuoted(cachedPredicate).
+rtArgsVerbatum(cachedPredicate).
 
 ttRelationType(cachedPredicate).
 cachedPredicate(P)/predicate_to_goal(P,Goal)==>{forall(call_u(Goal),ain(Goal))}.
@@ -1309,10 +1285,10 @@ Unsuccessful attempt by is a rulebook. [19]
 
 
 prologBuiltin(onEachLoad/0).
-argsQuoted(onEachLoad).
-argsQuoted(must).
+rtArgsVerbatum(onEachLoad).
+rtArgsVerbatum(must).
 
-tCol(rtStatPred).
+ttRelationType(rtStatPred).
 
 prologHybrid(normalAgentGoal(rtStatPred,ftTerm)).
 
@@ -1348,6 +1324,12 @@ normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Va
 :-ain((normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Val))))).
 % :-mpred_fwd((normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Val))))).
 normalAgentGoal(Pred,Val)==>  (tAgent(A)==>mdefault(t(Pred,A,Val))).
+
+
+:-ain(
+ ((rtRolePredicate(Pred)==>
+  ((argSingleValueDefault(Pred,2,Value),argIsa(Pred,1,Type))==>
+    (isa(X,Type)==>mdefault(t(Pred,X,Value))))))).
 
 genls(tRoom,tRegion).
 
