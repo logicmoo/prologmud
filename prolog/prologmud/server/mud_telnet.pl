@@ -37,6 +37,8 @@
 % Dec 13, 2035
 %
 */
+
+:- use_module(mud_http_hmud).
 :- kb_shared(get_session_id/1).
 
 
@@ -95,7 +97,6 @@ sanify_thread(ID):-
 start_mud_telnet_4000:-
    getenv_safe('LOGICMOO_PORT',Was,3000),
    WebPort is Was + 1000,
-  whenever(run_network,ignore(catch(shell('kill -9 $(lsof -t -i:4010 -sTCP:LISTEN) ; ./hmud/policyd'),E,dmsg(E)))),
   whenever(run_network,start_mud_telnet(WebPort)),WebPort2 is WebPort + 2,
   whenever(run_network,start_prolog_telnet(WebPort2)).
 
@@ -677,9 +678,7 @@ on_telnet_restore :-
         foreach(no_repeats(find_and_call(get_agent_sessions(A,O))),
          foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
           fmtevent(Out,NewEvent))))),
-      start_mud_telnet_4000,
-      http_handler('/hmud/', http_reply_from_files(pack(hMUD), []), [prefix]),
-      http_handler('/hmud', http_reply_from_files(pack(hMUD), []), [prefix]).
+      start_mud_telnet_4000.
 
 
 :- all_source_file_predicates_are_transparent.

@@ -53,3 +53,286 @@ PrologMUD would been OK in LISP but propositional resolution is a type of calcul
 * LIVECODING http://livecoding.tv/logicmoo/
 
 * Added Cutted Forward Chaining =!=> as a signal to stop processing rules on first success
+
+
+?- pack_install(prologmud).
+% Contacting server at http://www.swi-prolog.org/pack/query ... ok
+Install prologmud@1.1.117 from GIT at https://github.com/TeamSPoon/prologmud.git Y/n?
+
+Create directory for packages
+   (1) * /home/testprologmud/lib/swipl/pack
+   (2)   Cancel
+
+Your choice?
+% Cloning into '/home/testprologmud/lib/swipl/pack/prologmud'...
+% Contacting server at http://www.swi-prolog.org/pack/query ... ok
+Warning: Package depends on the following:
+Warning:   "logicmoo_base", provided by logicmoo_base@1.1.117 from https://github.com/TeamSPoon/logicmoo_base.git
+Warning:     "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:       "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:         "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:     "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:     "eggdrop", provided by eggdrop@1.1.117 from https://github.com/TeamSPoon/eggdrop.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "predicate_streams", provided by predicate_streams@1.1.117 from https://github.com/TeamSPoon/predicate_streams.git
+Warning:     "file_scope", provided by file_scope@1.1.117 from https://github.com/TeamSPoon/file_scope.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "instant_prolog_docs", provided by instant_prolog_docs@1.1.117 from https://github.com/TeamSPoon/instant_prolog_docs.git
+Warning:       "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "loop_check", provided by loop_check@1.1.117 from https://github.com/TeamSPoon/loop_check.git
+Warning:       "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:         "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:     "multimodal_dcg", provided by multimodal_dcg@1.1.117 from https://github.com/TeamSPoon/multimodal_dcg.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:       "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:         "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:           "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "pfc", provided by pfc@1.1.117 from https://github.com/TeamSPoon/pfc.git
+Warning:       "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:       "file_scope", provided by file_scope@1.1.117 from https://github.com/TeamSPoon/file_scope.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:         "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:           "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:             "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:               "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:           "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "hook_hybrid", provided by hook_hybrid@1.1.117 from https://github.com/TeamSPoon/hook_hybrid.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:         "file_scope", provided by file_scope@1.1.117 from https://github.com/TeamSPoon/file_scope.git
+Warning:           "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:           "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:             "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:               "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:                 "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:             "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:         "loop_check", provided by loop_check@1.1.117 from https://github.com/TeamSPoon/loop_check.git
+Warning:           "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:             "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:         "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:           "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:             "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:               "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:           "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:         "subclause_expansion", provided by subclause_expansion@1.1.117 from https://github.com/TeamSPoon/subclause_expansion.git
+Warning:           "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:           "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "loop_check", provided by loop_check@1.1.117 from https://github.com/TeamSPoon/loop_check.git
+Warning:         "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:           "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:       "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "no_repeats", provided by no_repeats@1.1.117 from https://github.com/TeamSPoon/no_repeats.git
+Warning:       "s_expression", provided by s_expression@1.1.117 from https://github.com/TeamSPoon/s_expression.git
+Warning:         "with_open_options", provided by with_open_options@1.1.117 from https://github.com/TeamSPoon/with_open_options.git
+Warning:       "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:         "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:       "xlisting", provided by xlisting@1.1.117 from https://github.com/TeamSPoon/xlisting.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:     "prologmud", provided by prologmud@1.1.117 from https://github.com/TeamSPoon/prologmud.git
+Warning:     "s_expression", provided by s_expression@1.1.117 from https://github.com/TeamSPoon/s_expression.git
+Warning:       "with_open_options", provided by with_open_options@1.1.117 from https://github.com/TeamSPoon/with_open_options.git
+Warning:     "subclause_expansion", provided by subclause_expansion@1.1.117 from https://github.com/TeamSPoon/subclause_expansion.git
+Warning:       "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:       "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:     "xlisting", provided by xlisting@1.1.117 from https://github.com/TeamSPoon/xlisting.git
+Warning:       "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:         "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:           "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:     "xlisting_web", provided by xlisting_web@1.1.117 from https://github.com/TeamSPoon/xlisting_web.git
+Warning:       "xlisting", provided by xlisting@1.1.117 from https://github.com/TeamSPoon/xlisting.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:   "pfc", provided by pfc@1.1.117 from https://github.com/TeamSPoon/pfc.git
+Warning:     "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:     "file_scope", provided by file_scope@1.1.117 from https://github.com/TeamSPoon/file_scope.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "hook_hybrid", provided by hook_hybrid@1.1.117 from https://github.com/TeamSPoon/hook_hybrid.git
+Warning:       "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:         "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:           "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:       "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:       "file_scope", provided by file_scope@1.1.117 from https://github.com/TeamSPoon/file_scope.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:         "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:           "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:             "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:               "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:           "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "loop_check", provided by loop_check@1.1.117 from https://github.com/TeamSPoon/loop_check.git
+Warning:         "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:           "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:       "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:         "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:           "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:             "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:       "subclause_expansion", provided by subclause_expansion@1.1.117 from https://github.com/TeamSPoon/subclause_expansion.git
+Warning:         "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:         "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "loop_check", provided by loop_check@1.1.117 from https://github.com/TeamSPoon/loop_check.git
+Warning:       "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:         "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:     "must_trace", provided by must_trace@1.1.117 from https://github.com/TeamSPoon/must_trace.git
+Warning:       "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:         "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:           "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+Warning:       "logicmoo_utils", provided by logicmoo_utils@1.1.117 from https://github.com/TeamSPoon/logicmoo_utils.git
+Warning:     "no_repeats", provided by no_repeats@1.1.117 from https://github.com/TeamSPoon/no_repeats.git
+Warning:     "s_expression", provided by s_expression@1.1.117 from https://github.com/TeamSPoon/s_expression.git
+Warning:       "with_open_options", provided by with_open_options@1.1.117 from https://github.com/TeamSPoon/with_open_options.git
+Warning:     "with_thread_local", provided by with_thread_local@1.1.117 from https://github.com/TeamSPoon/with_thread_local.git
+Warning:       "each_call_cleanup", provided by each_call_cleanup@1.1.117 from https://github.com/TeamSPoon/each_call_cleanup.git
+Warning:     "xlisting", provided by xlisting@1.1.117 from https://github.com/TeamSPoon/xlisting.git
+Warning:       "clause_attvars", provided by clause_attvars@1.1.117 from https://github.com/TeamSPoon/clause_attvars.git
+Warning:         "dictoo", provided by dictoo@1.1.117 from https://github.com/TeamSPoon/dictoo.git
+Warning:           "gvar_syntax", provided by gvar_syntax@1.1.117 from https://github.com/TeamSPoon/gvar_syntax.git
+
+What do you wish to do
+   (1) * Install proposed dependencies
+   (2)   Only install requested package
+   (3)   Cancel
+
+Your choice?
+% "prologmud.git" was downloaded 1 times
+% Cloning into '/home/testprologmud/lib/swipl/pack/logicmoo_base'...
+i logicmoo_base@1.1.117     - LogicMOO - Extends Prolog Programming to support Dynamic Epistemic Logic (DEL) with Constraints
+% Cloning into '/home/testprologmud/lib/swipl/pack/clause_attvars'...
+i clause_attvars@1.1.117    - An alternate interface to the clause database to allow attributed variables to be asserted
+% Cloning into '/home/testprologmud/lib/swipl/pack/dictoo'...
+i dictoo@1.1.117            - Dict-like OO Syntax
+% Cloning into '/home/testprologmud/lib/swipl/pack/gvar_syntax'...
+i gvar_syntax@1.1.117       - Global Variable Syntax
+% Cloning into '/home/testprologmud/lib/swipl/pack/each_call_cleanup'...
+i each_call_cleanup@1.1.117 - Each Call Redo Setup and Cleanup
+% Updating index for library /home/testprologmud/lib/swipl/pack/each_call_cleanup/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/eggdrop'...
+i eggdrop@1.1.117           - Hook up to an existing IRC Client called an Eggdrop
+% Cloning into '/home/testprologmud/lib/swipl/pack/logicmoo_utils'...
+i logicmoo_utils@1.1.117    - Common predicates used by external Logicmoo Utils and Base
+% Updating index for library /home/testprologmud/lib/swipl/pack/logicmoo_utils/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/must_trace'...
+i must_trace@1.1.117        - Trace with your eyeballs instead of your fingers
+% Updating index for library /home/testprologmud/lib/swipl/pack/must_trace/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/predicate_streams'...
+i predicate_streams@1.1.117 - Implement your own Abstract Predicate Streams
+% Updating index for library /home/testprologmud/lib/swipl/pack/predicate_streams/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/file_scope'...
+i file_scope@1.1.117        - File local scoped efects
+% Updating index for library /home/testprologmud/lib/swipl/pack/file_scope/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/instant_prolog_docs'...
+i instant_prolog_docs@1.1.117 - Magically document prolog source files based on predicate and variable naming conventions
+% Updating index for library /home/testprologmud/lib/swipl/pack/instant_prolog_docs/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/loop_check'...
+i loop_check@1.1.117        - New simple loop checking
+% Updating index for library /home/testprologmud/lib/swipl/pack/loop_check/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/with_thread_local'...
+i with_thread_local@1.1.117 - Call a Goal with local assertions
+% Updating index for library /home/testprologmud/lib/swipl/pack/with_thread_local/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/multimodal_dcg'...
+i multimodal_dcg@1.1.117    - Reduce floundering of DCGs by constraining and narrowing search
+% Cloning into '/home/testprologmud/lib/swipl/pack/pfc'...
+i pfc@1.1.117               - Pfc -- a package for forward chaining in Prolog
+% Cloning into '/home/testprologmud/lib/swipl/pack/hook_hybrid'...
+i hook_hybrid@1.1.117       - Hook assert retract call of *specific* predicates
+% Updating index for library /home/testprologmud/lib/swipl/pack/hook_hybrid/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/subclause_expansion'...
+i subclause_expansion@1.1.117 - More detailed versions of term/goal expansion hooks
+% Cloning into '/home/testprologmud/lib/swipl/pack/no_repeats'...
+i no_repeats@1.1.117        - New ways to avoid duplicate solutions
+% Updating index for library /home/testprologmud/lib/swipl/pack/no_repeats/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/s_expression'...
+i s_expression@1.1.117      - Utilities for Handling of S-Expression Lisp/Scheme-Like forms and parsing of KIF, GDL, PDDL, CLIF
+% Updating index for library /home/testprologmud/lib/swipl/pack/s_expression/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/with_open_options'...
+i with_open_options@1.1.117 - Utilities to open various objects for read/write
+% Updating index for library /home/testprologmud/lib/swipl/pack/with_open_options/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/xlisting'...
+i xlisting@1.1.117          - Selective Interactive Non-Deterministic Tracing
+% Updating index for library /home/testprologmud/lib/swipl/pack/xlisting/prolog/
+% Cloning into '/home/testprologmud/lib/swipl/pack/prologmud'...
+i prologmud@1.1.117         - Online text adventure game - MUD Server
+% Cloning into '/home/testprologmud/lib/swipl/pack/xlisting_web'...
+i xlisting_web@1.1.117      - Manipulate and browse prolog runtime over www
+Package:                prologmud
+Title:                  Online text adventure game - MUD Server
+Installed version:      1.1.117
+Author:                 Douglas R. Miles <logicmoo@gmail.com>, Douglas Miles <http://www.linkedin.com/in/logicmoo>
+Maintainer:             TeamSPoon <https://github.com/TeamSPoon/>
+Packager:               TeamSPoon <https://github.com/TeamSPoon/>
+Home page:              https://github.com/TeamSPoon/prologmud.git
+Download URL:           https://github.com/TeamSPoon/prologmud/release/*.zip
+Requires:               logicmoo_base, pfc
+Activate pack "prologmud" Y/n?
+true.
+
+?- pack_install(prologmud_samples).
+% Contacting server at http://www.swi-prolog.org/pack/query ... ok
+Install prologmud_samples@1.1.117 from GIT at https://github.com/TeamSPoon/prologmud_samples.git Y/n?
+% Cloning into '/home/testprologmud/lib/swipl/pack/prologmud_samples'...
+% Contacting server at http://www.swi-prolog.org/pack/query ... ok
+% "prologmud_samples.git" was downloaded 1 times
+Package:                prologmud_samples
+Title:                  Online text adventure game - Sample
+Installed version:      1.1.117
+Author:                 Douglas R. Miles <logicmoo@gmail.com>, Douglas Miles <http://www.linkedin.com/in/logicmoo>
+Maintainer:             TeamSPoon <https://github.com/TeamSPoon/>
+Packager:               TeamSPoon <https://github.com/TeamSPoon/>
+Home page:              https://github.com/TeamSPoon/prologmud_samples.git
+Download URL:           https://github.com/TeamSPoon/prologmud_samples/release/*.zip
+Requires:               prologmud
+Activate pack "prologmud_samples" Y/n?
+true.
+
+?- pack_install(logtalk).
+% Contacting server at http://www.swi-prolog.org/pack/query ... ok
+Install logtalk@3.10.3 from http://logtalk.org/files/swi-prolog/packs/logtalk-3.10.3.tgz Y/n?
+% Contacting server at http://www.swi-prolog.org/pack/query ... ok
+% "logtalk-3.10.3.tgz" was downloaded 3 times
+Package:                logtalk
+Title:                  Logtalk - Object-Oriented Logic Programming Language
+Installed version:      3.10.3
+Author:                 Paulo Moura <pmoura@logtalk.org>
+Maintainer:             Paulo Moura <pmoura@logtalk.org>
+Packager:               Paulo Moura <pmoura@logtalk.org>
+Home page:              http://logtalk.org/
+Download URL:           http://logtalk.org/files/swi-prolog/packs/logtalk-3.10.3.tgz
+Install "logtalk-3.10.3.tgz" (4,134,728 bytes) Y/n?
+true.
+
+
+?- consult(library(prologmud_sample_games/run_mud_server)).
