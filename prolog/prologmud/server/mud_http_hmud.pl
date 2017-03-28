@@ -38,7 +38,7 @@ install_hmud_http_handler:- hmud_directory(O),
       http_handler('/hmud/', http_reply_from_files(O, []), [prefix]),
       http_handler('/hmud', http_reply_from_files(O, []), [prefix]).
 
-:- all_source_file_predicates_are_transparent.
+:- fixup_exports.
 
 :- during_net_boot(ensure_hmud).
 :- during_net_boot(run_flash_policy_server).
