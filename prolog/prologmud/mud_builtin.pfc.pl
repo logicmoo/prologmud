@@ -1062,6 +1062,10 @@ typeProps(tAgent,[predInstMax(mudHealth,500)]).
 genls('Indoors-IsolatedFromOutside',tRegion).
 genls('SpaceInAHOC',tRegion).
 
+:- if( \+ current_prolog_flag(address_bits, 32)).
+:- during_boot(set_prolog_stack_gb(16)).
+:- endif.
+
 typeProps(tAgent,[mudMoveDist(1)]).
 % isRandom(vtBasicDir)
 typeProps(tAgent,[predInstMax(mudHealth,500), predInstMax(mudEnergy,200), mudHealth(500), mudEnergy(90),  
