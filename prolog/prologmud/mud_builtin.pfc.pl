@@ -1077,6 +1077,7 @@ typeProps(tItem,mudEnergy(140)).
 % :- 
 %   ain((typeProps(C,Ps)==> (isa(I,C)==>props(I,Ps)))).
 
+:- set_st
 % typeProps(tAgent,[mudMemory(aDirectionsFn([vNorth,vSouth,vEast,vWest,vNE,vNW,vSE,vSW,vUp,vDown]))]).
 
 %typeProps(tItem,mudListPrice(0)).
