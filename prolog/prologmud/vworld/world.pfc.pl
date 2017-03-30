@@ -198,12 +198,12 @@ create_instance_0(I,_,_):-asserta_if_new(is_creating_now(I)),fail.
 create_instance_0(What,FormatType,List):- FormatType\==tCol, ttExpressionType(FormatType),!,trace_or_throw(ttExpressionType(FormatType,create_instance(What,FormatType,List))).
 create_instance_0(SubType,tCol,List):-ain(tCol(SubType)),padd(SubType,List).
 
-ttSpatialType(tAgent).
-genls(tActor,tAgent).
-genls(mobExplorer,tAgent).
+==>ttSpatialType(tAgent).
+==>genls(tActor,tAgent).
+==>genls(mobExplorer,tAgent).
 
-:-decl_mpred(predTypeMax/3).
-:-decl_mpred(predInstMax/3).
+==>prologHybrid(predTypeMax/3).
+==>prologHybrid(predInstMax/3).
 
 %NEXT TODO predInstMax(I,mudEnergy,NRG):- infSecondOrder, predTypeMax(mudEnergy,AgentType,NRG),isa(I,AgentType).
 %predInstMax(I,mudHealth,Dam):- predTypeMax(mudHealth,AgentType,Dam),isa(I,AgentType).
