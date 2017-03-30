@@ -1073,14 +1073,16 @@ typeProps(tFood,[mudHeight(0)]).
 
 typeProps(tItem,mudEnergy(140)).
 
-typeProps(C,Ps)==> (isa(I,C)=>props(I,Ps)).
+% I am developing a Conflict learning system that works for full FOL .. it works to produces conflict producing horn clauses(HC) heads (as well as normally what is derived from HCs) of cource if i tried to ground the Conflists it produce exponeticals so what i do is enure all conflicts can be found by backchaining at a depth of three 
+% :- 
+%   ain((typeProps(C,Ps)==> (isa(I,C)==>props(I,Ps)))).
 
 % typeProps(tAgent,[mudMemory(aDirectionsFn([vNorth,vSouth,vEast,vWest,vNE,vNW,vSE,vSW,vUp,vDown]))]).
 
-typeProps(tItem,mudListPrice(0)).
-typeProps(tObj,[mudOpaqueness(100)]).
-typeProps(tRegion,[mudOpaqueness(1)]).
-typeProps(tSpatialThing,mudHeight(0)).
+%typeProps(tItem,mudListPrice(0)).
+typeProps(tObj,mudOpaqueness(100)).
+typeProps(tRegion,mudOpaqueness(1)).
+% CRAZY typeProps(tSpatialThing,mudHeight(1)).
 
 % :-end_module_type(dynamic).
 
