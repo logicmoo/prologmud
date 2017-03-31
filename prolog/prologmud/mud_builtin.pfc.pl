@@ -1066,20 +1066,23 @@ genls('SpaceInAHOC',tRegion).
 :- during_boot(set_prolog_stack_gb(16)).
 :- endif.
 
+
+% TOO SLOW 
 typeProps(tAgent,[mudMoveDist(1)]).
 % isRandom(vtBasicDir)
 typeProps(tAgent,[predInstMax(mudHealth,500), predInstMax(mudEnergy,200), mudHealth(500), mudEnergy(90),  
   mudFacing(vNorth), mudAgentTurnnum(0), mudScore(1)]).
 % typeProps(tAgent,mudLastCommand(actStand)).
-typeProps(tAgent,mudNeedsLook(vFalse)).
+% typeProps(tAgent,mudNeedsLook(vFalse)).
 
 typeProps(tFood,[mudHeight(0)]).
 
+
+% TOO STICKY ==>
 typeProps(tItem,mudEnergy(140)).
 
 % I am developing a Conflict learning system that works for full FOL .. it works to produces conflict producing horn clauses(HC) heads (as well as normally what is derived from HCs) of cource if i tried to ground the Conflists it produce exponeticals so what i do is enure all conflicts can be found by backchaining at a depth of three 
-% :- 
-%   ain((typeProps(C,Ps)==> (isa(I,C)==>props(I,Ps)))).
+typeProps(C,Ps)==> (isa(I,C)==>props(I,Ps)).
 
 % typeProps(tAgent,[mudMemory(aDirectionsFn([vNorth,vSouth,vEast,vWest,vNE,vNW,vSE,vSW,vUp,vDown]))]).
 
@@ -1090,7 +1093,10 @@ typeProps(tRegion,mudOpaqueness(1)).
 
 % :-end_module_type(dynamic).
 
-mudLabelTypeProps(Lbl,Type,Props)/ground(mudLabelTypeProps(Lbl,Type,Props))==> (typeHasGlyph(Type,Lbl) , typeProps(Type,Props)).
+
+pass3==> (mudLabelTypeProps(Lbl,Type,Props)/ground(typeHasGlyph(Type,Lbl))==> (typeHasGlyph(Type,Lbl) , typeProps(Type,Props))).
+
+ps3:- cwc, with_mpred_trace_exec(ain(pass3)).
 
 % Vacuum World example objects........
 mudLabelTypeProps("wl",tWall,[mudHeight(3),mudWeight(4)]).
@@ -1315,7 +1321,7 @@ normalAgentGoal(mudNonLonelinessSocial,90).
 normalAgentGoal(mudSadToHappy,90).
 normalAgentGoal(mudComfort,90).
 
-typeProps(tAgent,[mudStr(2),mudHeight(2),mudStm(2),mudSpd(2)]).
+% TO SLOW typeProps(tAgent,[mudStr(2),mudHeight(2),mudStm(2),mudSpd(2)]).
 
 %normalAgentGoal(Pred,Val)==>  (tAgent(A)==>agentGoals(A,Pred,((t(Pred,A,V),V>=Val)))).
 %agentGoals(A,About,State)/State ==> \+ agentTODO(A,actImprove(About)).
