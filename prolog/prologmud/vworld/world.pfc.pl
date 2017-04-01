@@ -222,7 +222,7 @@ create_instance_0(T,tAgent,List):-
    padd(P, [ predInstMax(mudHealth,500),
                        predInstMax(mudEnergy,200),
                        mudHealth(500),
-                       mudEnergy(90),
+                       % mudEnergy(90),
                        mudAgentTurnnum(0),
                        mudScore(1)]),   
    % set_stats(P,[]),

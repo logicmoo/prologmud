@@ -11,10 +11,9 @@
 
 % :- register_module_type (mtCommand).
 
-tSet(vtPosture).
 ttValueType(vtPosture).
 
-==>prologSingleValued(mudStance(tAgent,vtPosture),[prologHybrid,argSingleValueDefault(2,vStand)]).
+==>prologSingleValued(mudStance(tAgent,vtPosture),[prologHybrid,relationMostInstance(tAgent,vStand)]).
 
 prologHybrid(actSetsPosture(vtVerb,vtPosture)).
 

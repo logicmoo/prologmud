@@ -467,7 +467,7 @@ never_assert_u(mudAtLoc(R,_),isa(R,tRegion)):- isa(R,tRegion).
 
 %deduce_facts_forward(localityOfObject(_,Region),isa(Region,tSpatialThing)).
 deduce_facts_forward(localityOfObject(Obj,_),isa(Obj,tObj)).
-fix_argIsa(F,N,vtDirection(Val),vtDirection):-ain(mpred_prop(F,_,argSingleValueDefault(N,Val))),!.
+fix_argIsa(F,N,vtDirection(Val),vtDirection):-ain(mpred_prop(F,_,relationMostInstance(N,Val))),!.
 
 */
 
@@ -516,8 +516,8 @@ tCol(vtVerb).
 % we need a way to call this: maxCapacity
 % we need a way to call this: typeMaxCapacity
 %:- compile_predicates([isa/2]).
-%prologHybrid(repl_to_string(tAgent,term),[prologSingleValued,argSingleValueDefault(2,default_repl_obj_to_string)]).
-% prologHybrid(repl_writer(tAgent,term),[prologSingleValued,argSingleValueDefault(2,default_repl_writer)]).
+%prologHybrid(repl_to_string(tAgent,term),[prologSingleValued,relationMostInstance(tAgent,default_repl_obj_to_string)]).
+% prologHybrid(repl_writer(tAgent,term),[prologSingleValued,relationMostInstance(tAgent,default_repl_writer)]).
 %:- forall(ttRelationType(F),dynamic(F/1)).
 %:- foreach(retract(isa(I,C)),assert_hasInstance(C,I)).
 %isa(AT,ttAgentType):- genls(AT,tAgentGeneric).
@@ -568,7 +568,7 @@ pathName(Region,Dir,Text)==>mudDescription(apathFn(Region,Dir),Text).
 
 ==> prologSingleValued(chargeCapacity(tChargeAble,ftInt),prologHybrid).
 prologSingleValued(location_center(tRegion,xyzFn(tRegion,ftInt,ftInt,ftInt)),prologHybrid).
-==> prologSingleValued(mudAgentTurnnum(tAgent,ftInt),[argSingleValueDefault(2,0)],prologHybrid).
+==> prologSingleValued(mudAgentTurnnum(tAgent,ftInt),[relationMostInstance(tAgent,0)],prologHybrid).
 :- listing( prologSingleValued ).
 
 
@@ -584,29 +584,30 @@ prologSingleValued(mudBareHandDamage(tAgent,ftInt),prologHybrid).
 
 % prologSingleValued(mudEnergy(tChargeAble,ftInt(90)),prologHybrid).
 prologSingleValued(mudEnergy(tChargeAble,ftInt),prologHybrid).
-prologSingleValued(mudEnergy(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
-prologSingleValued(mudNonHunger(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
-prologSingleValued(mudHygiene(tObj,ftInt),[argSingleValueDefault(2,90)],prologHybrid).
+prologSingleValued(mudEnergy(tObj,ftInt),[relationMostInstance(tAgent,90),relationMostInstance(tChargeAble,130)],prologHybrid).
+prologSingleValued(mudHygiene(tObj,ftInt),[relationMostInstance(tObj,90)],prologHybrid).
 
 :- mpred_notrace_exec.
-:- ain_expanded((prologSingleValued(mudFacing(tObj,vtDirection),[argSingleValueDefault(2,vNorth)],prologHybrid))).
+:- ain_expanded((prologSingleValued(mudFacing(tObj,vtDirection),[relationMostInstance(tObj,vNorth)],prologHybrid))).
 
+prologSingleValued(mudPermanence(tItem,vtVerb,vtPerminance),prologHybrid).
 ==> prologSingleValued(mudHealth(tObj,ftInt),prologHybrid).
 prologSingleValued(mudHeight(tObj,ftInt),prologHybrid).
 prologSingleValued(mudHeight(tSpatialThing,ftInt),prologHybrid).
 prologSingleValued(mudID(tObj,ftID),prologHybrid).
-prologSingleValued(mudLastCommand(tAgent,ftAction),prologHybrid).
 prologSingleValued(mudLevelOf(tCarryAble,ftInt),prologHybrid).
+prologSingleValued(mudWeight(tObj,ftInt),prologHybrid).
+
 prologSingleValued(mudMaxHitPoints(tAgent,ftInt),[prologHybrid],prologHybrid).
-prologSingleValued(mudMoveDist(tAgent,ftInt),[argSingleValueDefault(2,1)]).
-prologSingleValued(mudNeedsLook(tAgent,ftBoolean),argSingleValueDefault(2,vFalse),prologHybrid).
-prologSingleValued(mudPermanence(tItem,vtVerb,vtPerminance),prologHybrid).
-prologSingleValued(mudScore(tObj,ftInt),prologHybrid).
+prologSingleValued(mudLastCommand(tAgent,ftAction),prologHybrid).
+prologSingleValued(mudNonHunger(tAgent,ftInt),[relationMostInstance(tAgent,90)],prologHybrid).
+prologSingleValued(mudMoveDist(tAgent,ftInt),[relationMostInstance(tAgent,1)]).
+prologSingleValued(mudNeedsLook(tAgent,ftBoolean),relationMostInstance(tAgent,vFalse),prologHybrid).
+prologSingleValued(mudScore(tAgent,ftInt),prologHybrid).
 prologSingleValued(mudSpd(tAgent,ftInt),prologHybrid).
 prologSingleValued(mudStm(tAgent,ftInt),prologHybrid).
 prologSingleValued(mudStr(tAgent,ftInt),prologHybrid).
 prologSingleValued(mudToHitArmorClass0(tAgent,ftInt),prologHybrid).
-prologSingleValued(mudWeight(tObj,ftInt),prologHybrid).
 % prologSingleValued(spawn_rate(isPropFn(genls(tObj)),ftInt)).
 
 ==> prologSingleValued(spawn_rate(tCol,ftInt)).
@@ -673,7 +674,7 @@ prologHybrid(pathDirLeadsTo/3).
 prologDynamic(mudMoveDist/2).
 :- dynamic(mudMoveDist/2).
 meta_argtypes(mudMoveDist(tAgent,ftInt)).
-==>prologSingleValued(mudMoveDist,[predicateConventionMt(abox),query(call),argSingleValueDefault(2,1)]).
+==>prologSingleValued(mudMoveDist,[predicateConventionMt(abox),query(call),relationMostInstance(tAgent,1)]).
 prologDynamic(stat_total/2).
 
 :- dynamic(vtBasicDir/1).
@@ -696,7 +697,7 @@ prologDynamic(use_action_templates(ftTerm)).
 
 prologHybrid(typeHasGlyph(tCol,ftString)).
 prologHybrid(mudColor(tSpatialThing,vtColor)).
-prologHybrid(mudKnowing(tAgent,ftTerm)).
+prologHybrid(mudKnowing(tAgent,ftAssertion)).
 prologHybrid(mudLabelTypeProps(ftString,tCol,ftVoprop)).
 prologHybrid(mudListPrice(tItem,ftNumber)).
 :-dynamic(mudOpaqueness/2).
@@ -921,8 +922,10 @@ meta_argtypes(verb_affordance(vtVerb,tTemporalThing,rtStatPred,ftChangeQuantity,
 prologHybrid(dividesBetween(tCol,tCol,tCol)).
 
 % defined more correctly below dividesBetween(S,C1,C2) ==> (disjointWith(C1,C2) , genls(C1,S) ,genls(C2,S)).
+
+dividesBetween(tAgentGeneric,tAgent,tNonCorporialAgent).
 dividesBetween(tAgent,tMale,tFemale).
-dividesBetween(tAgent,tHumanControlled,tNpcAgent).
+dividesBetween(tAgent,tNpcAgent,tHumanControlled).
 dividesBetween(tItem,tMassfull,tMassless).
 dividesBetween(tObj,tItem,tAgent).
 dividesBetween(tObj,tMassfull,tMassless).
@@ -930,11 +933,14 @@ dividesBetween(tSpatialThing,tObj,tRegion).
 dividesBetween(tTemporalThing,tObj,tRegion).
 formatted_resultIsa(ftDiceFn(ftInt,ftInt,ftInt),ftInt).
 
+isa(iDungeonMaster,tNonCorporialAgent).
+
+genls(tNonCorporialAgent,tMassless).
+
 isa(tRegion,ttTemporalType).
 
-completelyAssertedCollection(tCol).
- completelyAssertedCollection(tCol).
- completelyAssertedCollection(ttExpressionType).
+completelyAssertedCollection(tNonCorporialAgent).
+completelyAssertedCollection(tAgentGeneric).
 completelyAssertedCollection(tItem).
 completelyAssertedCollection(tRegion).
 completelyAssertedCollection(tObj).
@@ -1070,7 +1076,8 @@ genls('SpaceInAHOC',tRegion).
 % TOO SLOW 
 typeProps(tAgent,[mudMoveDist(1)]).
 % isRandom(vtBasicDir)
-typeProps(tAgent,[predInstMax(mudHealth,500), predInstMax(mudEnergy,200), mudHealth(500), mudEnergy(90),  
+typeProps(tAgent,[predInstMax(mudHealth,500), predInstMax(mudEnergy,200), mudHealth(90), 
+  % mudEnergy(90),  
   mudFacing(vNorth), mudAgentTurnnum(0), mudScore(1)]).
 % typeProps(tAgent,mudLastCommand(actStand)).
 % typeProps(tAgent,mudNeedsLook(vFalse)).
@@ -1304,16 +1311,28 @@ ttRelationType(rtStatPred).
 
 prologHybrid(normalAgentGoal(rtStatPred,ftTerm)).
 
-(rtStatPred(Pred)/must(atom(Pred))==>(arity(Pred,2),rtRolePredicate(Pred),singleValuedInArg(Pred,2),rtBinaryPredicate(Pred))).
+((rtRolePredicate(Pred)==>
+  ((relationMostInstance(Pred,Type,Value))==>
+    ((isa(X,Type))==>mdefault(t(Pred,X,Value)))))).
+
+(rtStatPred(Pred)/must(atom(Pred))==>(
+    arity(Pred,2),
+    rtRolePredicate(Pred),
+    singleValuedInArg(Pred,2),
+    rtBinaryPredicate(Pred))).
 
 (((normalAgentGoal(Pred,N)/must(atom(Pred)) ==>
- ({kb_shared(Pred/2),AT=..[Pred,tAgent,ftPercent]},rtStatPred(Pred),
-   meta_argtypes(AT),argSingleValueDefault(Pred,2,N))))).
+ ({kb_shared(Pred/2),
+   AT=..[Pred,tAgent,ftPercent]},
+   rtStatPred(Pred),
+   meta_argtypes(AT),
+   relationMostInstance(Pred,tAgent,N))))).
 
-
-normalAgentGoal(mudEnergy,90).
-normalAgentGoal(mudNonHunger,90).
+normalAgentGoal(mudEnergy,140).
+normalAgentGoal(mudHealth,90).
 normalAgentGoal(mudHygiene,90).
+
+normalAgentGoal(mudNonHunger,90).
 normalAgentGoal(mudBladderEmpty,90).
 normalAgentGoal(mudSecureRoom,90).
 normalAgentGoal(mudFun,90).
@@ -1338,10 +1357,6 @@ normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Va
 normalAgentGoal(Pred,Val)==>  (tAgent(A)==>mdefault(t(Pred,A,Val))).
 
 
-:-ain(
- ((rtRolePredicate(Pred)==>
-  ((argSingleValueDefault(Pred,2,Value),argIsa(Pred,1,Type))==>
-    (isa(X,Type)==>mdefault(t(Pred,X,Value))))))).
 
 genls(tRoom,tRegion).
 
@@ -1366,7 +1381,7 @@ vtActionTemplate(actImprove(rtStatPred)).
  
 /*
 
-% :- set_prolog_flag(dialect_pfc,false).
+% :- set_prolog_flag(dialect_pfc,cwc).
 :- notrace(kif_to_boxlog(((parent('$VAR'('G'),'$VAR'('P')) & parent('$VAR'('P'),'$VAR'('C'))) => grandparent('$VAR'('G'),'$VAR'('C'))),O)),dmsg(O).
 
  the CycL language extends Prolog''s first order logic capabilities with some higher order logics.  
@@ -1413,9 +1428,9 @@ O = [
 
 */
 
- % :- set_prolog_flag(dialect_pfc,false).
+ % :- set_prolog_flag(dialect_pfc,cwc).
 
 
-% :- time(must(ain_expanded(prologSingleValued(mudFacing666(tObj,vtDirection),[argSingleValueDefault(2,vNorth)],prologHybrid)))).
+% :- time(must(ain_expanded(prologSingleValued(mudFacing666(tObj,vtDirection),[relationMostInstance(tObj,vNorth)],prologHybrid)))).
 
-% :- profile((ain_expanded(prologSingleValued(mudFacing666(tObj,vtDirection),[argSingleValueDefault(2,vNorth)],prologHybrid)))).
+% :- profile((ain_expanded(prologSingleValued(mudFacing666(tObj,vtDirection),[relationMostInstance(tObj,vNorth)],prologHybrid)))).
