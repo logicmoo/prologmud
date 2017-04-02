@@ -184,7 +184,7 @@ if_version_greater(V,Goal):- current_prolog_flag(version,F), ((F > V) -> call(Go
 %:- set_setting(cliopatria_binding:path, '/devel/ClioPatria'), save_settings('moo_settings.db').
 
 start_boxer:-
-   threads,
+   %threads,
    ensure_loaded(logicmoo(candc/parser_boxer)),
    % make,   
    after_boot(prolog_repl).
@@ -529,7 +529,9 @@ download_and_install_el:-
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_lisp)).
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_chr)).
 
+:- if(false).
 :- statistics.
+:- endif.
 
 % NPC planners
 :- wdmsg(loading_mobs).

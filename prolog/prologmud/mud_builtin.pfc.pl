@@ -569,7 +569,7 @@ pathName(Region,Dir,Text)==>mudDescription(apathFn(Region,Dir),Text).
 ==> prologSingleValued(chargeCapacity(tChargeAble,ftInt),prologHybrid).
 prologSingleValued(location_center(tRegion,xyzFn(tRegion,ftInt,ftInt,ftInt)),prologHybrid).
 ==> prologSingleValued(mudAgentTurnnum(tAgent,ftInt),[relationMostInstance(tAgent,0)],prologHybrid).
-:- listing( prologSingleValued ).
+% :- listing( prologSingleValued ).
 
 
 prologSingleValued(mudArmor(tObj,ftInt),prologHybrid).
@@ -884,9 +884,16 @@ meta_argtypes(type_action_info(tCol,vtActionTemplate,ftText)).
 tCol(ttAgentType).
 
 prologHybrid(pathDirLeadsTo(tRegion,vtDirection,tRegion)).
-prologHybrid(mudAreaConnected(tRegion,tRegion),rtSymmetricBinaryPredicate).
 
-:- listing(mudAreaConnected/2).
+
+:- mpred_trace_exec.
+
+prologHybrid(mudAreaConnected(tRegion,tRegion)).
+rtSymmetricBinaryPredicate(mudAreaConnected).
+:- mpred_notrace_exec.
+:- call((listing(mudAreaConnected/2),!)),!.
+
+% :- break.
 
 ttAgentType(mobMonster).
 % instTypeProps(apathFn(Region,_Dir),tPathway,[localityOfObject(Region)]).
@@ -1364,7 +1371,7 @@ tAgent(iExplorer7).
 
 mud_listing(M):- xlisting((M,-completely_expanded,-spft,-nt,-pt,- (==>))).
 
-:- mud_listing(iExplorer7).
+% :- mud_listing(iExplorer7).
 
 :- must(mudFun(iExplorer7,_W)).
 
