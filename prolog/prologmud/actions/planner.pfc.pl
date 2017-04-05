@@ -11,11 +11,15 @@
 %
 */
 
-end_of_file.
 
 :- swi_module(modPlan, []).
 :- include(prologmud(mud_header)).
 % :- register_module_type (mtCommand).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% [Mostly Required] Load the Logicmoo Plan Generator System
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+:- system:ensure_loaded(library(logicmoo_planner)).
 
 
 :- dynamic on_command_show/3.
@@ -33,7 +37,7 @@ agent_call_command(Agent,actPlan(Goal)) :-
    listing(agentGOAL(Agent,_)),
    pddl_idea(Agent,Act),
    listing(agentTODO(Agent,_)),
-   pddl_vette_idea(Agent,Act,ActV).
+   pddl_vette_idea(Agent,Act,_ActV).
   
 
 update_charge(Agent,actPlan) :- padd(Agent,mudEnergy(+ -1)).
@@ -191,7 +195,7 @@ tpf_sanity:-flag(time_used,_,0),
 ),PP))), !,solve_files_ddpp(DD, PP),
    show_call(flag(time_used,W,W)).
 
-:-tpf_sanity.
+% :-tpf_sanity.
 
 %:- test_domain('domains_ocl/chameleonWorld/domain*').
 %:- test_all(7).

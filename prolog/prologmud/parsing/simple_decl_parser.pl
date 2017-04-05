@@ -209,36 +209,36 @@ tCol('tTvGuide').
 
 :-assertz_if_new(parserTest(iWorld7,"A tv guide is a type of book.")).
 
-toplevel_type(CtxISA):-member(CtxISA,[tWorld,tRegion,tAgent,tItem,tObj,ftSpec,tCol,ftTerm]).
-% toplevel_type(CtxISA):-ftSpec(CtxISA).
+toplevel_type(InstISA):-member(InstISA,[tWorld,tRegion,tAgent,tItem,tObj,ftSpec,tCol,ftTerm]).
+% toplevel_type(InstISA):-ftSpec(InstISA).
 
 
-get_ctx_isa(CtxISA,Ctx,CtxISA):- toplevel_type(CtxISA),must((isa(Ctx,CtxISA))),!.
-get_ctx_isa(Ctx,Ctx,CtxISA):- must(show_call(once(((toplevel_type(CtxISA),isa(Ctx,CtxISA)))))),!.
+get_ctx_isa(InstISA,Inst,InstISA):- toplevel_type(InstISA),must((isa(Inst,InstISA))),!.
+get_ctx_isa(Inst,Inst,InstISA):- must(show_call(once(((toplevel_type(InstISA),isa(Inst,InstISA)))))),!.
 
-assert_text(CtxIn,String):- get_ctx_isa(CtxIn,Ctx,CtxISA),!,assert_text(Ctx,CtxISA,String).
+assert_text(InstIn,String):- get_ctx_isa(InstIn,Inst,InstISA),!,assert_text(Inst,InstISA,String).
 
-assert_text(Ctx,CtxISA,String):-  
+assert_text(Inst,InstISA,String):-  
                             % context changed   and not the tWorld?                                                  % v this is for when there was no prior context
-  (parserVars(context,Ctx0,_) -> (((Ctx0 \==Ctx),CtxISA\==tWorld) -> (asserta_parserVars(isThis,Ctx,CtxISA)); true) ; (asserta_parserVars(isThis,Ctx,CtxISA))), 
-    locally(parserVars(context,Ctx,CtxISA),assert_text_now(Ctx,CtxISA,String)).
+  (parserVars(context,Inst0,_) -> (((Inst0 \==Inst),InstISA\==tWorld) -> (asserta_parserVars(isThis,Inst,InstISA)); true) ; (asserta_parserVars(isThis,Inst,InstISA))), 
+    locally(parserVars(context,Inst,InstISA),assert_text_now(Inst,InstISA,String)).
 
-assert_text_now(Ctx,CtxISA,String):-   
+assert_text_now(Inst,InstISA,String):-   
  on_f_log_ignore(( 
   % parse the string to attributed text
  to_word_list(String,WL),!,to_icase_strs(WL,IC),!,   
-   ((phrase(translation_dbg_on_fail(Ctx,CtxISA,PrologO),IC),
-   assertz_if_new(asserted_text(Ctx,String,PrologO)),
+   ((phrase(translation_dbg_on_fail(Inst,InstISA,PrologO),IC),
+   assertz_if_new(asserted_text(Inst,String,PrologO)),
      
      show_call(onSpawn(PrologO)))))).
 
-:-dynamic(asserted_text/3).
+:- kb_shared(asserted_text/3).
 
 tCol(describedTyped).
 describedTyped(tRegion).
 describedTyped(tObj).
-(describedTyped(Col),isa(Ctx,Col),mudDescription(Ctx,String)/ 
-  ( \+asserted_text(Ctx,String,_), \+assert_text(Ctx,String))) ==> mudDescriptionHarder(Ctx,String).
+(describedTyped(Col),isa(Inst,Col),mudDescription(Inst,String)/ 
+  ( \+asserted_text(Inst,String,_), \+assert_text(Inst,String))) ==> mudDescriptionHarder(Inst,String).
 
 :- export(to_icase_strs/2).
 to_icase_strs(WL,IC):-maplist(to_icase_str,WL,IC).
@@ -255,16 +255,16 @@ translation_for(Room,'tRegion',(isa(Room,'tCorridor'),isa(Room,'tWellLit')),WS,[
  ('S'('NP'('PRP'('You')),'VP'('VBP'(find),'NP'('PRP'(yourself)),'PP'('IN'(in),'NP'('NP'('DT'(the),'NN'(middle)),'PP'('IN'(of),
   'NP'('NP'('DT'(a),'ADJP'('RB'(well),'JJ'(lit)),'NN'(corridor)),'PP'('IN'(on),'NP'('DT'(the),'NN'('Enterprise')))))))))).
 
-translation_for(_Ctx,_CtxISA,t(M,Prolog),WS,WE):- once((append(LeftSide,RightSide,WS), modality(M,List,Replace),append(LeftL,List,LeftSide),
+translation_for(_Inst,_InstISA,t(M,Prolog),WS,WE):- once((append(LeftSide,RightSide,WS), modality(M,List,Replace),append(LeftL,List,LeftSide),
   append(LeftL,List,LeftSide),append(LeftL,Replace,Left),
    append(Left,RightSide,NewWS))),
    translation_w(Prolog,NewWS,WE),!.
-translation_for(_Ctx,_CtxISA,Prolog) --> translation_w(Prolog).
-translation_for(_Ctx,_CtxISA,Prolog,WS,WE):-locally(loosePass,translation_w(Prolog,WS,WE)).
+translation_for(_Inst,_InstISA,Prolog) --> translation_w(Prolog).
+translation_for(_Inst,_InstISA,Prolog,WS,WE):-locally(loosePass,translation_w(Prolog,WS,WE)).
 
 
-translation_dbg_on_fail(Ctx,CtxISA,Prolog)-->translation_for(Ctx,CtxISA,Prolog),!.
-translation_dbg_on_fail(Ctx,CtxISA,Prolog,WS,WE):-locally(debugPass,translation_for(Ctx,CtxISA,Prolog,WS,WE)).
+translation_dbg_on_fail(Inst,InstISA,Prolog)-->translation_for(Inst,InstISA,Prolog),!.
+translation_dbg_on_fail(Inst,InstISA,Prolog,WS,WE):-locally(debugPass,translation_for(Inst,InstISA,Prolog,WS,WE)).
 
 %:-assertz_if_new(parserTest(iWorld7,"Buffy the Labrador retriever is lounging here, shedding hair all over the place.")).
 %:-assertz_if_new(parserTest(iWorld7,"You can also see a sugar candy doll house here.")).

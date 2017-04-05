@@ -17,8 +17,6 @@
 %(vtVerb(F)/name_text_now(F,Txt)==>mudKeyword(F,Txt)).
 %(tCol(F)/name_text_now(F,Txt)==>mudKeyword(F,Txt)).
 
-end_of_file.
-
 
 
 % ==================================================

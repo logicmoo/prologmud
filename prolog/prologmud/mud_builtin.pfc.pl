@@ -886,14 +886,12 @@ tCol(ttAgentType).
 prologHybrid(pathDirLeadsTo(tRegion,vtDirection,tRegion)).
 
 
-:- mpred_trace_exec.
+
 
 prologHybrid(mudAreaConnected(tRegion,tRegion)).
-rtSymmetricBinaryPredicate(mudAreaConnected).
-:- mpred_notrace_exec.
-:- call((listing(mudAreaConnected/2),!)),!.
 
-% :- break.
+rtSymmetricBinaryPredicate(mudAreaConnected).
+:- call((listing(mudAreaConnected/2),!)),!.
 
 ttAgentType(mobMonster).
 % instTypeProps(apathFn(Region,_Dir),tPathway,[localityOfObject(Region)]).
@@ -965,11 +963,11 @@ arity(mudAreaConnected,2).
 
 (mudAreaConnected(R1,R2)/
  (ground(mudAreaConnected(R1,R2)),
-   \+ pathDirLeadsTo(R1,_,R2)),   
-  {random_path_dir(Dir),reverse_dir(Dir,Rev)}, 
-   {\+ pathDirLeadsTo(R1,Dir,_NotR2), 
-   \+ pathDirLeadsTo(R2,Rev,_NotR1)}) ==>
+   \+ pathDirLeadsTo(R1,_,R2),
+  random_path_dir(Dir),reverse_dir(Dir,Rev),\+ pathDirLeadsTo(R1,Dir,_NotR2), 
+   \+ pathDirLeadsTo(R2,Rev,_NotR1))) ==>
   pathDirLeadsTo(R1,Dir,R2).
+  
 
 % pathDirLeadsTo(R1,Dir,_)==>tPathway(apathFnPLD(R1,Dir)).
 
@@ -978,9 +976,10 @@ rtPartialFunction(apathFn).
 rtReifiableFunction(apathFn).
 
 pathDirLeadsTo(R1,Dir,R2)/reverse_dir(Dir,Rev) ==> pathDirLeadsTo(R2,Rev,R1).
-% pathDirLeadsTo(R1,_,R2) ==> mudAreaConnected(R1,R2).
+pathDirLeadsTo(R1,_,R2) ==> mudAreaConnected(R1,R2).
 
 singleValuedInArg(pathDirLeadsTo,2).
+
 
 % ==================================================
 % Classes of things

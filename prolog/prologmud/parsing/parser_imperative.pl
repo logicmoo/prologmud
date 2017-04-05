@@ -15,7 +15,7 @@
 :- include(prologmud(mud_header)).
 
 
-:- set_prolog_flag_until_eof(virtual_stubs,true).
+:- virtualize_source_file.
 
 :-export((
     parse_agent_text_command/5,            
@@ -34,10 +34,12 @@
 
 % :- register_module_type (utility).
 
-:- statistics.
 :- trim_stacks.
 :- garbage_collect_atoms.
 :- garbage_collect.
+:- if(false).
+:- statistics.
+:- endif.
 some_term_to_atom(Term,Atom):- must(\+ is_list(Term)), term_to_atom(Term,Atom).
 
 % =====================================================================================================================
