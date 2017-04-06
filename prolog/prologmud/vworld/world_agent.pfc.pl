@@ -254,7 +254,7 @@ foc_current_agent(P):-
              become_player(P))),!.
                
 
-:-system:ensure_loaded(library(http/http_session)).
+:-user:ensure_loaded(library(http/http_session)).
 
 :-export(get_session_id/1).
 get_session_id(IDIn):-guess_session_ids(ID),nonvar(ID),!,ID=IDIn.
