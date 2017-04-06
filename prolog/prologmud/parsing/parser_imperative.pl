@@ -555,8 +555,8 @@ to_descriptive_name(_For,Desc,Atom):-any_to_atom(Desc,Atom),!.
 
 freeze_safe(A,G):- nonvar(A),freeze(A,G).
 
-:-onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(nameString(F,_)),once(guess_nameStrings(F,Txt))}==>(nameString(F,Txt)))).
-:-onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(mudDescription(F,_)),once(guess_mudDescription(F,Txt))}==>(mudDescription(F,Txt)))).
+onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(nameString(F,_)),once(guess_nameStrings(F,Txt))}==>(nameString(F,Txt)))).
+onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u_no_bc(mudDescription(F,_)),once(guess_mudDescription(F,Txt))}==>(mudDescription(F,Txt)))).
 :-ain((ttKeyworded(vtVerb))).
 %:-ain((ttKeyworded(tCol))).
 % :-ain((ttKeyworded(tRelation))).
