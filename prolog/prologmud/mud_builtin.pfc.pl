@@ -889,6 +889,8 @@ prologHybrid(pathDirLeadsTo(tRegion,vtDirection,tRegion)).
 
 
 prologHybrid(mudAreaConnected(tRegion,tRegion)).
+prologHybrid(mudAreaConnected(tRegion,tRegion),rtSymmetricBinaryPredicate).
+rtArgsVerbatum(mudAreaConnected).
 
 rtSymmetricBinaryPredicate(mudAreaConnected).
 :- call((listing(mudAreaConnected/2),!)),!.
