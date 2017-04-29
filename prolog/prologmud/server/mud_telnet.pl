@@ -140,12 +140,11 @@ get_session_io(In,Out):-
 
 % login_and_run_nodebug:- current_prolog_flag(debug_threads,true),!,login_and_run.
 login_and_run_nodebug:- 
- % nodebugx
-   tdebug,
-   debug,
-   guitracer,
-   on_xf_debug(login_and_run),!.
+   nodebugx(login_and_run),!.
   
+login_and_run_debug:- 
+   tdebug,debug, % guitracer,
+   must_det(login_and_run),!.
 
 get_session_id_local(O):- find_and_call(get_session_id(O)).
 

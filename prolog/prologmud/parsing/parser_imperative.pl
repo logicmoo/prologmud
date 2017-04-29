@@ -343,7 +343,8 @@ parse_agent_text_command_0(Agent,IVERB,ARGS,NewAgent,GOAL):-
    verb_alias_to_verb(IVERB,SVERB), IVERB\=SVERB,!,
    parse_agent_text_command(Agent,SVERB,ARGS,NewAgent,GOAL).
 
-parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),functor(PROLOGTERM,F,_),mpred_prop(F,_),!.
+parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),functor(PROLOGTERM,F,A),
+  mpred_prop(F,A,_),!.
 parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),is_callable(PROLOGTERM),!.
 
 :-export(parse_agent_text_command_1/5).

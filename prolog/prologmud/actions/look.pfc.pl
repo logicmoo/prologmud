@@ -131,7 +131,7 @@ tLooking(Agent):- tAgent(Agent),not(tDeleted(Agent)).
 % To make this action take a turn, change the first line to:
 % Impliment(get_all(Agent,Vit,Dam,Suc,Scr,Percepts,Inv)) :-
 get_all(Agent,Vit,Dam,What=Suc,Scr,Percepts,Inv) :-
-  call((
+  call_u((
 	tLooking(Agent),
 	mudEnergy(Agent,Vit),
         mudHealth(Agent,Dam),
@@ -146,7 +146,7 @@ get_all(Agent,Vit,Dam,What=Suc,Scr,Percepts,Inv) :-
 prologBuitlin(mudGetPrecepts(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(user)]).
 mudGetPrecepts(Agent,Percepts) :- mudGetPrecepts0(Agent,Percepts0),!,flatten_set(Percepts0,Percepts).
 mudGetPrecepts0(Agent,Percepts) :-
-  call((
+  call_u((
 	tLooking(Agent),
 	view_vectors(Agent,Dirs),
 	check_for_blocks(Agent),
@@ -159,7 +159,7 @@ mudGetPrecepts0(Agent,Percepts) :-
 mudNearReach(Agent,PerceptsO):- get_near0(Agent,Percepts0),!,flatten_set(Percepts0,Percepts),delete(Percepts,Agent,PerceptsO).
    
 get_near0(Agent,Percepts) :-
-  call((
+  call_u((
 	tLooking(Agent),
 	near_vectors(Dirs),
 	view_dirs(Agent,Dirs,Percepts))),!.
@@ -169,7 +169,7 @@ get_near0(Agent,Percepts) :-
 mudNearFeet(Agent,PerceptsO) :-  get_feet0(Agent,Percepts0),!,flatten_set(Percepts0,Percepts),delete(Percepts,Agent,PerceptsO).
 
 get_feet0(Agent,Percepts):-
-  call((
+  call_u((
 	tLooking(Agent),
 	mudAtLoc(Agent,LOC),
         mudFacing(Agent,Facing),

@@ -51,6 +51,6 @@ agent_call_command(Agent,Action):- callable(Action),
      agent_call_command(Agent,actOnto(Where,PostureState)).
 
 
-update_charge(Agent,PostureState) :- vtPosture(PostureState), padd(Agent,[mudEnergy(+ -1)]).
+update_charge(Agent,PostureState) :- vtPosture(PostureState), padd(Agent,mudEnergy(+ -1)).
 
 :- include(prologmud(mud_footer)).

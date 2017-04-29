@@ -122,6 +122,7 @@ merge_list_on_p(WPred,ToSTR, _SayIt ,Type,_GCall,_NewValue,SayItList):- fmt_hold
 % merge_list_on_p(WPred,ToSTR, SayIt ,Type,GCall,NewValue,SayItList):- forall(member(KV,SayItList),fmt_holds_tcall_pred_trans(WPred,ToSTR,SayIt,Type,KV)).
 
 :-export(req1/1).
+req1(O):- is_list(O),!,maplist(req1,O).
 req1(O):- no_repeats(call_u(O)).
 
 

@@ -73,7 +73,7 @@ pushable(Agent,Obj,LOC,Dir) :-
 anything_behind(LOC,Dir) :-
 	from_dir_target(LOC,Dir,XXYY),
 	mudAtLoc(What,XXYY),
-	props(What,[mudWeight > 1,mudPermanence(or(Pm,0))]),
+	props(What,[mudWeight > 1,mudPermanence(actTake,or(Pm,0))]),
 	Pm < 2.
 
 % Move the object.

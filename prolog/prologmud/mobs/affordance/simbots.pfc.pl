@@ -543,10 +543,7 @@ agent_command(Agent,Templ):- on_x_debug(agent_command_affordance(Agent,Templ)).
 % hook for toplevel pass last
 agent_command_fallback(Agent,TemplIn):-agent_command_simbots_real(Agent,TemplIn).
 
-agent_command_simbots_real(Agent,actImprove(Trait)):- nonvar(Trait),
-      findall(agentTODO(Agent,actDo(ActVerb,Types)),
-        (verb_affordance(ActVerb,Types,Trait,+ Think,_Real),ThinkN is Think,ThinkN>0), NewAdds),
-      show_call(forall(member(Add,NewAdds),ain(Add))).
+agent_command_simbots_real(Agent,actImprove(Trait)):- nonvar(Trait),doActImprove(Agent,Trait).
 
 agent_command_simbots_real(Agent,TemplIn):- nonvar(TemplIn), 
    simbots_templates(Templ),
@@ -585,6 +582,11 @@ action_info(actTextcmd(ftString),"reinterps a term as text").
 agent_command_affordance(Agent,actTextcmd(A)):-sformat(CMD,'~w',[A]),!,do_agent_action(Agent,CMD).
 agent_command_affordance(Agent,actTextcmd(A,B)):-sformat(CMD,'~w ~w',[A,B]),!,do_agent_action(Agent,CMD).
 agent_command_affordance(Agent,actTextcmd(A,B,C)):-sformat(CMD,'~w ~w ~w',[A,B,C]),!,do_agent_action(Agent,CMD).
+
+doActImprove(Agent,Trait):-
+      findall(agentTODO(Agent,actDo(ActVerb,Types)),
+        (verb_affordance(ActVerb,Types,Trait,+ Think,_Real),ThinkN is Think,ThinkN>0), NewAdds),
+      show_call(forall(member(Add,NewAdds),ain(Add))).
 
 
 genls(tShelf,tHasSurface).
