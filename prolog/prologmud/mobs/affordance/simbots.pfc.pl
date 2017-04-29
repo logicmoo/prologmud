@@ -589,6 +589,7 @@ doActImprove(Agent,Trait):-
       show_call(forall(member(Add,NewAdds),ain(Add))).
 
 
+
 genls(tShelf,tHasSurface).
 genls(tCounter,tHasSurface).
 genls(tFood,tEatAble).
