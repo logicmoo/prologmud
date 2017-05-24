@@ -26,8 +26,8 @@
 :- multifile on_command_show/3.
 
 
-on_command_show(Agent,actLook,goals=SHOW):- findall(Value,agentGOAL(Agent,Value),SHOW),SHOW\==[].
-on_command_show(Agent,actLook,todo=SHOW):- findall(Value,agentTODO(Agent,Value),SHOW),SHOW\==[].
+on_command_show(Agent,actLook,goals=nop(SHOW)):- findall(Value,agentGOAL(Agent,Value),SHOW),SHOW\==[].
+on_command_show(Agent,actLook,todo=nop(SHOW)):- findall(Value,agentTODO(Agent,Value),SHOW),SHOW\==[].
 
 action_info(actPlan(ftTerm),"carry out a plan").
 

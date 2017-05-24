@@ -545,6 +545,8 @@ agent_command_fallback(Agent,TemplIn):-agent_command_simbots_real(Agent,TemplIn)
 
 agent_command_simbots_real(Agent,actImprove(Trait)):- nonvar(Trait),doActImprove(Agent,Trait).
 
+actImprove(Trait):- current_agent(Agent),doActImprove(Agent,Trait).
+
 agent_command_simbots_real(Agent,TemplIn):- nonvar(TemplIn), 
    simbots_templates(Templ),
    args_match_types(TemplIn,Templ),
