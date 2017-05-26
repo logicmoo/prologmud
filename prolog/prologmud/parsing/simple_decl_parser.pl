@@ -251,7 +251,7 @@ to_icase_str(SL,IC):-string_to_atom(SL,SA),string_to_atom(SS,SA),when(nonvar(IC)
 
 % somethingCanBe(tFountainDrink,[vSmall,vMedium,vLarge]).
 
-translation_for(Room,'tRegion',(isa(Room,'tCorridor'),isa(Room,'tWellLit')),WS,[]):-concat_atom(WS,' ',O),tag_pos(O,IO),IO = 
+translation_for(Room,'tRegion',(isa(Room,'tCorridor'),isa(Room,'tWellLit')),WS,[]):-concat_atom(WS,' ',O),if_defined(tag_pos(O,IO),fail),IO = 
  ('S'('NP'('PRP'('You')),'VP'('VBP'(find),'NP'('PRP'(yourself)),'PP'('IN'(in),'NP'('NP'('DT'(the),'NN'(middle)),'PP'('IN'(of),
   'NP'('NP'('DT'(a),'ADJP'('RB'(well),'JJ'(lit)),'NN'(corridor)),'PP'('IN'(on),'NP'('DT'(the),'NN'('Enterprise')))))))))).
 

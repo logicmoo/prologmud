@@ -58,7 +58,8 @@ listing_break(G):-listing(G),break.
 % :- set_defaultAssertMt(baseKB).
 :- file_begin(pfc).
 
-:- set_prolog_flag_until_eof(do_renames,term_expansion).
+:- install_constant_renamer_until_eof.
+% :- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 :- file_begin(code).
 
@@ -505,7 +506,7 @@ tCol(vtVerb).
 
 
 tCol(tChannel).
-tCol(tItem).
+tSet(tItem).
 tCol(vtVerb).
 
 % prologIsFlag(tAgent(ftID),[tSet]).
@@ -764,7 +765,8 @@ defnSufficient(ftAction,is_vtActionTemplate).
 defnSufficient(ftAction,vtVerb).
 defnSufficient(ftTerm,vtValue).
 
-:- set_prolog_flag_until_eof(do_renames,term_expansion).
+:- install_constant_renamer_until_eof.
+% :- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 genls('FemaleAnimal',tAgent).
 genls('MaleAnimal',tAgent).
@@ -919,10 +921,12 @@ tChannel(iGossupChannel).
 :-ain_expanded(isa(tRegion,ttTemporalType)).
 
 % cycAssert(A,B):- trace_or_throw(cycAssert(A,B)).
-:- set_prolog_flag_until_eof(do_renames,term_expansion).
+:- install_constant_renamer_until_eof.
+%:- set_prolog_flag_until_eof(do_renames,term_expansion).
 
-genls('SetOrCollection',tCol).
-genls('Collection',tCol).
+% genls('SetOrCollection',tCol).
+genls(ttSetOrCollection, tCol).
+% genls('Collection',tCol).
 
 meta_argtypes(verb_affordance(vtVerb,tTemporalThing,rtStatPred,ftChangeQuantity,ftChangeQuantity)).
 
@@ -1073,8 +1077,10 @@ mudLabelTypeProps("--",tRegion,[]).
 %NEXT TODO predTypeMax(mudEnergy,tAgent,120).
 
 typeProps(tAgent,[predInstMax(mudHealth,500)]).
-genls('Indoors-IsolatedFromOutside',tRegion).
-genls('SpaceInAHOC',tRegion).
+%genls('Indoors-IsolatedFromOutside',tRegion).
+genls(tIndoorsIsolatedFromOutside, tRegion).
+% genls('SpaceInAHOC',tRegion).
+genls(tPlaceLikeSpaceInAHOC,tRegion).
 
 :- if( \+ current_prolog_flag(address_bits, 32)).
 :- during_boot(set_prolog_stack_gb(16)).

@@ -475,28 +475,23 @@ bestParse(Order,LeftOver1-GOAL2,LeftOver1-GOAL2,L1,L2,A1,A2):-
 
 :-style_check(+singleton).
 
+:-  dynamic(name_text_compute_now/2).
+:-multifile(name_text_compute_now/2).
+:-   export(name_text_compute_now/2).
+name_text_compute_now(Name,Text):- name_text_cached(Name,Text),!.
+name_text_compute_now(Name,Text):- atomic(Name),guess_nameStrings(Name,Text),!.
+
 :-multifile(name_text/2).
 :-dynamic(name_text/2).
 :-export(name_text/2).
-
-
-
-:- ain('==>'(prologBuiltin(name_text_now(ftTerm,ftString)))).
-
 name_text(I,O):- nonvar(O),!,name_text(I,M),string_equal_ci(M,O).
-name_text(I,O):- nonvar(I),no_repeats(O,(name_text_now(I,M),any_to_string(M,S), \+ empty_string(S), text_to_string(S,O))).
+name_text(I,O):- nonvar(I),no_repeats(O,(name_text_compute_now(I,M),any_to_string(M,S), \+ empty_string(S), text_to_string(S,O))).
 
-:- export(name_text_now/2).
-
-
-:-dynamic(name_text_now/2).
-:-multifile(name_text_now/2).
-:-export(name_text_now/2).
-name_text_now(Name,Text):- name_text_cached(Name,Text),!.
-name_text_now(Name,Text):- atomic(Name),guess_nameStrings(Name,Text),!.
 
 name_text_cached(Name,Text):-clause_b(nameString(Name,Text)).
 name_text_cached(Name,Text):-clause_b(mudKeyword(Name,Text)).
+
+:- ain('==>'(prologBuiltin(name_text_compute_now(ftTerm,ftString)))).
 
 :- baseKB:import(logicmoo_util_strings:convert_to_cycString/2).
 
@@ -767,7 +762,7 @@ coerce0(Any,ftString,String):- !, any_to_string(Any,String).
 coerce0(IsList,ftListFn(How),Result):- is_list(IsList),!,maplist(coerce_as(How),IsList,Result).
 coerce0(IsList,ftListFn(How),Result):- !,maplist(coerce_as(How),[IsList],Result).
 
-coerce0([A],B,C):- string(A),coerce_hook(A,B,C).
+coerce0([A],B,C):- string(A),coerce_hook(A,B,C),!.
 coerce0(String,Type,Inst):- string(String),string_to_atom(String,Inst),isa(Inst,Type),!.
 
 

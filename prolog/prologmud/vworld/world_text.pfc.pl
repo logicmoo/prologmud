@@ -315,7 +315,7 @@ add_description(mudDescription(I,S)):-add_description(I,S).
 
 :-export(add_description/2).
 add_description(A,S0):-ainz(mudDescription(A,S0)),fail.
-add_description(A,S0):- atomic(S0),string_concat('#$PunchingSomething ',S,S0),!,add_description(A,S).
+add_description(A,S0):- atomic(S0),string_concat('actPunchingSomething ',S,S0),!,add_description(A,S).
 % add_description(A,S0):-determinerRemoved(S0,String,S),!,add_description(A,S),ainz(determinerString(A,String)).
 add_description(A,S0):-
    any_to_string(S0,S),
@@ -334,8 +334,8 @@ add_description(A,S,_S0,Ws,_Sents,_Words):- Ws<3,
 % "NOBACKSTAB","ACT_STAY_ZONE","MEMORY"
 add_description(A,_S,_S0,1,_,[Word]):-add_description_word(A,Word),!.
 
-%#$PunchingSomething ..
-add_description(A,S,S0,Ws,Sents,['#$PunchingSomething',B|C]):-add_description(A,S,S0,Ws,Sents,[B|C]).
+%actPunchingSomething ..
+add_description(A,S,S0,Ws,Sents,['actPunchingSomething',B|C]):-add_description(A,S,S0,Ws,Sents,[B|C]).
 add_description(A,S,S0,Ws,Sents,[Det,B|C]):-ddeterminer(Det,L),add_description(A,S,S0,Ws,Sents,[B|C]),ainz(determinerString(A,L)).
 add_description(A,S,S0,Ws,_Sents,_Words):-Ws>3,is_here_String(S),text_to_string(S0,String),!,ainz(descriptionHere(A,String)).
 add_description(A,_S,S0,_Ws,_Sents,_Words):- any_to_string(S0,String),ainz(mudDescription(A,String)).
@@ -345,12 +345,14 @@ is_here_String(S):- atomic_list_concat_safe([_,"here"],S).
 is_here_String(S):- atomic_list_concat_safe([_,is,"here",_],S).
 
 
-ddeterminer1('A').
-ddeterminer1('An').
-ddeterminer1('The').
-ddeterminer0(a).
-ddeterminer0(an).
+ddeterminer1("A").
+ddeterminer1("An").
+ddeterminer1("The").
+
+ddeterminer0("a").
+ddeterminer0("an").
 ddeterminer0("the").
+
 ddeterminer(L,L):-ddeterminer0(L).
 ddeterminer(U,L):-string_lower(U,L),U\=L,!,ddeterminer0(L).
 
@@ -359,7 +361,7 @@ add_description_word(A,Word):- string_lower(Word,Word),ainz((mudKeyword(A,Word))
 add_description_word(A,Word):- string_lower(Word,Lower),ainz((mudKeyword(A,Lower))).
 
 
-add_description_kv(A,K,V):- atom_concat('#$PunchingSomething ',Key,K),!,add_description_kv(A,Key,V).
+add_description_kv(A,K,V):- atom_concat('actPunchingSomething ',Key,K),!,add_description_kv(A,Key,V).
 add_description_kv(A,K,V):- atom_concat('+',Key,K),!,add_description_kv(A,Key,V).
 add_description_kv(A,K,V):-atom_to_value(V,Term),C=..[K,A,Term],show_load_call(ainz(C)).
 

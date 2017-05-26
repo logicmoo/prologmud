@@ -45,7 +45,7 @@ update_charge(Agent,actPlan) :- padd(Agent,mudEnergy(+ -1)).
 
 
 tpf_sanity:-flag(time_used,_,0),
-  must((parseDomain(string("
+  must(if_defined((parseDomain(string("
 
 (define (domain domAgentVehical)
   (:requirements :strips) 
@@ -131,7 +131,7 @@ tpf_sanity:-flag(time_used,_,0),
 
 )
 "
-),DD))),((parseProblem(string("
+),DD)))),(if_defined((parseProblem(string("
 (define (problem DLOG-2-2-2)
 	(:domain domAgentVehical)
 	(:objects
@@ -192,7 +192,7 @@ tpf_sanity:-flag(time_used,_,0),
 
 )
 "
-),PP))), !,solve_files_ddpp(DD, PP),
+),PP)))), !,if_defined(solve_files_ddpp(DD, PP)),
    show_call(flag(time_used,W,W)).
 
 % :-tpf_sanity.

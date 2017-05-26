@@ -31,6 +31,7 @@ prologHybrid(mudLabelTypeProps/3).
 
 % :- show_pred_info(mudLabelTypeProps/3).
 
+
 :- sanity(arity(mudLabelTypeProps,3)).
 
 prologHybrid(typeHasGlyph(tCol,ftString)).
@@ -42,6 +43,8 @@ world_agent_plan(_World,Agent,ActV):-
   % isa(Agent,explorer),
    explorer_idea(Agent,Act),
    vette_idea(Agent,Act,ActV).
+
+==> genls(tElixer,tDrinkAble).
 
 % Possible agent actions.
 explorer_idea(Agent,actEat(Elixer)) :-

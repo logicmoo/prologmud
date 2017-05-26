@@ -256,7 +256,7 @@ check_console(Id,In,Out,Err):-
 
 :-export(enqueue_session_action/3).
 
-enqueue_session_action(_A,[+, Text],_S):- string(Text), must(assert_text(tWorld,Text)).
+enqueue_session_action(_A,[+, Text],_S):- string(Text), must(if_defined(assert_text(tWorld,Text))).
 %enqueue_session_action(A,[W0,W1|WL],S):- string(Text),!,enqueue_session_action(A,[actSay,[W0,W1|WL]],S).
 enqueue_session_action(A,L,S):- show_call(must(find_and_call(enqueue_agent_action(A,L,S)))),!.
 
