@@ -109,6 +109,8 @@ impl_coerce_hook(Text,vtVerb,Inst):- isa(Inst,vtVerb),name_text(Inst,Text).
 
 % :-ain((({get_all_templates(Templ)})==>vtActionTemplate(Templ))).
 
+:- kb_shared(baseKB:actParse/2).
+
 (type_action_info(_,TEMPL,Help) ==> action_info(TEMPL,Help)).
 
 (action_info(TEMPL,_Help) ==> vtActionTemplate(TEMPL)).
