@@ -479,10 +479,11 @@ vtActionTemplate(ArgTypes)/is_declarations(ArgTypes) ==> meta_argtypes(ArgTypes)
 
 vtVerb(F),(meta_argtypes(ArgTypes)/get_functor(ArgTypes,F))==>vtActionTemplate(ArgTypes).
 
+genls(vtAssertion,ftAssertable).
 tSet(vtAssertion).
-ftSpec(vtAssertion).
-prologHybrid(ist(tMicrotheory,vtAssertion)).
-prologHybrid(istAsserted(vtAssertion)).
+ftSpec(ftAssertable).
+prologHybrid(ist(tMicrotheory,ftAssertable)).
+prologHybrid(istAsserted(ftAssertable)).
 
 resultIsa(aAssertionFn(tMicrotheory,ftAssertable),vtAssertion).
 
@@ -634,10 +635,11 @@ ttPredAndValueType(Str)/
       argIsa(Pred,2,VT),
       argIsa(Pred,1,tTemporalThing)).
 
-
+:- mpred_trace_exec.
 ttPredAndValueType("size").
 ttPredAndValueType("texture").
 ttPredAndValueType("color").
+:- mpred_notrace_exec.
 ttPredAndValueType("shape").
 ttPredAndValueType("material").
 
@@ -712,6 +714,7 @@ meta_argtypes(aDirectionsFn(ftTerm,ftListFn(ftTerm))).
 
 ==>prologListValued(mudGetPrecepts(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(abox)]).
 :- mpred_notrace_exec.
+:- mpred_trace_exec.
 prologListValued(mudNearFeet(tAgent,ftListFn(tSpatialThing)),[]).
 prologListValued(mudNearReach(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(abox)]).
 prologMultiValued(action_rules(tAgent,vtVerb,ftListFn(ftVar),ftVoprop)).
@@ -722,6 +725,7 @@ prologMultiValued(determinerString(ftTerm,ftString)).
 prologMultiValued(typeHasGlyph(ftTerm,ftString)).
 prologMultiValued(gridValue(tRegion,ftInt,ftInt,tObj)).
 prologMultiValued(instVerbOverride(ftTerm,ftAction,ftAction)).
+:- mpred_notrace_exec.
 prologMultiValued(isa(ftTerm,tCol)).
 prologMultiValued(mudActAffect(ftTerm,ftTerm,ftTerm)).
 prologMultiValued(mudActAffect(tItem,vtVerb,ftTerm(ftVoprop))).

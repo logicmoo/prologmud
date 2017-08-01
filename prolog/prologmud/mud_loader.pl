@@ -22,7 +22,7 @@
 
 
 :- thread_local(t_l:disable_px/0).
-:- must(\+ t_l:disable_px).
+% :- must(\+ t_l:disable_px).
 :- retractall(t_l:disable_px).
 
 
