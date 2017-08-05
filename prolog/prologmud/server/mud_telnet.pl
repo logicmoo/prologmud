@@ -146,7 +146,7 @@ login_and_run_debug:-
    tdebug,debug, % guitracer,
    must_det(login_and_run),!.
 
-get_session_id_local(O):- find_and_call(get_session_id(O)).
+get_session_id_local(O):- call_u(get_session_id(O)).
 
 
 ensure_player_attached(In,Out,P):-
@@ -184,7 +184,7 @@ unset_player_telnet_options(P):-
      clr(repl_to_string(P,_)).
 
 goodbye_player:-
-     find_and_call(foc_current_agent(P3)),
+     call_u(foc_current_agent(P3)),
      deliver_event(P3,goodBye(P3)).
 
 run_session:-
@@ -214,7 +214,7 @@ session_loop(In,Out):-
   must_det((((
   get_session_id_local(O),
   ensure_player_attached(In,Out,P),
-  find_and_call(start_agent_action_thread),
+  call_u(start_agent_action_thread),
   ignore(look_brief(P)),!,
   (t_l:telnet_prefix(O,Prefix)->(sformat(Prompt,'~w ~w>',[P,Prefix]));sformat(Prompt,'~w> ',[P])),
   prompt_read_telnet(In,Out,Prompt,List),!,
@@ -258,7 +258,7 @@ check_console(Id,In,Out,Err):-
 
 enqueue_session_action(_A,[+, Text],_S):- string(Text), must(if_defined(assert_text(tWorld,Text))).
 %enqueue_session_action(A,[W0,W1|WL],S):- string(Text),!,enqueue_session_action(A,[actSay,[W0,W1|WL]],S).
-enqueue_session_action(A,L,S):- show_call(must(find_and_call(enqueue_agent_action(A,L,S)))),!.
+enqueue_session_action(A,L,S):- show_call(must(call_u(enqueue_agent_action(A,L,S)))),!.
 
 setup_streams:-
   get_session_io(In,Out),
@@ -676,7 +676,7 @@ get_call_pred(Call, Options) :-
 on_telnet_restore :-
       % add_import_module(mud_telnet,baseKB,end),
       assert_if_new(( baseKB:deliver_event_hooks(A,Event):-subst(Event,reciever,you,NewEventM),subst(NewEventM,A,you,NewEvent),
-        foreach(no_repeats(find_and_call(get_agent_sessions(A,O))),
+        foreach(no_repeats(call_u(get_agent_sessions(A,O))),
          foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
           fmtevent(Out,NewEvent))))),
       start_mud_telnet_4000.

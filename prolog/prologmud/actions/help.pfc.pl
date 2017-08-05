@@ -35,7 +35,7 @@ get_bad_templates(Templ):- no_repeats_old((action_info(Templ,_),not(good_templat
 
 :- sanity((fully_expand_real(foo,action_info(TEMPL, txtConcatFn(_Text,"does: ",do(_A2,TEMPL))),O),wdmsg(O))).
 
-:- mpred_core:import(baseKB:get_agent_text_command_0/4).
+% :- mpred_core:import(baseKB:get_agent_text_command_0/4).
 
 /*
 ==> ((({between(1,5,L),length(Text,L),

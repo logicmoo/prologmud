@@ -391,7 +391,7 @@ nameString(O,S):-nonvar(O),nonvar(S),nameString(O,SU),same_ci(S,SU).
 
 % :- sanity((clause_u(verb_alias(S,actWhere)),argIsa(verb_alias,1,C),isa(S,C))).
 
-:- must((clause_u(verb_alias(S,actWhere)),(argIsa(verb_alias,1,C);argQuotedIsa(verb_alias,1,C)),(isa(S,C);quotedIsa(S,C)))).
+:- must((clause_u(verb_alias(S,actWhere))))->must(((argIsa(verb_alias,1,C);argQuotedIsa(verb_alias,1,C)),(isa(S,C);quotedIsa(S,C)))).
 
 %:- listing(verb_alias/2).
 %:- break.

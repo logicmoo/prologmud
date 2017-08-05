@@ -44,7 +44,7 @@ listing_break(G):-listing(G),break.
 :- dynamic(agent_call_command/2).
 :- import(agent_call_command/2).
 
-:- mpred_core:import(baseKB:ttExpressionType/1).
+% :- mpred_core:import(baseKB:ttExpressionType/1).
 
 
 :- assert_until_eof(infSupertypeName).
@@ -63,32 +63,32 @@ listing_break(G):-listing(G),break.
 
 :- file_begin(code).
 
-:- kb_shared(  irc_event_hooks/3).
-:- kb_shared(  deliver_event_hooks/2).
-:- kb_shared   irc_user_plays/3.
+:- kb_global(baseKB:(  irc_event_hooks/3)).
+:- kb_global(baseKB:(  deliver_event_hooks/2)).
+:- kb_global(baseKB:   irc_user_plays/3).
 
-:- kb_shared   mudDescription/2.
-:- kb_shared   term_specifier_text/2.
-:- kb_shared   type_action_info/3.
-:- kb_shared   update_charge/2.
-:- kb_shared   update_stats/2.
-:- kb_shared   use_usable/4.
-:- kb_shared   verb_alias/2.
-:- kb_shared   vtActionTemplate/1.
-% :- kb_shared   mud_test/0.
-:- kb_shared  mud_test/1.
-:- kb_shared  mud_test/2.
-:- kb_shared  mud_test_local/0.
-:- kb_shared  mud_test_local/1.
-:- kb_shared  mud_test_local/2.
-:- kb_shared   world_agent_plan/3.
-:- kb_shared   action_info/2.
-:- kb_shared   action_rules/4.
-:- kb_shared   action_verb_useable/5.
-:- kb_shared   agent_command/2.
-:- kb_shared   agent_command_fallback/2.
-:- kb_shared   agent_text_command/4.
-:- kb_shared   check_permanence/4.
+:- kb_global(baseKB:   mudDescription/2).
+:- kb_global(baseKB:   term_specifier_text/2).
+:- kb_global(baseKB:   type_action_info/3).
+:- kb_global(baseKB:   update_charge/2).
+:- kb_global(baseKB:   update_stats/2).
+:- kb_global(baseKB:   use_usable/4).
+:- kb_global(baseKB:   verb_alias/2).
+:- kb_global(baseKB:   vtActionTemplate/1).
+% :- kb_global(baseKB:   mud_test/0).
+:- kb_global(baseKB:  mud_test/1).
+:- kb_global(baseKB:  mud_test/2).
+:- kb_global(baseKB:  mud_test_local/0).
+:- kb_global(baseKB:  mud_test_local/1).
+:- kb_global(baseKB:  mud_test_local/2).
+:- kb_global(baseKB:   world_agent_plan/3).
+:- kb_global(baseKB:   action_info/2).
+:- kb_global(baseKB:   action_rules/4).
+:- kb_global(baseKB:   action_verb_useable/5).
+:- kb_global(baseKB:   agent_command/2).
+:- kb_global(baseKB:   agent_command_fallback/2).
+:- kb_global(baseKB:   agent_text_command/4).
+:- kb_global(baseKB:   check_permanence/4).
 
 :- file_begin(pfc).
 
@@ -195,8 +195,9 @@ listing_break(G):-listing(G),break.
 :- kb_shared   use_kif/2.
 % :- kb_shared   is_mpred_prop/2.
 %:- kb_shared   hasInstance_dyn/2.
-:- kb_shared   arity/2.
-:- kb_shared   mpred_prop/3.
+%:- kb_shared   arity/2.
+/*
+%:- kb_shared   mpred_prop/3.
 :- kb_shared   '<=>'/2.
 % :- kb_shared   ruleForward/2.
 :- kb_shared   ruleRewrite/2.
@@ -204,28 +205,30 @@ listing_break(G):-listing(G),break.
 
 % :-must((  mpred_prop(t,_,prologHybrid))).
 
+*/
 
-:- kb_shared   term_specifier_text/2.
-:- kb_shared   update_charge/2.
-:- kb_shared   update_stats/2.
-:- kb_shared   use_usable/4.
-:- kb_shared   verb_alias/2.
-:- kb_shared   vtActionTemplate/1.
-:- kb_shared  mud_test/0.
-:- kb_shared  mud_test/1.
-:- kb_shared  mud_test/2.
-:- kb_shared  mud_test_local/0.
-:- kb_shared  mud_test_local/1.
-:- kb_shared  mud_test_local/2.
-:- kb_shared   world_agent_plan/3.
-:- kb_shared   action_info/2.
-:- kb_shared   action_rules/4.
-:- kb_shared   action_verb_useable/5.
-:- kb_shared   agent_command/2.
-:- kb_shared   agent_text_command/4.
-:- kb_shared   check_permanence/4.
+:- kb_global(baseKB:   term_specifier_text/2).
+:- kb_global(baseKB:   update_charge/2).
+:- kb_global(baseKB:   update_stats/2).
+:- kb_global(baseKB:   use_usable/4).
+:- kb_global(baseKB:   verb_alias/2).
+:- kb_global(baseKB:   vtActionTemplate/1).
+:- kb_global(baseKB:  mud_test/0).
+:- kb_global(baseKB:  mud_test/1).
+:- kb_global(baseKB:  mud_test/2).
+:- kb_global(baseKB:  mud_test_local/0).
+:- kb_global(baseKB:  mud_test_local/1).
+:- kb_global(baseKB:  mud_test_local/2).
+:- kb_global(baseKB:   world_agent_plan/3).
+:- kb_global(baseKB:   action_info/2).
+:- kb_global(baseKB:   action_rules/4).
+:- kb_global(baseKB:   action_verb_useable/5).
+:- kb_global(baseKB:   agent_command/2).
+:- kb_global(baseKB:   agent_text_command/4).
+:- kb_global(baseKB:   check_permanence/4).
 
-predicateConventionMt(agent_call_command,baseKB).
+
+% predicateConventionMt(agent_call_command,baseKB).
 
 % :- ensure_loaded('logicmoo/pfc/autoexec.pfc').
 
@@ -424,6 +427,7 @@ completelyAssertedCollection(tCarryAble).
 completelyAssertedCollection(vtVerb).
 % :-rnotrace.
 
+
 ttTypeType(completeIsaAssertedType).
 
 completeIsaAssertedType(Col) ==> (isa(I,Col) ==> completeIsaAsserted(I)).
@@ -433,6 +437,9 @@ completeIsaAssertedType(tObj).
 
 tCol(ttTypeByAction).
 :-must(ain(tCol(ttTypeByAction))).
+:- nortrace.
+
+
 
 genls(ttTypeByAction,completelyAssertedCollection).
 
@@ -478,16 +485,6 @@ typeCheckDecl(vtActionTemplate(ArgTypes),is_declarations(ArgTypes)).
 vtActionTemplate(ArgTypes)/is_declarations(ArgTypes) ==> meta_argtypes(ArgTypes).
 
 vtVerb(F),(meta_argtypes(ArgTypes)/get_functor(ArgTypes,F))==>vtActionTemplate(ArgTypes).
-
-genls(vtAssertion,ftAssertable).
-tSet(vtAssertion).
-ftSpec(ftAssertable).
-prologHybrid(ist(tMicrotheory,ftAssertable)).
-prologHybrid(istAsserted(ftAssertable)).
-
-resultIsa(aAssertionFn(tMicrotheory,ftAssertable),vtAssertion).
-
-:-asserta((mudEquals(aAssertionFn(MT,Sent),ist(MT,Sent)):-must(assert_if_new(MT:Sent)))).
 
 
 
@@ -603,7 +600,7 @@ prologSingleValued(mudWeight(tObj,ftInt),prologHybrid).
 prologSingleValued(mudMaxHitPoints(tAgent,ftInt),[prologHybrid],prologHybrid).
 prologSingleValued(mudLastCommand(tAgent,ftAction),prologHybrid).
 prologSingleValued(mudNonHunger(tAgent,ftInt),[relationMostInstance(tAgent,90)],prologHybrid).
-prologSingleValued(mudMoveDist(tAgent,ftInt),[relationMostInstance(tAgent,1)]).
+==> prologSingleValued(mudMoveDist(tAgent,ftInt),[relationMostInstance(tAgent,1)]).
 prologSingleValued(mudNeedsLook(tAgent,ftBoolean),relationMostInstance(tAgent,vFalse),prologHybrid).
 prologSingleValued(mudScore(tAgent,ftInt),prologHybrid).
 prologSingleValued(mudSpd(tAgent,ftInt),prologHybrid).
@@ -655,11 +652,13 @@ ttValueType(vtColor).
 
 ttValueType(VT)==>tInferInstanceFromArgType(VT).
 
-prologHybrid(verb_alias(ftText,vtVerb)).
 prologHybrid(typeHasGlyph(tCol,ftString)).
 prologHybrid(mudMaxHitPoints(tAgent,ftInt)).
 prologHybrid(mudStowing(tAgent,tItem)).
 % :- break.
+
+prologHybrid(verb_alias(ftText,vtVerb)).
+:- sanity(((argIsa(verb_alias,1,C);argQuotedIsa(verb_alias,1,C)))).
 
 :-dynamic((latitude/2, mudMoveDist/2, longitude/2)).
 prologHybrid(typeHasGlyph,2).
@@ -677,7 +676,7 @@ prologHybrid(pathDirLeadsTo/3).
 prologDynamic(mudMoveDist/2).
 :- dynamic(mudMoveDist/2).
 meta_argtypes(mudMoveDist(tAgent,ftInt)).
-==>prologSingleValued(mudMoveDist,[predicateConventionMt(abox),query(call),relationMostInstance(tAgent,1)]).
+% ==> prologSingleValued(mudMoveDist,[predicateConventionMt(abox),query(call),relationMostInstance(tAgent,1)]).
 prologDynamic(stat_total/2).
 
 :- dynamic(vtBasicDir/1).
@@ -712,11 +711,11 @@ prologHybrid(mudTextSame(ftText,ftText)).
 prologHybrid(mudTexture(tSpatialThing,vtTexture)).
 meta_argtypes(aDirectionsFn(ftTerm,ftListFn(ftTerm))).
 
-==>prologListValued(mudGetPrecepts(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(abox)]).
+==>prologListValued(mudGetPrecepts(tAgent,ftListFn(tSpatialThing))). % [predicateConventionMt(abox)].
 :- mpred_notrace_exec.
 :- mpred_trace_exec.
 prologListValued(mudNearFeet(tAgent,ftListFn(tSpatialThing)),[]).
-prologListValued(mudNearReach(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(abox)]).
+prologListValued(mudNearReach(tAgent,ftListFn(tSpatialThing))). % [predicateConventionMt(abox)].
 prologMultiValued(action_rules(tAgent,vtVerb,ftListFn(ftVar),ftVoprop)).
 prologMultiValued(mudLastCmdSuccess(tAgent,ftAction,ftBoolean)).
 prologMultiValued(descriptionHere(ftTerm,ftString)).
@@ -899,7 +898,7 @@ prologHybrid(mudAreaConnected(tRegion,tRegion),rtSymmetricBinaryPredicate).
 rtArgsVerbatum(mudAreaConnected).
 
 rtSymmetricBinaryPredicate(mudAreaConnected).
-:- call((listing(mudAreaConnected/2),!)),!.
+:- sanity((listing(mudAreaConnected/2),!)),!.
 
 ttAgentType(mobMonster).
 % instTypeProps(apathFn(Region,_Dir),tPathway,[localityOfObject(Region)]).
@@ -1373,7 +1372,6 @@ normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Va
 :-ain((normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Val))))).
 % :-mpred_fwd((normalAgentGoal(Pred,Val) ==>  ( t(Pred,A,V)/(V<Val) ==> agentGOAL(A,t(Pred,A,Val))))).
 normalAgentGoal(Pred,Val)==>  (tAgent(A)==>mdefault(t(Pred,A,Val))).
-
 
 
 genls(tRoom,tRegion).
