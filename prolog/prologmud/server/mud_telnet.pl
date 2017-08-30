@@ -101,7 +101,9 @@ start_mud_telnet_4000:-
   whenever(run_network,start_prolog_telnet(WebPort2)).
 
 start_mud_telnet(Port):-
-  must(telnet_server(Port, [allow(_ALL),get_call_pred(login_and_run_nodebug)])),!.
+  must(telnet_server(Port, [allow(_ALL),get_call_pred(login_and_run_nodebug)])),!,
+  DebugPort is Port + 3,
+  must(telnet_server(DebugPort, [allow(_ALL2),get_call_pred(login_and_run_debug)])),!.
 
 start_prolog_telnet(Port):-
   must(telnet_server(Port, [allow(_ALL),get_call_pred(prolog)])),!.
@@ -144,6 +146,7 @@ login_and_run_nodebug:-
   
 login_and_run_debug:- 
    tdebug,debug, % guitracer,
+   fav_debug,
    must_det(login_and_run),!.
 
 get_session_id_local(O):- call_u(get_session_id(O)).

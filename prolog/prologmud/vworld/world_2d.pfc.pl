@@ -305,7 +305,8 @@ is_in_world(Obj):-lookup_u(mudSubPart(Who,Obj)),!,is_in_world(Who).
 
 
 put_in_world(Obj):- is_in_world(Obj),!.
-put_in_world(Obj):- random_xyzFn(LOC),ain(mudAtLoc(Obj,LOC)),ain(mudNeedsLook(Obj,vTrue)).
+put_in_world(Obj):- random_xyzFn(LOC),ain(mudAtLoc(Obj,LOC)),
+  ain(mudNeedsLook(Obj,vTrue)).
 
 
 /*
