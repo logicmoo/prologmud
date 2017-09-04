@@ -1105,7 +1105,7 @@ typeProps(tFood,[mudHeight(0)]).
 % TOO STICKY ==>
 typeProps(tItem,mudEnergy(140)).
 
-% I am developing a Conflict learning system that works for full FOL .. it works to produces conflict producing horn clauses(HC) heads (as well as normally what is derived from HCs) of cource if i tried to ground the Conflists it produce exponeticals so what i do is enure all conflicts can be found by backchaining at a depth of three 
+% I am developing a Conflict learning system that works for full FOL .. it works to produces conflict duce_tru horn clauses(HC) heads (as well as normally what is derived from HCs) of cource if i tried to ground the Conflists it produce exponeticals so what i do is enure all conflicts can be found by backchaining at a depth of three 
 typeProps(C,Ps)==> (isa(I,C)==>props(I,Ps)).
 
 % typeProps(tAgent,[mudMemory(aDirectionsFn([vNorth,vSouth,vEast,vWest,vNE,vNW,vSE,vSW,vUp,vDown]))]).
