@@ -39,7 +39,7 @@
 :- set_prolog_flag(runtime_debug, 2).
 :- set_prolog_flag(unsafe_speedups, false).
 
-listing_break(G):-listing(G),break.
+listing_break(G):- cwc, listing(G),break.
 
 :- dynamic(agent_call_command/2).
 :- import(agent_call_command/2).
