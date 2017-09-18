@@ -10,7 +10,7 @@
 
 :- include(prologmud(mud_header)).
 
-% :- register_module_type (mtCommand).
+% :- register_module_type(mtCommand).
 
 meta_argtypes(action_verb_useable(vtVerb,tCol,ftTerm(tPred),ftTerm(tPred),ftTerm(tPred))).
 
@@ -24,13 +24,49 @@ genls(tWieldAble,tUseAble).
 genls(tCarryAble,tStowAble).
 
 
-prologHybrid(mudWielding/2).
-prologHybrid(mudStowing/2).
+% incase someone forgets to "include"
+prologHybrid(genlPreds/2).
+prologHybrid(genlInverse/2).
 prologHybrid(mudPossess/2).
 
-:-ain((mudStowing(A,O) ==> mudPossess(A,O))).
-mudWielding(A,O) ==> mudPossess(A,O).
-wearsClothing(A,O) ==> mudPossess(A,O).
+
+
+
+% Spatial Prepositionals relating the Object to a Location
+ttRelationType(locObjBasePred).
+locObjBasePred(P)==>prologHybrid(P/2).
+locObjBasePred(P),genlInverse(P,Inverse) ==> locBaseObjPred(Inverse).
+locObjBasePred(localityOfObject).
+locObjBasePred(inRegion).
+
+% Spatial Prepositionals relating the Location to an Object:
+ttRelationType(locBaseObjPred).
+locBaseObjPred(P)==>prologHybrid(P/2).
+locBaseObjPred(P),genlInverse(P,Inverse) ==> locObjBasePred(Inverse).
+locBaseObjPred(mudContains).
+
+% Spatial Prepositionals relating the Location to an Object AND "has" possession
+ttRelationType(locBaseObjPredHas).
+locBaseObjPredHas(P)==>locBaseObjPred(P).
+locBaseObjPredHas(P)==> 
+  (genlPreds(P,mudPossess), 
+  (t(P,A,O) ==> mudPossess(A,O))).
+locBaseObjPredHas(mudWielding).
+locBaseObjPredHas(mudStowing).
+locBaseObjPredHas(wearsClothing).
+
+
+% Transitive: locatedAtPrep/3
+prologMultiValued(locatedAtPrep(tSpatialThing,tSpatialThing,rtBinaryPredicate)).
+
+(locatedAtPrep(Obj,Whom,A),locatedAtPrep(Whom,Where,B))
+   ==> locatedAtPrep(Obj,Where,spatialPrepJoinFn(A,B)).
+
+locObjBasePred(P) ==> 
+  (t(P,Obj,Base) <==> locatedAtPrep(Obj,Base,P)).
+
+locBaseObjPred(P) ==> 
+  (t(P,Base,Obj) <==> locatedAtPrep(Obj,Base,P)).
 
 
 prologMultiValued(wearsClothing(tAgent,tWearAble)).
@@ -38,15 +74,10 @@ prologMultiValued(mudWielding(tAgent,tWieldAble)).
 prologMultiValued(mudStowing(tAgent,tStowAble)).
 prologMultiValued(mudContains(tContainer,tObj)).
 
-
-prologHybrid(genlPreds/2).
-genlPreds(wearsClothing,mudPossess).
-genlPreds(mudWielding,mudPossess).
-genlPreds(mudStowing,mudPossess).
-
-
+% "possessing knowledge" mudKnowing is a type of mudPossess but not spatial
 prologHybrid(mudKnowing(tAgent,ftTerm)).
 genlPreds(mudKnowing,mudPossess).
+
 % genlPreds(mudPossess,mudContains).
 genlInverse(mudContains,mudInsideOf).
 %genlInverse(mudStowing,mudInsideOf).
@@ -55,7 +86,7 @@ genlInverse(mudContains,mudInsideOf).
 
 prologHybrid(action_verb_useable/5).
 
-% action_verb_useable(Actionn,RequiredArg,AddedProp,PrecondProp,RemovedProp).
+%% action_verb_useable(Action,RequiredArg,AddedProp,PrecondProp,RemovedProp) is nondet.
 action_verb_useable(actWear,tWearAble,wearsClothing,mudPossess,mudStowing).
 action_verb_useable(actWield,tWieldAble,mudWielding,mudPossess,mudStowing).
 action_verb_useable(actStow,tStowAble,mudStowing,mudPossess,mudWielding).
@@ -153,9 +184,5 @@ must_post_use(ActUse,Agent,Obj):-
 % Record keeping
 update_charge(Agent,_ActWield) :- 
         padd(Agent,mudEnergy(+ -2)).
-
-:- include(prologmud(mud_footer)).
-
-
 
 :- include(prologmud(mud_footer)).
