@@ -34,14 +34,14 @@ prologHybrid(mudPossess/2).
 
 % Spatial Prepositionals relating the Object to a Location
 ttRelationType(locObjBasePred).
-locObjBasePred(P)==>prologHybrid(P/2).
+locObjBasePred(P)==>(prologHybrid(P),rtBinaryPredicate(P)).
 locObjBasePred(P),genlInverse(P,Inverse) ==> locBaseObjPred(Inverse).
 locObjBasePred(localityOfObject).
 locObjBasePred(inRegion).
 
 % Spatial Prepositionals relating the Location to an Object:
 ttRelationType(locBaseObjPred).
-locBaseObjPred(P)==>prologHybrid(P/2).
+locBaseObjPred(P)==>(prologHybrid(P),rtBinaryPredicate(P)).
 locBaseObjPred(P),genlInverse(P,Inverse) ==> locObjBasePred(Inverse).
 locBaseObjPred(mudContains).
 
@@ -68,6 +68,7 @@ locObjBasePred(P) ==>
 locBaseObjPred(P) ==> 
   (t(P,Base,Obj) <==> locatedAtPrep(Obj,Base,P)).
 
+%?-   mpred_why((prologMultiValued(wearsClothing))).
 
 prologMultiValued(wearsClothing(tAgent,tWearAble)).
 prologMultiValued(mudWielding(tAgent,tWieldAble)).
