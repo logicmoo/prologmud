@@ -143,10 +143,10 @@ listing_break(G):- cwc, listing(G),break.
 :- kb_shared   defnSufficient/2.
 % :- kb_shared   lmcache:loaded_external_kbs/1.
 %:- kb_shared t_l:infMustArgIsa/0.
-:- thread_local   t_l:repl_to_string/2.
-:- thread_local   t_l:repl_writer/2.
+:- thread_local t_l:repl_to_string/2.
+:- thread_local t_l:repl_writer/2.
 :- thread_local t_l:into_form_code/0.
-:- thread_local t_l:current_local_why/2.
+% :- thread_local t_l:current_local_why/2.
 % :- break.
 :- kb_shared   loading_module_h/1.
 :- kb_shared   registered_module_type/2.

@@ -422,7 +422,7 @@ get_vp_templates(_Agent,SVERB,_ARGS,TEMPLATES):-
    predsort(mostIdiomatic,TEMPLATES_FA,TEMPLATES).
    
 % parses a verb phrase and retuns multiple interps
-parse_vp_real(Agent,SVERB,ARGS,Sorted):- locally(t_l:infSkipFullExpand,parse_vp_real_no_arg_checking(Agent,SVERB,ARGS,Sorted)).
+parse_vp_real(Agent,SVERB,ARGS,Sorted):- locally_tl(infSkipFullExpand,parse_vp_real_no_arg_checking(Agent,SVERB,ARGS,Sorted)).
 parse_vp_real_no_arg_checking(Agent,SVERB,ARGS,Sorted):-
    get_vp_templates(Agent,SVERB,ARGS,TEMPLATES),   
    dmsg_parserm(("TEMPLATES"= (orig([SVERB|ARGS]) = TEMPLATES))),
