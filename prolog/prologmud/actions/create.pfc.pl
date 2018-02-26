@@ -30,7 +30,6 @@ rez_to_inventory(Agent,NameOrType,NewObj):-
    find_and_call(add_missing_instance_defaults(NewObj)),
    call_u(mudStowing(Agent,NewObj)),
    ireq(t(mudStowing,Agent,NewObj)),
-   call_u(mudPossess(Agent,NewObj)),
    ireq(t(mudPossess,Agent,NewObj)),
    call_u(mudPossess(Agent,NewObj))))).
 

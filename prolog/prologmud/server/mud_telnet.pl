@@ -139,17 +139,19 @@ get_session_io(In,Out):-
   asserta(lmcache:session_io(O,In,Out,Id)),!.
 
 :- set_prolog_flag(debug_threads,false).
+:- set_prolog_flag(debug_threads,true).
 
 % login_and_run_nodebug:- current_prolog_flag(debug_threads,true),!,login_and_run.
 login_and_run_nodebug:- 
    nodebugx(login_and_run),!.
   
 login_and_run_debug:- 
-   tdebug,debug, % guitracer,
-   fav_debug,
+   thread_self(Self),
+   tdebug(Self),debug, % guitracer,
+   % fav_debug,!,
    must_det(login_and_run),!.
 
-get_session_id_local(O):- call_u(get_session_id(O)).
+get_session_id_local(O):- must(get_session_id(O)),!.
 
 
 ensure_player_attached(In,Out,P):-
@@ -158,6 +160,7 @@ ensure_player_attached(In,Out,P):-
 
 player_connect_menu(In,Out,Wants,P):-
   must_det((
+   set_local_modules(baseKB),
    get_session_id_local(O),
    fmt('~N~nHello session ~q!~n',[O]),
    foc_current_agent(Wants),
@@ -175,10 +178,10 @@ login_and_run:-
    login_and_run(In,Out).
 
 set_player_telnet_options(P):-
-     get_session_id_local(O),
-     asserta(t_l:telnet_prefix(O,[P,wants,to])),
      ain(repl_writer(P,telnet_repl_writer)),
-     ain(repl_to_string(P,telnet_repl_obj_to_string)).
+     ain(repl_to_string(P,telnet_repl_obj_to_string)),
+   get_session_id_local(O),
+   asserta(t_l:telnet_prefix(O,[P,wants,to])).
 
 unset_player_telnet_options(P):-
      get_session_id_local(O),
@@ -198,8 +201,15 @@ login_and_run(In,Out):-
   player_connect_menu(In,Out,_,_),!,
   run_session(In,Out).
 
+set_local_modules(BaseKB):-
+  module(BaseKB),'$set_typein_module'(BaseKB),'$set_source_module'(BaseKB),
+  set_fileAssertMt(BaseKB),!.
+  % set_defaultAssertMt(BaseKB),
+  
+
 run_session(In,Out):-
   must_det((((
+     set_local_modules(baseKB),
      get_session_id_local(O),
      ensure_player_attached(In,Out,P),
      retractall(lmcache:wants_logout(O)))),!,
@@ -268,47 +278,65 @@ setup_streams:-
   setup_streams(In, Out),
   call(listing,thread_util:has_console/4).
 
-setup_streams(In, Out):- thread_self_main,!,
-   set_prolog_flag(color_term,true),
-   set_prolog_flag(tty_control, true),
-   stream_property(Err,alias(user_error)),set_stream(Err,alias(current_error)),
-   call(retractall,thread_util:has_console(Id, _, _, _)),
-   call(asserta,thread_util:has_console(Id, In, Out, Err)).
+setup_streams(In,Out):- var(In),!,current_input(In),setup_streams(In,Out).
+setup_streams(In,Out):- var(Out),!,current_output(Out),setup_streams(In,Out).
+setup_streams(In,Out):- thread_self(Id),memberchk(Id,[0,main]),!,
+  % set_prolog_IO(In, Out, user_error),
+   must(get_main_error_stream(Err)),
+   thread_setup_streams(Id,In,Out,Err).
+setup_streams(In,Out):- 
+ %  set_prolog_IO(In, Out, user_error),   
+   set_prolog_IO(In, Out, Out),
+   thread_self(Id),
+   thread_setup_streams(Id,In,Out,_Err).
 
-setup_streams(In,Out):-
-   must(set_prolog_IO(In, Out, Out)),
-   must(thread_self(Id)),
+thread_setup_streams(Id,In,Out,Err):- 
+ must_det_l((
    call(retractall,thread_util:has_console(Id, _, _, _)),
    thread_at_exit(call(retractall,thread_util:has_console(Id, _, _, _))),
-   call(asserta,thread_util:has_console(Id, In, Out, Out)),
-   must(set_prolog_flag(color_term,true)),
-   must_det_l_pred(ignore,(
-   set_stream(In, tty(true)),
-   set_stream(In, close_on_exec(false)),
-   set_stream(Out, close_on_exec(false)))),
-  % ignore(setup_error_stream),
-  must_det_l_pred(ignore,(
-   set_stream(In, close_on_abort(false)),
-   set_stream(Out, close_on_abort(false)),
-   set_prolog_flag(tty_control, false))),
-   % catch(set_prolog_flag(tty_control, true),_,true),
-   must_det_l_pred(ignore,(
-   current_prolog_flag(encoding, Enc),
-   set_stream(In, encoding(Enc)),
-   set_stream(Out, encoding(Enc)),
-   % set_stream(In, newline(detect)),
-   set_stream(Out, newline(dos)))).
+   set_prolog_flag(color_term,true),
+   set_prolog_flag(tty_control, true),   
+   setup_stream_props(current_input,In),
+   setup_stream_props(current_ouput,Out),
+   ignore(find_err_from_out(Out,Err)),
+   call(asserta,thread_util:has_console(Id, In, Out, Err)),
+   setup_error_stream(Id,Err))).
+
+setup_stream_props(Name,In):-  
+ must_det_l((
+   set_stream_ice(In, close_on_exec(false)),
+   set_stream_ice(In, close_on_abort(false)),
+   %set_stream_ice(In, alias(Name)),
+   current_prolog_flag(encoding, Enc),set_stream_ice(In, encoding(Enc)),
+   set_stream_ice(In, type(text)),
+   %stream_property(In,mode(_Dir)),
+   %set_stream_ice(In, type(text)),
+   %set_stream_ice(In, representation_errors(warn)),
+   %set_stream_ice(In, write_errors(warn)),   
+   %set_stream_ice(In, eof_action(eof_code)),
+   %set_stream_ice(In, buffer_size(1)),   
+   set_stream_ice(In, newline(detect)),
+   set_stream_ice(In, tty(true)),
+   nop(forall(stream_property(In,Prop),dmsg(stream_info(Name,In,Prop)))))).
+   
+   
+find_err_from_out(Out,Err):-
+ quintus:current_stream(N,write,Out),
+ dif(Out,Err), 
+ ((quintus:current_stream(N,write,Err),stream_property(Err,alias(user_error))) -> true ;
+   ((quintus:current_stream(N,write,Err), \+ stream_property(Err,buffer(full)), \+ stream_property(Err,buffer(line))))).
 
 
-setup_error_stream:-
-   current_prolog_flag(encoding, Enc),
-   stream_property(user_error,file_no(N)),
-   set_stream(user_error, encoding(Enc)),
-   quintus:current_stream(N,write,Err),
-   set_stream(Err,alias(user_error)), % set_stream(Err,alias(current_error)),
-   set_stream(Err, close_on_exec(false)),
-   set_stream(Err, close_on_abort(false)),
-   set_stream(Err, newline(dos)),!.
+setup_error_stream(Id,Err):-
+  must_det_l((
+   set_thread_current_error_stream(Id,Err),!,
+   current_prolog_flag(encoding, Enc),set_stream_ice(Err, encoding(Enc)),   
+   atom_concat(user_error_,Id,StreamName),set_stream_ice(Err, alias(StreamName)),
+   set_stream_ice(Err, alias(user_error)),
+   set_stream_ice(Err, close_on_exec(false)),
+   set_stream_ice(Err, close_on_abort(false)),
+   set_stream_ice(Err, buffer(none)),
+   set_stream_ice(Err, newline(dos)))),!.
 
 
 fmtevent(Out,NewEvent):-string(NewEvent),!,format(Out,'~s',[NewEvent]).
@@ -605,13 +633,16 @@ make_client_alias3(Prefix,Host,AliasH):- compound(Host),Host=..HostL,make_client
 make_client_alias3(Prefix,Host,AliasH):- term_to_atom(Host,AHost),must(atomic_list_concat([Prefix,'client', AHost], '_', AliasH)).
 
 
+host_to_peer(Host,Peer):- Host=Peer,!.
+host_to_peer(Host,Peer):- catch(tcp_host_to_address(Host, Peer),_,Host = Peer).
 
-server_loop(ServerSocket, Options) :-
+server_loop(ServerSocket, Options) :-  
 	tcp_accept(ServerSocket, Slave, Peer),
 	tcp_open_socket(Slave, In, Out),
-	%set_stream(In, close_on_abort(false)),
-	%set_stream(Out, close_on_abort(false)),
-	catch(tcp_host_to_address(Host, Peer),_,Host = Peer),
+        trace,
+	set_stream_ice(In, close_on_abort(false)),
+	set_stream_ice(Out, close_on_abort(false)),
+	host_to_peer(Host,Peer),
 	/*(   Postfix = []
 	;   between(2, 1000, Num),
 	    Postfix = [-, Num]
@@ -644,13 +675,16 @@ strm_info(Out,Name,Strm):-nl,write(Out,Name = Strm),forall(stream_property(Strm,
 
 
 set_stream_ice(Stream, Alias, NV):- catch(set_stream(Alias,NV),_,catch(set_stream(Stream,NV),E,nop(dmsg(E)))).
+set_stream_ice(Stream, NV):- catch(set_stream(Stream,NV),E,(dmsg(set_stream(Stream,NV,E)))).
 
 service_client(Slave, In, Out, Host, Peer, Options) :-
-   allow(Peer, Options), !,
-   setup_streams(In, Out),
+   allow(Peer, Options), !,   
+   format(Out,'% Welcome ~q to the SWI-Prolog LogicMOO server on thread ~w~n~n', 
+     [Peer,service_client(Slave, In, Out, Host, Peer, call(Call,Options))]),
+   flush_output(Out),
    get_call_pred(Call, Options), !,
    thread_self(Id),
-   format(user_error,'% Welcome ~q to the SWI-Prolog LogicMOO server on thread ~w~n~n', [Peer,service_client(Slave, In, Out, Host, Peer, call(Call,Options))]),
+   setup_streams(In, Out),
    call_close_and_detatch(In, Out, Id,
     service_client_call(Call, Slave, In, Out, Host, Peer, Options)),!.
 
@@ -674,7 +708,7 @@ get_call_pred(Call, Options) :-
 	).
 
 
-% correct_o_stream:-current_error(E),set_stream(E).
+% correct_o_stream:-current_error(E),set_stream_ice(E).
 
 on_telnet_restore :-
       % add_import_module(mud_telnet,baseKB,end),

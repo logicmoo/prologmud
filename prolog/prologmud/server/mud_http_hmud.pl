@@ -22,10 +22,12 @@
 % Ensure hMUD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+ignore_all(G):- ignore(notrace(catch(G,E,wdmsg(G=>E)))).
+
 ensure_hmud:- 
-   must(install_hmud_files),
-   must(run_flash_policy_server),
-   must(install_hmud_http_handler).
+   ignore_all(must(install_hmud_files)),
+   ignore_all(must(run_flash_policy_server)),
+   ignore_all(must(install_hmud_http_handler)).
 
 
 hmud_directory(O):- absolute_directory('./hmud/',O).
@@ -36,7 +38,7 @@ hmud_directory(O):- expand_file_search_path(pack(hMUD),O).
 install_hmud_files:- hmud_directory(O),exists_directory(O),!.
 install_hmud_files:- hmud_directory(O),sformat(S,'git clone https://github.com/TeamSPoon/hMUD.git ~w',[O]),shell(S).
 
-run_flash_policy_server:- hmud_directory(O),sformat(S,'~w/policyd &>2 ||:',[O]),shell(S).
+run_flash_policy_server:- hmud_directory(O),sformat(S,'~w/policyd &>2 ||:',[O]),ignore_all(shell(S)).
 
 install_hmud_http_handler:- hmud_directory(O),
       http_handler('/hmud/', http_reply_from_files(O, []), [prefix]),
@@ -45,7 +47,7 @@ install_hmud_http_handler:- hmud_directory(O),
 :- fixup_exports.
 
 :- during_net_boot(ensure_hmud).
-:- during_net_boot(run_flash_policy_server).
-:- during_net_boot(install_hmud_http_handler).
+%:- during_net_boot(run_flash_policy_server).
+%:- during_net_boot(install_hmud_http_handler).
 
 

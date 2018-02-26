@@ -154,7 +154,7 @@ baseKB:mud_test(test_movedist,
 mud_test_level2(create_gensym_named,
   with_all_dmsg(((do_agent_action('create food999'),
   foc_current_agent(P),
-  must(( req1(( mudPossess(P,Item),isa(Item,food))))))))) .
+  must(( req1(( mudPossess(P,Item),isa(Item,tFood))))))))) .
 
 mud_test_level2(drop_take,
   with_all_dmsg(((do_agent_action('create food'),
