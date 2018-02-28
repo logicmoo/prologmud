@@ -38,8 +38,10 @@ mud_cmd_who(Who):- mud_cmd_who_1(Who),!.
 
 mud_cmd_who_1(Who):-
     must( forall(no_repeats(tAgent(Who)),
-      ignore((no_repeats(inRegion(Who,Where)),
-       fmt(cmdresult(actWho(Who),inRegion(Who,Where))))))).
+      ignore((
+       no_repeats(inRegion(Who,Where)),
+       ignore(lmcache:agent_session(Who,Session)),
+       fmt(cmdresult(actWho(Who),inRegion(Who,Where),agent_session(Who,Session))))))).
 
 :- include(prologmud(mud_footer)).
 
