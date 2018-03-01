@@ -478,8 +478,15 @@ bestParse(Order,LeftOver1-GOAL2,LeftOver1-GOAL2,L1,L2,A1,A2):-
 :-  dynamic(name_text_compute_now/2).
 :-multifile(name_text_compute_now/2).
 :-   export(name_text_compute_now/2).
-name_text_compute_now(Name,Text):- name_text_cached(Name,Text),!.
-name_text_compute_now(Name,Text):- atomic(Name),guess_nameStrings(Name,Text),!.
+name_text_compute_now(Obj,Text):- name_text_cached(Obj,Text),!.
+name_text_compute_now(Obj,Text):- atomic(Obj),
+  guess_nameStrings(Obj,Text),!,
+  maybe_ain_nameString(Obj,Text).
+
+maybe_ain_nameString(Obj,Text):- name_text_cached(Obj,Text),!.
+maybe_ain_nameString(Obj,Text):- Obj=Text,!.
+%maybe_ain_nameString(Obj,_Text):- string(Obj),!.
+maybe_ain_nameString(Obj,Text):- ain(nameString(Obj,Text)).
 
 :-multifile(name_text/2).
 :-dynamic(name_text/2).
@@ -488,8 +495,8 @@ name_text(I,O):- nonvar(O),!,name_text(I,M),string_equal_ci(M,O).
 name_text(I,O):- nonvar(I),no_repeats(O,(name_text_compute_now(I,M),any_to_string(M,S), \+ empty_string(S), text_to_string(S,O))).
 
 
-name_text_cached(Name,Text):-clause_b(nameString(Name,Text)).
-name_text_cached(Name,Text):-clause_b(mudKeyword(Name,Text)).
+name_text_cached(Obj,Text):-clause_b(nameString(Obj,Text)).
+name_text_cached(Obj,Text):-clause_b(mudKeyword(Obj,Text)).
 
 :- ain('==>'(prologBuiltin(name_text_compute_now(ftTerm,ftString)))).
 
@@ -506,7 +513,7 @@ guess_mudDescription_0(Name,Desc):- arity(Name,Int),integer(Int), \+ isa(Name,tC
 guess_mudDescription_0(Name,Desc):- atomic(Name),!,atom(Name),to_case_breaks(Name,TextT),
    maplist(to_descriptive_name(Name),TextT,TextL),!,atomics_to_string(TextL,' ',Desc).
 
-guess_nameStrings(O,S):-guess_nameStrings_0(O,OS),!,convert_to_cycString(OS,S).
+guess_nameStrings(O,S):- guess_nameStrings_0(O,OS),must(nonvar(OS)),!,convert_to_cycString(OS,S).
 guess_nameStrings_0([],_):-!,fail.
 guess_nameStrings_0('',_):-!,fail.
 guess_nameStrings_0("",_):-!,fail.
@@ -525,7 +532,7 @@ to_case_breaks_trimed(Name,[_|ListN],Text):- is_list(ListN),!,
     atomics_to_string(Desc,' ',Text).
 
 type_descriptive_name(_,Str,Str):-string(Str),!.
-type_descriptive_name(Name,xti(Atom,_Class),Out):-!,type_descriptive_name(Name,Atom,Out).
+type_descriptive_name(Name,xti(Atom,Class),Out):- !,Class\==digit,type_descriptive_name(Name,Atom,Out).
 type_descriptive_name(tCol,t,'First-Order').
 type_descriptive_name(tPred,Desc,Atom):-longer_sumry(Desc,Atom).
 type_descriptive_name(tCol,tt,'Second-Order').

@@ -228,9 +228,8 @@ assert_text_now(Inst,InstISA,String):-
   % parse the string to attributed text
  to_word_list(String,WL),!,to_icase_strs(WL,IC),!,   
    ((phrase(translation_dbg_on_fail(Inst,InstISA,PrologO),IC),
-   assertz_if_new(asserted_text(Inst,String,PrologO)),
-     
-     show_call(onSpawn(PrologO)))))).
+   assertz_if_new(asserted_text(Inst,String,PrologO)),     
+     ain(onSpawn(PrologO)))))).
 
 :- kb_shared(asserted_text/3).
 

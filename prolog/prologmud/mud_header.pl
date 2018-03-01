@@ -16,10 +16,11 @@
 
 % :- '$current_source_module'(M),once(M==baseKB;on_x_log_cont(add_import_module(baseKB,M,end))).
 
-
-:- set_prolog_flag(access_level,system).
 :- kb_shared(get_session_id/1).
-:- ((
+:- enable_mpred_expansion.
+:- 
+ current_prolog_flag(access_level,Was),
+ set_prolog_flag(access_level,system),
  op(1190,xfx,('::::')),
  op(1180,xfx,('==>')),
  op(1170,xfx,'<==>'),  
@@ -32,11 +33,9 @@
  op(350,xfx,'xor'),
  op(300,fx,'~'),
  op(300,fx,'-'),
- op(1199,fx,('==>')))).
+ op(1199,fx,('==>')),
+ set_prolog_flag(access_level,Was).
 
-:- set_prolog_flag(access_level,user).
-
-:- enable_mpred_expansion.
 :- style_check(-discontiguous).
 
 

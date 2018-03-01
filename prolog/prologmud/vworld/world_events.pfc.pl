@@ -26,7 +26,8 @@ atlocNear0(Whom,Where):-mudNearbyLocs(Where,LOC),is_asserted(mudAtLoc(Whom,LOC))
 
 
 :-export(raise_location_event/2).
-raise_location_event(Where,Event):- forall(no_repeats(Whom,(no_repeats(tAgent(Whom)),mudObjNearLoc(Whom,Where))),deliver_event(Whom,Event)).
+raise_location_event(Where,Event):- forall(no_repeats(Whom,(no_repeats(tAgent(Whom)),mudObjNearLoc(Whom,Where))),
+   deliver_event(Whom,Event)).
 deliver_event(Whom,Event):- quietly(doall(call_no_cuts(baseKB:deliver_event_hooks(Whom,Event)))).
 
 

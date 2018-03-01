@@ -228,6 +228,13 @@ get_agent_input_stream(P,In):-no_repeats(P-In,(get_agent_session(P,O),lmcache:se
 get_agent_input_thread(P,Id):-no_repeats(P-Id,(get_agent_input_stream(P,In),lmcache:session_io(_,In,_,Id))).
 
 with_agent(P,CALL):-with_agent0(P,CALL).
+
+with_agent0(P,CALL):-
+ get_session_id(TS),must(nonvar(TS)),
+ thread_self(Self),
+ get_agent_session(P,O),lmcache:session_io(O,In,_Out,Id),Id=Self,current_input(In),!,
+ locally([t_l:put_server_no_max,lmcache:session_agent(TS,P),lmcache:agent_session(P,TS)],CALL).
+
 with_agent0(P,CALL):-
  get_session_id(TS),must(nonvar(TS)),
  thread_self(Self),

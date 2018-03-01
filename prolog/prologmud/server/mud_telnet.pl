@@ -11,8 +11,7 @@
          telnet_repl_writer/4,
          telnet_repl_obj_to_string/3,
          start_mud_telnet_4000/0,
-         start_mud_telnet/1,
-         start_prolog_telnet/1,
+         start_mud_telnet/1,         
          run_session/0,
          run_session/2,
          login_and_run/0,
@@ -101,6 +100,7 @@ start_mud_telnet_4000:-
    WebPort2 is WebPort + 2,
   whenever(run_network,start_prolog_telnet(WebPort2)).
 
+start_prolog_telnet(Port):- must(prolog_tnet_server(Port, [allow(_),call(prolog)])).
 
 start_mud_telnet(Port):-
   must(prolog_tnet_server(Port, [allow(_),call(login_and_run_nodebug)])),!,
@@ -277,19 +277,18 @@ setup_streams:-
 setup_streams(In,Out):- var(In),!,current_input(In),setup_streams(In,Out).
 setup_streams(In,Out):- var(Out),!,current_output(Out),setup_streams(In,Out).
 setup_streams(In,Out):- thread_self(Id),
-  memberchk(Id,[0,main]),thread_self_main,!,
-   must(get_main_error_stream(Err)),!,
-   thread_setup_streams(Id,In,Out,Err).
-setup_streams(In,Out):-  
-   set_prolog_IO(In, Out, Out),
-   thread_self(Id),
-   thread_setup_streams(Id,In,Out,user_error).
+   thread_setup_streams(Id,In,Out).
 
-thread_setup_streams(Id,In,Out,Err):- 
- must_det_l((
+thread_setup_streams(Id,In,Out):- memberchk(Id,[0,main]),thread_self_main,!,
+   stream_property(Err,file_no(2)),
    call(retractall,thread_util:has_console(Id, _, _, _)),
    thread_at_exit(call(retractall,thread_util:has_console(Id, _, _, _))),
-   call(asserta,thread_util:has_console(Id, In, Out, Err)),
+   call(asserta,thread_util:has_console(Id, In, Out, Err)),!.
+thread_setup_streams(Id,In,Out):- 
+   set_prolog_IO(In, Out, Out), thread_setup_streams(Id,In,Out,user_error).
+
+thread_setup_streams(Id,In,Out,Err):-
+ must_det_l((
    set_prolog_flag(color_term,true),
    set_prolog_flag(tty_control, true),   
    setup_stream_props(current_input,In),
@@ -617,7 +616,7 @@ prolog_tnet_server(Port, Options) :-
     option(alias(Alias),Options,prolog_tnet_server),
     thread_create(mud_server_loop(ServerSocket, Options), _,
                   [ alias(Alias)
-                  ]).
+                  ]),!.
 
 peer_to_host(Peer,Host):- catch(tcp_host_to_address(Host, Peer),_,fail),!.
 peer_to_host(Peer,Host):- atom(Peer),Peer=Host,!.
@@ -731,7 +730,7 @@ on_telnet_restore :-
         foreach(no_repeats(call_u(get_agent_sessions(A,O))),
          foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
           fmtevent(Out,NewEvent))))),
-      start_mud_telnet_4000.
+      must(start_mud_telnet_4000).
 
 
 :- all_source_file_predicates_are_transparent.

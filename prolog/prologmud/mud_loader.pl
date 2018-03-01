@@ -481,7 +481,7 @@ make_qlfs:-
  %ensure_q_loaded(logicmoo('pldata/hl_holds')),
  %ensure_q_loaded(logicmoo('pldata/mworld0')),
  %ensure_q_loaded(logicmoo('pldata/mworld0_declpreds')),
- catch(ensure_q_loaded(logicmoo('pldata/withvars_988')),_,true).
+ nop(catch(ensure_q_loaded(logicmoo('pldata/withvars_988')),_,true)).
 
 % :- catch(logicmoo('pldata/mworld0_declpreds.qlf'),_,make_qlfs).
 
@@ -538,37 +538,29 @@ download_and_install_el:-
 :- statistics.
 :- endif.
 
-% NPC planners
-:- wdmsg(loading_mobs).
 :- set_prolog_flag(runtime_debug,3).
 :- set_prolog_flag(runtime_safety,3).
 
-include_prolog_file_mask(F):- absolute_file_name(F,I),expand_file_name(I,O),maplist(ensure_mpred_file_loaded,O).
-
-:- include_prolog_file_mask(prologmud('./mobs/?*.pl')).
-%:- include_prolog_files(prologmud(mobs/'?*.pl')).
-%:- exists_directory('../src_assets/mobs/')->include_prolog_files('../src_assets/mobs/?*.pl');true.
-% :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/mobs/?*.pl');true.
-
-% Action/Commands implementation
-:- wdmsg(loading_actions).
-:- include_prolog_file_mask(prologmud('./actions/?*.pl')).
-% :- include_prolog_files(prologmud(actions/'?*.pl')).
-% :- exists_directory('../src_assets/actions/')->include_prolog_files('../src_assets/actions/?*.pl');true.
-% :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/actions/?*.pl');true.
-
-% New Objects
-:- wdmsg(loading_objects).
-:- if(app_argv('--profile')).
-:- profile(include_prolog_file_mask(prologmud('./objs/?*.pl'))).
+:- if(app_argv1('--profile')).
+include_prolog_file_mask(F):- wdmsg(include_prolog_file_mask(F)), absolute_file_name(F,I),expand_file_name(I,O),profile(maplist(ensure_mpred_file_loaded,O)).
 :- else.
-:- include_prolog_file_mask(prologmud('./objs/?*.pl')).
+include_prolog_file_mask(F):- wdmsg(include_prolog_file_mask(F)), absolute_file_name(F,I),expand_file_name(I,O),maplist(ensure_mpred_file_loaded,O).
 :- endif.
 
-%:- include_prolog_files(prologmud(objs/'?*.pl')).
-%:- exists_directory('../src_assets/objs/')->include_prolog_files('../src_assets/objs/?*.pl');true.
-% :- xperimental->include_prolog_files('../external/XperiMental/src_incoming/actions/?*.pl');true.
 
+% NPC planners
+:- ain(monitoredDiskFiles(prologmud('./mobs/?*.pl'))).
+:- ain(monitoredDiskFiles(prologmud('./actions/?*.pl'))).
+:- ain(monitoredDiskFiles(prologmud('./objs/?*.pl'))).
+
+rescan_disk_files:- 
+   forall(monitoredDiskFiles(Mask),include_prolog_file_mask(Mask)).
+
+:- multifile(prolog:make_hook/2).
+:- dynamic(prolog:make_hook/2).
+prolog:make_hook(after, []):- rescan_disk_files.
+
+:- rescan_disk_files.
 
 % Define the agents traits, both for your agent and the world inhabitants. 
 % agent name and stats ([] = defaults).
