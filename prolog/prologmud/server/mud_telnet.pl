@@ -642,7 +642,7 @@ mud_server_loop(ServerSocket, Options) :-
     catch(thread_create(
               call_service_mud_client(Host, Alias, ClientSock, In, Out, Peer, Options),
               _,
-              [ alias(Alias)
+              [ alias(Alias),detached(true)
               ]),
           error(permission_error(create, thread, Alias), _),
           fail),

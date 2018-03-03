@@ -233,9 +233,12 @@ mosftSpecificLocalityOfObject(Obj,Where):-
 
 % if something leaves a room get rid of old inRegion/2 
 ((spatialInRegion(Obj),inRegion(Obj,NewRegion), 
- {(inRegion(Obj,OldLoc), OldLoc\=NewRegion)})
+ {dif(NewRegion,OldLoc),(inRegion(Obj,OldLoc), OldLoc\=NewRegion)})
   ==> 
   ~inRegion(Obj,OldLoc)).
+
+:- ain((inRegion(Obj,Region)==> {ain((spatialInRegion(Obj),tRegion(Region)))})).
+
 
 % create pathway objects and place them in world
 /*

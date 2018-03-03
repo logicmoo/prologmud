@@ -39,6 +39,8 @@ locObjBasePred(P),genlInverse(P,Inverse) ==> locBaseObjPred(Inverse).
 locObjBasePred(localityOfObject).
 locObjBasePred(inRegion).
 
+singleValuedInArg(inRegion,2).
+
 % Spatial Prepositionals relating the Location to an Object:
 ttRelationType(locBaseObjPred).
 locBaseObjPred(P)==>(prologHybrid(P),rtBinaryPredicate(P)).
