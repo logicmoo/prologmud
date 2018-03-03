@@ -52,12 +52,12 @@ pddl_idea(Agent,actEat(tFood)) :-
    isa(Food,tFood).
 
 pddl_idea(Agent,actTake(Good)) :-
-	mudNearFeet(Agent,What),
+	mudNearBody(Agent,What),
         obj_memb(Good,What),
 	isa_any(Good,[tGold,tElixer,tTreasure]).  
 
 pddl_idea(Agent,actTake(Good)) :-
-	mudNearFeet(Agent,What),
+	mudNearBody(Agent,What),
         obj_memb(Good,What),
 	isa_any(Good,[tFood,tUsefull,tItem]).
 

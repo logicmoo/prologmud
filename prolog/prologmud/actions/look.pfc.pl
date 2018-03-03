@@ -10,7 +10,7 @@
 % Agents will use the predicate:
 % mudGetPrecepts(Agent,Percepts) = list of lists of objects in agents location plus 2 locations in each direction
 % mudNearReach(Agent,Percepts) = list of lists of objects in agents atloc plus 1 atloc in each dir
-% mudNearFeet(Agent,Percepts) = list of objects in agents location
+% mudNearBody(Agent,Percepts) = list of objects in agents location
 %
 
 %
@@ -21,7 +21,7 @@
 % :-swi_module(user). 
 :-swi_module(modLook, []).
 
-:-export((  mudGetPrecepts/2,  mudNearReach/2, mudNearFeet/2,  mudCanSense/5 , cmdLook/2)).
+:-export((  mudGetPrecepts/2,  mudNearReach/2, mudNearBody/2,  mudCanSense/5 , cmdLook/2)).
 
 :- include(prologmud(mud_header)).
 
@@ -100,7 +100,7 @@ cmdLook_proc_0(Agent,LOC):-
          pathName(D) = pathName(vHere,D,value),
          
          localityOfObject(value,vHere), % value = localityOfObject(value,vHere),
-         mudNearFeet(Agent,value),
+         mudNearBody(Agent,value),
          mudNearReach(Agent,value),
          mudGetPrecepts(Agent,value),                  
          mudMoveDist(Agent,value),
@@ -165,8 +165,8 @@ get_near0(Agent,Percepts) :-
 	view_dirs(Agent,Dirs,Percepts))),!.
 
 % Look only at location tAgent is currently in.
-% prologBuitlin(mudNearFeet(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(user)]).
-mudNearFeet(Agent,PerceptsO) :-  get_feet0(Agent,Percepts0),!,flatten_set(Percepts0,Percepts),delete(Percepts,Agent,PerceptsO).
+% prologBuitlin(mudNearBody(tAgent,ftListFn(tSpatialThing)),[predicateConventionMt(user)]).
+mudNearBody(Agent,PerceptsO) :-  get_feet0(Agent,Percepts0),!,flatten_set(Percepts0,Percepts),delete(Percepts,Agent,PerceptsO).
 
 get_feet0(Agent,Percepts):-
   call_u((

@@ -83,7 +83,7 @@ textName= "take a shower",
 'Hygiene'= 30 * 30,
 actionVerb= "Clean"]).
 
-defined_affordance([subjType= "Bathtub",
+defined_affordance([subjType= "BathTub",
 stringMatch= "bath",
 stringMatch= "bathtub",
 slExceptFor= "PlasticTub",

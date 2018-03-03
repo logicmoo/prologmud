@@ -27,10 +27,10 @@ world_agent_plan(_World,Agent,Act):-
 vacuum_idea(Agent,actTake(tPowerOutlet)) :-
 	mudEnergy(Agent,Charge),
 	Charge < 490,
-	mudNearFeet(Agent,What),
+	mudNearBody(Agent,What),
 	member(tPowerOutlet,What).
 vacuum_idea(Agent,actTake(tDirt)) :-
-	mudNearFeet(Agent,What),
+	mudNearBody(Agent,What),
 	member(tDirt,What).
 vacuum_idea(Agent,actMove(Dir)) :-
 	mudEnergy(Agent,Charge),

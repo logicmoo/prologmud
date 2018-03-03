@@ -34,7 +34,7 @@ predator_idea(Agent,actEat(Corpse)) :-
 	obj_memb(Corpse,List),
         isa(Corpse,tCorpse).
 predator_idea(Agent,actTake(What)) :-
-	mudNearFeet(Agent,What),
+	mudNearBody(Agent,What),
 	isa(What,tCorpse).
 predator_idea(Agent,actMove(Dir)) :-
 	mudGetPrecepts(Agent,List),

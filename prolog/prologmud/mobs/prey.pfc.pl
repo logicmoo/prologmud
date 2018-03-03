@@ -43,7 +43,7 @@ prey_idea(Self,actMove(Dir)) :-
 	nth1(Num,List,What),
 	What == [].
 prey_idea(Self,actTake(tNut)) :-
-	mudNearFeet(Self,What),
+	mudNearBody(Self,What),
 	member(tNut,What).
 prey_idea(Self,actEat(tNut)) :-
 	mudEnergy(Self,Charge),

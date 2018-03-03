@@ -714,7 +714,7 @@ meta_argtypes(aDirectionsFn(ftTerm,ftListFn(ftTerm))).
 ==>prologListValued(mudGetPrecepts(tAgent,ftListFn(tSpatialThing))). % [predicateConventionMt(abox)].
 :- mpred_notrace_exec.
 :- mpred_trace_exec.
-prologListValued(mudNearFeet(tAgent,ftListFn(tSpatialThing)),[]).
+prologListValued(mudNearBody(tAgent,ftListFn(tSpatialThing)),[]).
 prologListValued(mudNearReach(tAgent,ftListFn(tSpatialThing))). % [predicateConventionMt(abox)].
 prologMultiValued(action_rules(tAgent,vtVerb,ftListFn(ftVar),ftVoprop)).
 prologMultiValued(mudLastCmdSuccess(tAgent,ftAction,ftBoolean)).

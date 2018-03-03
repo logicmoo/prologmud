@@ -32,7 +32,7 @@ monster_idea(Agent,actEat(Food)) :-
         mudPossess(Agent, Food),
         isa_any(Food,[tFood,tCorpse]).
 monster_idea(Agent,actTake(Food)) :-
-	mudNearFeet(Agent,What),
+	mudNearBody(Agent,What),
 	isa_any(Food,[tFood,tCorpse]),
 	obj_memb(Food,What).
 monster_idea(Agent,actMove(1,Dir)) :-

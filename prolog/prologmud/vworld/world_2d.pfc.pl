@@ -60,20 +60,20 @@ loc_to_xy(Region,X,Y,xyzFn(Region,X,Y,1)).
 is_3d(LOC):- compound(LOC).
 
 % Quintus random(1,MaxX,X) and random(1,MaxY,Y)
-grid_size(Region,MaxX,MaxY,MaxZ):- fail,
-    typeGrid(What,1,L),
-   isa(Region,What),!,
-   maxZ(MaxZ),
-	length(L,MaxX),
-	findall(1,typeGrid(What,_,_),LL),
-	length(LL,MaxY),!.
-
-grid_size(Room,MaxX,MaxY,MaxZ):- must(tRegion(Room)), MaxX = 5 ,MaxY = 5 ,maxZ(MaxZ).
+grid_size(Room,MaxX,MaxY,MaxZ):- var(Room),!,tRegion(Room),grid_size(Room,MaxX,MaxY,MaxZ).
+grid_size(Region,MaxX,MaxY,MaxZ):-
+   typeGrid(What,1,L),length(L,MaxX),isaOrEq(Region,What),!,
+   maxZ(MaxZ),findall(1,typeGrid(What,_,_),LL),length(LL,MaxY),!.
+grid_size(Room,MaxX,MaxY,MaxZ):- nonvar(Room), MaxX = 5 ,MaxY = 5 ,maxZ(MaxZ).
 
 maxZ(2).
 
+isaOrEq(Region,What):- isa(Region,What).
+isaOrEq(Region,What):- =@=(Region,What).
+
+
 in_grid(LocName,Var):-var(LocName),!,no_repeats_old([LocName,Var],(tRegion(LocName),in_grid_rnd(LocName,Var))).
-in_grid(LocName,Var):-var(Var),!,in_grid_rnd(LocName,Var).
+in_grid(LocName,Var):-var(Var),!,(in_grid_rnd(LocName,Var);in_grid_rnd(LocName,Var);in_grid_rnd(LocName,Var)).
 in_grid(LocName,Var):-in_grid_no_rnd(LocName,Var).
 
 in_grid_no_rnd(xyzFn(LocName,X,Y,Z),xyzFn(LocName,X,Y,Z)) :- nonvar(X),!.
@@ -86,9 +86,9 @@ in_grid_rnd(LocName,xyzFn(LocName,X,Y,1)) :-
    repeat,
 	X is (1 + random(MaxX-2)),
 	Y is (1 + random(MaxY-2)).	
+% in_grid_rnd(LocName,xyzFn(LocName,1,1,1)).
 
 % for now not useing grids
-in_grid_rnd(LocName,xyzFn(LocName,1,1,1)).
 
 
 init_location_grid(LocName):-
@@ -200,7 +200,7 @@ same_regions(Agent,Obj):-inRegion(Agent,Where1),dif(Agent,Obj),inRegion(Obj,Wher
 
 
 % compute the most specific location description
-mosftSpecificLocalityOfObject(Obj,Where):-
+mostSpecificLocalityOfObject(Obj,Where):-
    one_must(is_asserted(mudAtLoc(Obj,Where)),one_must(is_asserted(localityOfObject(Obj,Where)),is_asserted(inRegion(Obj,Where)))).
 
 % :- (rtrace,trace).
@@ -307,7 +307,12 @@ is_in_world(Obj):-lookup_u(mudSubPart(Who,Obj)),!,is_in_world(Who).
 
 
 
+put_in_world(Obj):- mudAtLoc(Obj,_XYZFn),!.
 put_in_world(Obj):- is_in_world(Obj),!.
+put_in_world(Obj):- localityOfObject(Obj,Loc),  
+  in_grid(Loc,XYZFn),unoccupied(Obj,XYZFn),!,
+  ain(mudAtLoc(Obj,XYZFn)),
+  ain(mudNeedsLook(Obj,vTrue)).
 put_in_world(Obj):- random_xyzFn(LOC),ain(mudAtLoc(Obj,LOC)),
   ain(mudNeedsLook(Obj,vTrue)).
 
@@ -397,10 +402,12 @@ prologBuiltin(random_path_dir/1).
 
 % random_path_dir(Dir):- nonvar(Dir),random_path_dir(Dir0),Dir=Dir0,!.
 random_path_dir(Dir):- no_repeats(random_path_dir0(Dir)).
+random_travel_dir(Dir):- no_repeats(random_path_dir1(Dir)).
 
-random_path_dir0(Dir):- call(call,random_instance(vtBasicDirPlusUpDown,Dir,true)).
-random_path_dir0(Dir):- call(call,random_instance(vtDirection,Dir,true)).
 random_path_dir0(Dir):- call(call,random_instance(vtBasicDir,Dir,true)).
+random_path_dir1(Dir):- call(call,random_instance(vtBasicDirPlusUpDown,Dir,true)).
+random_path_dir1(Dir):- call(call,random_instance(vtDirection,Dir,true)).
+
 
 from_dir_target(LOC,Dir,XXYY):- is_3d(LOC),!,
   move_dir_target(LOC,Dir,XXYY).
@@ -595,21 +602,22 @@ check_for_fall(_,_,_).
 
 % Reverses the direction returned by number_to_direction
 % Used for fleeing
-:- export(system:reverse_dir/2).
-:- public(system:reverse_dir/2).
-system:reverse_dir(W,R):-string(W),atom_string(A,W),!,reverse_dir0(A,RA),atom_string(RA,R),!.
-system:reverse_dir(A,R):-reverse_dir0(A,R),!.
-system:reverse_dir(reverseOf(Was),Was):-nonvar(Was),!.
-system:reverse_dir(skPathFn(vtDirection,R2,R1),skPathFn(vtDirection,R1,R2)):-nonvar(R1).
-system:reverse_dir(Was,reverseOf(Was)):-nonvar(Was),!.
+:- export(reverse_dir/2).
+:- public(reverse_dir/2).
+reverse_dir(W,R):-string(W),atom_string(A,W),!,reverse_dir0(A,RA),atom_string(RA,R),!.
+reverse_dir(A,R):-reverse_dir0(A,R)*->true;reverse_dir1(A,R).
+
+reverse_dir1(reverseOf(Was),RWas):-nonvar(Was),!,RWas=Was.
+reverse_dir1(skPathFn(Direction,R2,R1),skPathFn(Direction,R1,R2)):-nonvar(Direction),!.
+reverse_dir1(Was,reverseOf(Was)):-nonvar(Was),!.
 
 
-reverse_dir0(vDown,vUp).
-reverse_dir0(vUp,vDown).
-reverse_dir0(vNorth,vSouth).
 reverse_dir0(vSouth,vNorth).
 reverse_dir0(vEast,vWest).
+reverse_dir0(vNorth,vSouth).
 reverse_dir0(vWest,vEast).
+reverse_dir0(vUp,vDown).
+reverse_dir0(vDown,vUp).
 reverse_dir0(vNW,vSE).
 reverse_dir0(vNE,vSW).
 reverse_dir0(vSW,vNE).
