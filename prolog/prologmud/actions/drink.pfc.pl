@@ -6,7 +6,7 @@
 %
 % It will destroy something, even if it is not food... talk about a garbage disposal. 
 % :-swi_module(user). 
-:-swi_module(modDrink, []).
+% :-swi_module(modDrink, []).
 
 :- include(prologmud(mud_header)).
 

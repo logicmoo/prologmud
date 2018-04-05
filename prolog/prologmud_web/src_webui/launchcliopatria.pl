@@ -1,6 +1,6 @@
-#!/usr/local/bin/swipl 
+#!/usr/bin/env swipl 
 
-:- throw('dont call lauchclio!').
+% :- throw('dont call lauchclio!').
 
 :- initialization cp_server.
 

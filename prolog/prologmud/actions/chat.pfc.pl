@@ -1,5 +1,4 @@
 
-% :-swi_module(user). 
 %:-swi_module(chat, [vtSocialVerb/1,socialCommand/3,chat_to_callcmd/4]).
 /* * module *  This file defines the predicates for the agent to socialize
 % Dec 13, 2035

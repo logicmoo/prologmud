@@ -1332,6 +1332,11 @@ prologHybrid(normalAgentGoal(rtStatPred,ftTerm)).
   ((relationMostInstance(Pred,Type,Value))==>
     ((isa(X,Type))==>mdefault(t(Pred,X,Value)))))).
 
+
+:- ain((relationMostInstance(Pred,Type,Value))==>
+ ((isa(X,Type))==>mdefault(t(Pred,X,Value)))).
+
+
 (rtStatPred(Pred)/must(atom(Pred))==>(
     arity(Pred,2),
     rtRolePredicate(Pred),

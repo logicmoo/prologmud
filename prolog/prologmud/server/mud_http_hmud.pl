@@ -46,7 +46,9 @@ install_hmud_http_handler:- hmud_directory(O),
 
 :- fixup_exports.
 
+:- if(app_argv('--hmud')).
 :- during_net_boot(ensure_hmud).
+:- endif.
 %:- during_net_boot(run_flash_policy_server).
 %:- during_net_boot(install_hmud_http_handler).
 

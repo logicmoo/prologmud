@@ -10,7 +10,7 @@
 % Douglas Miles
 */
 % :-swi_module(user). 
-:-swi_module(modClimb, []).
+%:-swi_module(modClimb, []).
 
 :- include(prologmud(mud_header)).
 

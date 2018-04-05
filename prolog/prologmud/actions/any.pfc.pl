@@ -11,7 +11,7 @@
 % 
 
 % :-swi_module(user). 
-:-swi_module(any, []).
+:- module(any, []).
 
 
 

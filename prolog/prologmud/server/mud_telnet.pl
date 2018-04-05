@@ -1,4 +1,5 @@
 %:- if(( ( \+ ((current_prolog_flag(logicmoo_include,Call),Call))) )).
+:- module(mud_telnet,[]).
 /*
 :- module(mud_telnet, [
          prolog_tnet_server/2,
@@ -26,8 +27,6 @@
          telnet_restore/0
       ]).
 */
-%  endif.
-/* * module
 % Initial Telnet/Text console
 % ALL telnet client business logic is here (removed from everywhere else!)
 %
@@ -35,12 +34,12 @@
 % Maintainer: Douglas Miles
 % Dec 13, 2035
 %
-*/
+:- include(prologmud(mud_header)).
 
 :- use_module(mud_http_hmud).
 :- kb_shared(get_session_id/1).
 
-
+ 
 :- dynamic((lmcache:agent_session/2,
       lmcache:session_agent/2,
       lmcache:session_io/4,
@@ -642,15 +641,11 @@ mud_server_loop(ServerSocket, Options) :-
     tcp_open_socket(ClientSock, In, Out),
     set_stream(In, close_on_abort(false)),
     set_stream(Out, close_on_abort(false)),
-    
-
     peer_to_host(Peer,Host),
-    (   Postfix = []
-    ;   between(2, 1000, Num),
-        Postfix = [-, Num]
-    ),
+    gensym(inst_,Num),
     option(alias(ServerAlias),Options,prolog_tnet_server),
-    atomic_list_concat(['client_',Host, '@', ServerAlias | Postfix], Alias),
+    atomic_list_concat(['client_',Host,'_',Num, '@', ServerAlias], Alias),
+    
 
     catch(thread_create(
               call_service_mud_client(Host, Alias, ClientSock, In, Out, Peer, Options),

@@ -7,7 +7,7 @@
 %
 */
 %
-:-swi_module(modScansrc, []).
+% :- module(modScansrc, []).
 
 :- include(prologmud(mud_header)).
 
