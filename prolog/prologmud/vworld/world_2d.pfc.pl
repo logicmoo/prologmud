@@ -61,7 +61,7 @@ is_3d(LOC):- compound(LOC).
 
 % Quintus random(1,MaxX,X) and random(1,MaxY,Y)
 grid_size(Room,MaxX,MaxY,MaxZ):- var(Room),!,tRegion(Room),grid_size(Room,MaxX,MaxY,MaxZ).
-grid_size(Region,MaxX,MaxY,MaxZ):-
+grid_size(Region,MaxX,MaxY,MaxZ):- fail,
    typeGrid(What,1,L),length(L,MaxX),isaOrEq(Region,What),!,
    maxZ(MaxZ),findall(1,typeGrid(What,_,_),LL),length(LL,MaxY),!.
 grid_size(Room,MaxX,MaxY,MaxZ):- nonvar(Room), MaxX = 5 ,MaxY = 5 ,maxZ(MaxZ).

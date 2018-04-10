@@ -1,12 +1,13 @@
 %:- if(( ( \+ ((current_prolog_flag(logicmoo_include,Call),Call))) )).
-:- module(mud_telnet,[]).
-/*
-:- module(mud_telnet, [
+%:- module(mud_telnet,[]).
+
+:- export((
          prolog_tnet_server/2,
          setup_streams/2,
          player_connect_menu/4,
          look_brief/1,
          cmdShowRoomGrid/1,
+         get_session_id_local/1,
          inst_label/2,
          display_grid_labels/0,
          telnet_repl_writer/4,
@@ -24,9 +25,11 @@
          register_player_stream_local/3,
          fmtevent/2,
          login_and_run_nodbg/0,
+         login_and_run_debug/0,
+         login_and_run_xhtml/0,
          telnet_restore/0
-      ]).
-*/
+      )).
+
 % Initial Telnet/Text console
 % ALL telnet client business logic is here (removed from everywhere else!)
 %
@@ -37,7 +40,7 @@
 :- include(prologmud(mud_header)).
 
 :- use_module(mud_http_hmud).
-:- kb_shared(get_session_id/1).
+%:- kb_shared(get_session_id/1).
 
  
 :- dynamic((lmcache:agent_session/2,
@@ -99,18 +102,15 @@ start_mud_telnet:-
   whenever(run_network,start_mud_telnet(WebPort)).
 
 
-:- ensure_loaded('/opt/logicmoo_workspace/packs_xtra/golorp/load').
-
 
 start_mud_telnet(Port):-      
       start_tnet(login_and_run_nodbg , Port  , "MUD Server"),
       start_tnet(login_and_run_debug,  Port+1  , "MUD Debug"),
       start_tnet(login_and_run_xhtml,  Port+2  , "MUDLET Telnet"),
       start_tnet(               repl,  Port+3  , "WAM-CL Telnet"),
-      start_tnet(             prolog,  Port+23 , "PROLOG Telnet"),
-      start_tnet(          golorpish,  Port+25 , "GOLORP Telnet").
+      start_tnet(             prolog,  Port+23 , "PROLOG Telnet").
 
-golorpish:-golorp.
+golorpish:- nodebugx(golorp).
 
 :- dynamic(lmcache:main_thread_error_stream/1).
 :- volatile(lmcache:main_thread_error_stream/1).
@@ -137,6 +137,9 @@ get_session_io(In,Out):-
 
 :- set_prolog_flag(debug_threads,false).
 :- set_prolog_flag(debug_threads,true).
+
+login_and_run_xhtml :- login_and_run.
+%login_and_run_xhtml :- login_and_run_debug.
 
 % login_and_run_nodbg:- current_prolog_flag(debug_threads,true),!,login_and_run.
 login_and_run_nodbg:- 
@@ -739,10 +742,16 @@ telnet_restore :-
         foreach(no_repeats(call_u(get_agent_sessions(A,O))),
          foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
           fmtevent(Out,NewEvent))))),
-      must(start_mud_telnet).
+      must(start_mud_telnet),
+      must(golorp_start).
 
 
 :- all_source_file_predicates_are_transparent.
+:- fixup_exports.
+
+golorp_start :- app_argv('--nogolorp'),!.
+golorp_start:- logicmoo_base_port(Port),
+    ensure_loaded('/opt/logicmoo_workspace/packs_xtra/golorp/load'),start_tnet(          golorpish,  Port+25 , "GOLORP Telnet").
 
 
 :- initialization(telnet_restore).

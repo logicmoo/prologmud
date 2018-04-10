@@ -16,7 +16,7 @@
 
 % :- '$current_source_module'(M),once(M==baseKB;on_x_log_cont(add_import_module(baseKB,M,end))).
 
-:- kb_shared(get_session_id/1).
+%:- kb_shared(get_session_id/1).
 :- enable_mpred_expansion.
 :- 
  current_prolog_flag(access_level,Was),

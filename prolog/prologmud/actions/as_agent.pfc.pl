@@ -4,7 +4,7 @@
 %
 % This allows control of any cha5racter from any otgher character
 
-:- module(as_agent, []).
+:- swi_module(as_agent, []).
 
 :- include(prologmud(mud_header)).
 

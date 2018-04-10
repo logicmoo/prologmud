@@ -24,6 +24,7 @@
 
 ignore_all(G):- ignore(notrace(catch(G,E,wdmsg(G=>E)))).
 
+ensure_hmud:-!.
 ensure_hmud:- 
    ignore_all(must(install_hmud_files)),
    ignore_all(must(run_flash_policy_server)),

@@ -16,7 +16,7 @@
 %
 */
 
-mtProlog(world).
+% mtProlog(world).
 :-export((
         % a_unparsed/2,
        % call_agent_action/2,
