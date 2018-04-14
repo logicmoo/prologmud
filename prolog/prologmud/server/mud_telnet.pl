@@ -362,7 +362,11 @@ local_to_words_list(Atom,Words):-to_word_list(Atom,Words),!.
 
 maybe_prepend_prefix(Words,Words).
 
-read_code_list_or_next_command_with_prefix(In,Words):- read_code_list_or_next_command(In,Atom),show_call(local_to_words_list(Atom,WordsM)),!,maybe_prepend_prefix(WordsM,Words).
+read_code_list_or_next_command_with_prefix(In,Words):- read_code_list_or_next_command(In,Atom),
+  add_history(Atom),
+  %ignore(prolog:history(In, Atom);prolog:history(user_input, Atom);thread_signal(main,ignore(prolog:history(user_input, Atom)))),
+  show_call(local_to_words_list(Atom,WordsM)),!,maybe_prepend_prefix(WordsM,Words).
+
 
 read_code_list_or_next_command(Atom):-current_input(In),read_code_list_or_next_command(In,Atom),!.
 
