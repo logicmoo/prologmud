@@ -416,7 +416,7 @@ Proof end.
 
 % :- ensure_loaded_no_mpreds(prologmud(server/mud_telnet)).
 :- ensure_loaded(prologmud(server/mud_irc)).
-:- if(app_argv('--profile')).
+:- if(app_argv1('--profile')).
 :- profile(ensure_loaded(prologmud('vworld/world.pfc'))).
 :- else.
 :- ensure_loaded(prologmud('vworld/world.pfc')).

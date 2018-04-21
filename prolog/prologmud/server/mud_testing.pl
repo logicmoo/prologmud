@@ -84,6 +84,7 @@ test_true(SomeGoal):- test_call(SomeGoal) *-> test_result(passed,SomeGoal) ;  te
 test_false(SomeGoal):- test_true(not(SomeGoal)).
 
 run_mud_test(Filter):-
+   catch(ignore(noguitracer),_,true),
    doall((
    member(F/A,[baseKB:mud_test/0,baseKB:mud_test/1,baseKB:mud_test/2]),
    current_predicate(M:F/A),
@@ -162,8 +163,6 @@ mud_test_level2(drop_take,
   do_agent_action('take food'),
   do_agent_action('eat food'))))).
 
-
-:- catch(ignore(noguitracer),_,true).
 
 % [Optionally] load and start sparql server
 %:- after_boot(start_servers)
