@@ -144,7 +144,8 @@ login_and_run_xhtml :- login_and_run.
 % login_and_run_nodbg:- current_prolog_flag(debug_threads,true),!,login_and_run.
 login_and_run_nodbg:- 
    nodebugx(login_and_run),!.
-  
+
+login_and_run_debug:- \+ getenv('DISPLAY',_),login_and_run.
 login_and_run_debug:- 
    thread_self(Self),
    tdebug(Self),% debug, % guitracer,

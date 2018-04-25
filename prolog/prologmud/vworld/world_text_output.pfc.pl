@@ -19,11 +19,14 @@
 % local_decl_db_prop(repl_to_string(tAgent,term),[prologSingleValued,relationMostInstance(tAgent,default_repl_obj_to_string)]).
 
 :-export(default_repl_writer/4).
-default_repl_writer(_TL,N,Type,V):-copy_term(Type,TypeO),ignore(TypeO=o),  ( TypeO == o -> fmt('~q= ~q.~n',[N,V]) ; fmt('~q=D(~w) ~q.~n',[N,TypeO,V])).
+default_repl_writer(TL,N,Type,V):- default_repl_writer_1(TL,N,Type,V),!. 
 :-export(default_repl_obj_to_string/3).
 default_repl_obj_to_string(O,Type,Out):- copy_term(Type,TypeO), ignore((TypeO = o )), ( TypeO == o -> Out=O ; Out = stringD(TypeO,O)).
 
-
+default_repl_writer_1(_TL,N,_Type,mudDescription(V)):- N==ftText,compound(V),!,fmt('~N~w~n',[V]).
+default_repl_writer_1(_TL,N,_Type,V):- N == text, compound(V),V=..[_,_,O],O==[],!.
+default_repl_writer_1(_TL,N,Type,V):- 
+  copy_term(Type,TypeO),ignore(TypeO=o),  ( TypeO == o -> fmt('~q= ~q.~n',[N,V]) ; fmt('~q=D(~w) ~q.~n',[N,TypeO,V])).
 
 
 canUseEnglish:-true.
@@ -125,6 +128,8 @@ merge_list_on_p(WPred,ToSTR, _SayIt ,Type,_GCall,_NewValue,SayItList):- fmt_hold
 req1(O):- is_list(O),!,maplist(req1,O).
 req1(O):- no_repeats(call_u(O)).
 
+missing_out(_).
+
 
 show_kb_via_pred_2(WPred0,ToSTRIn,F0,Call0):-
       wsubst(Call0,value(ToSTR),value,Call),
@@ -137,14 +142,14 @@ show_kb_via_pred_3(WPred,ToSTR,fmt(SayIt),Type,GCall,NewValue):-!,
       findall(NewValue,(catch(req1(GCall),Error, NewValue=Error), 
              fmt((SayIt))),Count),
       (Count==[] ->
-        fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f1,F,Type)); true),!.
+        missing_out(fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f1,F,Type))); true),!.
 
 show_kb_via_pred_3(WPred,ToSTR,fmt,Type,GCall,NewValue):-!,
   % dmsg(show_kb_via_pred_3(WPred,ToSTR,F,GCall,NewValue)),
       findall(NewValue,(catch(req1(GCall),Error, NewValue=Error), 
              fmt(GCall)),Count),
       (Count==[] ->
-        fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f2,F,Type)); true),!.
+        missing_out(fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f2,F,Type))); true),!.
 
 
 show_kb_via_pred_3(WPred,ToSTR,output,Type,GCall,NewValue):-!,
@@ -152,7 +157,7 @@ show_kb_via_pred_3(WPred,ToSTR,output,Type,GCall,NewValue):-!,
       findall(NewValue,(catch(req1(GCall),Error, NewValue=Error), 
              fmt_holds_tcall(WPred,ToSTR,F,Type,NewValue)),Count),
       (Count==[] ->
-        fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f3,F,Type)); true),!.
+        missing_out(fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f3,F,Type))); true),!.
 
 
 show_kb_via_pred_3(WPred,ToSTR,F,Type,GCall,NewValue):- canUseEnglish,!,
@@ -160,14 +165,14 @@ show_kb_via_pred_3(WPred,ToSTR,F,Type,GCall,NewValue):- canUseEnglish,!,
       findall(NewValue,(catch(req1(GCall),Error, NewValue=Error), 
              fmt_holds_tcall(WPred,ToSTR,text,Type,GCall)),Count),!,
       (Count==[] ->
-        (fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f4,F,Type))); true),!.
+        (missing_out(fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f4,F,Type)))); true),!.
 
 show_kb_via_pred_3(WPred,ToSTR,F,Type,GCall,NewValue):-
   % dmsg(show_kb_via_pred_3(WPred,ToSTR,F,GCall,NewValue)),
       findall(NewValue,(catch(req1(GCall),Error, NewValue=Error), 
              fmt_holds_tcall(WPred,ToSTR,F,Type,NewValue)),Count),
       (Count==[] ->
-        fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f5,F,Type)); true),!.
+        missing_out(fmt_holds_tcall(WPred,ToSTR,F,Type,notFound(f5,F,Type))); true),!.
 
 
 fmt_holds_tcall(WPred,ToSTR,N,Type, V):-  var(V),!,fmt_holds_tcall_pred_trans(WPred,ToSTR,N,Type,V),!.
