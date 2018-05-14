@@ -81,7 +81,7 @@ Here is an example run:
 :- use_module(library(http/http_server_files), []).
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_head)).
-:- use_module(library(http/html_write)).
+:- use_module(swi(library/http/html_write)).
 :- use_module(library(option)).
 
 % :- style_check(-atom).

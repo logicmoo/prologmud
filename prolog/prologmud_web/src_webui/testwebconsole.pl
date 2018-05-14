@@ -2,7 +2,7 @@
 
 :- use_module('mudconsole/mudconsole').
 
-:- use_module(library(http/html_write)).
+:- use_module(swi(library/http/html_write)).
 
 start_webclient:- mc_start([title('Logicmoo MUD'), allow(_)]).
 

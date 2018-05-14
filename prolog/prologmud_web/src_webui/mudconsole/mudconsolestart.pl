@@ -7,7 +7,7 @@
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/html_head)).
-:- use_module(library(http/html_write)).
+:- use_module(swi(library/http/html_write)).
 :- use_module(library(http/html_head)).
 :- use_module(logicmoo(logicmoo_util/logicmoo_util_library)).
 :- use_module(weblog('html_form/autocomplete')).
