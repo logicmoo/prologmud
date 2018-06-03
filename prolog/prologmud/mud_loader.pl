@@ -46,7 +46,7 @@
 :- set_prolog_flag(verbose_load,true).
 
 
-:- include(mud_header).
+%:- include(mud_header).
 
 
 :- set_prolog_flag(generate_debug_info, true).
@@ -57,6 +57,25 @@
 %:- set_prolog_flag(answer_write_options, [quoted(true), portray(true), max_depth(1000), spacing(next_argument)]).
 %:- catch(noguitracer,_,true).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+:- dmsg("[Optional] Load the Logicmoo Early Network System").
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+:- if(\+ app_argv('--nonet')).
+:- whenever_flag_permits(load_network,load_library_system(library(logicmoo_network))).
+:- endif.
+
+:- user:use_module(library(logicmoo_util_common)).
+
+% ==============================================
+% [Required] Load the Logicmoo User System
+% ==============================================
+:- user:load_library_system(library(logicmoo_lib)).
+
+
+:- if(\+ app_argv('--nonet')).
+:- whenever_flag_permits(load_network,load_library_system(library(logicmoo_webbot))).
+:- endif.
 
 % [Optionaly] Set up the Prolog optimize/debug flags
 %:- set_prolog_flag(debug,false).

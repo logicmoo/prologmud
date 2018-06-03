@@ -33,17 +33,23 @@ canUseEnglish:-true.
 
 
 :-export(show_kb_preds/2).
-show_kb_preds(Agent,List):- show_kb_preds(Agent,_,List),!.
+show_kb_preds(Agent,List):- 
+  ignore(mudAtLoc(Agent,LOC)),
+  show_kb_preds(Agent,LOC,List),!.
 
 :-export(show_kb_preds/3).
 show_kb_preds(Agent,LOC,List):-
+  ignore((once(mudAtLoc(Agent,LOC);localityOfObject(Agent,LOC)))),
+  ignore((once(locationToRegion(LOC,Region);localityOfObject(Agent,Region)))),
+  show_binds_kb_preds(Agent,[vHere=Region,isSelf=LOC,isSelfAgent=Agent],List).
+  
+
+show_binds_kb_preds(Agent,Substs,List):-
     must_det_l((
-        ignore((once(mudAtLoc(Agent,LOC);localityOfObject(Agent,LOC)))),
-        ignore((once(locationToRegion(LOC,Region);localityOfObject(Agent,Region)))),
          once((t_l:repl_writer(Agent,WPred);WPred=default_repl_writer)),
          once((t_l:repl_to_string(Agent,ToSTR);ToSTR=default_repl_obj_to_string)),!,
-        subst(List,vHere,Region,ListRR),
-        subst(ListRR,isSelfAgent,Agent,ListR),
+        subst_each(List,Substs,ListR),
+        dmsg(substs=Substs),
         show_kb_via_pred(WPred,ToSTR,ListR))),!.
 
 

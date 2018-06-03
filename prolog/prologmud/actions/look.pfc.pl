@@ -71,44 +71,59 @@ agent_call_command(Agent,actLook(_Dir,SObj)):-
 look_as(Agent):- mudAtLoc(Agent,LOC),cmdLook(Agent,LOC),!.
 
 :-export(cmdLook/2).
-cmdLook(Agent,LOC):- garbage_collect_atoms, call_u(call(cmdLook_proc,Agent,LOC)),!.
+cmdLook(Agent,LOC):-
+  ignore(current_agent(Agent)),
+  garbage_collect_atoms, call_u(call(cmdLook_proc,Agent,LOC)),!.
 
 :-export(cmdLook_proc/3).
 cmdLook_proc(Agent,LOC):- 
    with_no_modifications(locally(mpred_prop(nameString,2,prologListValued),cmdLook_proc_0(Agent,LOC))),
    ain(props(Agent,mudNeedsLook(vFalse))).
+
 cmdLook_proc_0(Agent,LOC):-
  findall(Show,on_command_show(Agent,actLook,Show),MORELOOK),
   % implicit in next command clr(props(Agent,mudNeedsLook(_))),
-   show_kb_preds(Agent,LOC,
-         [
-         location= nop(LOC),
+   show_kb_preds(Agent,LOC,MORELOOK),
+    must(show_inventory(Agent,Agent)),!.
+
+:- multifile(on_command_show/3).
+:- dynamic(on_command_show/3).
+on_command_show(Agent,actLook,Show):- 
+  ignore((once(mudAtLoc(Agent,LOC);localityOfObject(Agent,LOC)))),
+  ignore((once(locationToRegion(LOC,Region);localityOfObject(Agent,Region);LOC=Region))),
+   (on_look_show_region(Region,Show);on_look_show_agent_region(Agent,Show)).
+
+on_look_show_region(Here,Show):-
+  member(Show,
+       [
+         location= Here,
       % TODO make this work
          %  why does this this work on Prolog REPL?
          %   with_output_to(string(Str),cmdShowRoomGrid('Area1000'))
          %  but yet this doent?
        %   cmdShowRoomGrid = once(with_output_to(string(value),cmdShowRoomGrid(region))),
          % for now workarround is 
-         call((cmdShowRoomGrid(vHere),!)),
+
+         call((cmdShowRoomGrid(Here),!)),
+         nameStringsList(Here,value),
+         forEach(mudDescription(Here,Value),fmt(mudDescription(Value))),
+         events=clause_u(mudDeliverableLocationEvents(isSelfAgent,Here,value),true),
+         path(D) = pathDirLeadsTo(Here,D,value),
+         pathName(D) = pathName(Here,D,value),
+         localityOfObject(value,Here)]).
+
+on_look_show_agent_region(Agent,Show):-
+     member(Show,
+         [selfAgent= Agent,
          mudAtLoc(Agent,value),
+         mudHeightOnObj(Agent,value),
          mudFacing(Agent,value),
          mudStance(Agent,value),
-         nameStringsList(vHere,value),
-         forEach(mudDescription(vHere,Value),fmt(mudDescription(Value))),
-         events=clause_u(mudDeliverableLocationEvents(Agent,LOC,value),true),
-         path(D) = pathDirLeadsTo(vHere,D,value),
-         pathName(D) = pathName(vHere,D,value),
-         
-         localityOfObject(value,vHere), % value = localityOfObject(value,vHere),
          mudNearBody(Agent,value),
          mudNearReach(Agent,value),
          mudGetPrecepts(Agent,value),                  
          mudMoveDist(Agent,value),
-         mudHeightOnObj(Agent,value),
-         mudLastCmdSuccess=wasSuccess(Agent,_What,value)
-         |MORELOOK]),
-    must(show_inventory(Agent,Agent)),!.
-
+         mudLastCmdSuccess=wasSuccess(Agent,_What,value)]).
 
 
 cmdLookTest(Agent,LOC):-current_agent(Agent),mudAtLoc(Agent,LOC),
@@ -120,7 +135,8 @@ cmdLookTest(Agent,LOC):-current_agent(Agent),mudAtLoc(Agent,LOC),
 
 :-export(nameStringsList/2).
 
-nameStringsList(Region,ValueList):-findall(Value,nameString(Region,Value),ValueList).
+nameStringsList(Region,ValueList):-
+  findall(Value,nameString(Region,Value),ValueList).
 
 tLooking(Agent):- current_agent(Agent),!.
 tLooking(Agent):- tAgent(Agent),not(tDeleted(Agent)).

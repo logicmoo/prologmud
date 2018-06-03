@@ -460,7 +460,7 @@ textName= "Think about",
 slAnim= anim_SHRUG,
 'Fun'= 1 * 2]).
 
-recreate(F/A):-dynamic(F/A),functor(P,F,A),retractall(P),!.
+recreate(F/A):- abolish(F,A),dynamic(F/A),functor(P,F,A),export(F/A),nop(retractall(P)),!.
 :-recreate(verb_desc/3).
 :-recreate(verb_for_type/2).
 :-recreate(verb_affordance_2/2).

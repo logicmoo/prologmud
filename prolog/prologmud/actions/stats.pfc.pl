@@ -29,10 +29,10 @@ rtStatPred(isEach(
          mudHeight)).
 
 
-agent_call_command(_Agent,actStats(What)):-
+agent_call_command(Agent,actStats(What)):-
   findall(Pred, (rtStatPred(Stat),Pred=..[Stat,What,value]),Stats),
    sort(Stats,StatsS),
-   show_kb_preds(What,StatsS),!.
+   show_kb_preds(Agent,What,StatsS),!.
    %xlisting(What),!.
 
 
