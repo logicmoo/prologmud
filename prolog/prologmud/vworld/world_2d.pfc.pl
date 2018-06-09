@@ -83,7 +83,7 @@ in_grid_no_rnd(LocName,LocName).
 
 in_grid_rnd(LocName,xyzFn(LocName,X,Y,1)) :-
    grid_size(LocName,MaxX,MaxY,_MaxZ),
-   repeat,
+   between(1,100,_),
 	X is (1 + random(MaxX-2)),
 	Y is (1 + random(MaxY-2)).	
 % in_grid_rnd(LocName,xyzFn(LocName,1,1,1)).
@@ -136,11 +136,13 @@ is_location(Obj):-var(Obj),!,fail.
 is_location(xyzFn(_,_,_,_)):-!.
 is_location(Obj):-!,isa(Obj,tRegion),!.
 
-locationToRegion(Obj,RegionIn):-locationToRegion_0(Obj,Region),sanity((nonvar(Region),tRegion(Region))),!,RegionIn=Region.
+locationToRegion(Obj,RegionIn):-locationToRegion_0(Obj,Region)->sanity((nonvar(Region),tRegion(Region))),!,RegionIn=Region.
+
 locationToRegion_0(Obj,Obj):-var(Obj),dmsg(warn(var_locationToRegion(Obj,Obj))),!.
 locationToRegion_0(xyzFn(Region,_,_,_),Region2):-nonvar(Region),!,locationToRegion_0(Region,Region2).
 locationToRegion_0(Obj,Obj):-nonvar(Obj),!,isa(Obj,tRegion),!.
-locationToRegion_0(Obj,Region):-nonvar(Obj),must(localityOfObject(Obj,Location)),!,locationToRegion_0(Location,Region).
+locationToRegion_0(Obj,Region):-nonvar(Obj),must(localityOfObject(Obj,Location)),!,
+  locationToRegion_0(Location,Region).
 locationToRegion_0(Obj,Obj):-dmsg(warn(locationToRegion(Obj,Obj))),!.
 
 :-export(mudNearbyLocs/2).
@@ -213,8 +215,9 @@ mostSpecificLocalityOfObject(Obj,Where):-
 
 
 % objects are placed by default in center of region
-((spatialInRegion(Obj), inRegion(Obj,Region), ~tPathway(Obj),
- {not_asserted(mudAtLoc(Obj,xyzFn(Region,_,_,_))),in_grid_rnd(Region,LOC)})
+((spatialInRegion(Obj), inRegion(Obj,Region), {
+ \+ tPathway(Obj), \+ lookup_u(mudAtLoc(Obj,xyzFn(Region,_,_,_)))},
+  {in_grid_rnd(Region,LOC)})
   ==>
    mudAtLoc(Obj,LOC)).
 
@@ -557,7 +560,10 @@ can_world_move(LOC,_Agent,Dir) :- check_behind_for_ground(LOC),move_dir_target(L
 in_world_move0(LOC,Agent,Dir) :-
       any_to_dir(Dir,DirS),
         % rtrace(padd(Agent,mudFacing(DirS))),
-        ain(mudFacing(Agent,DirS)),
+       % must((
+         ain(mudFacing(Agent,DirS)),
+        % call_u(mudFacing(Agent,DirOther)),
+         %DirOther==DirS)),
         sanity((is_asserted(mudAtLoc(Agent,LOC)))),
         check_behind_for_ground(LOC),
 	move_dir_target(LOC,Dir,XXYY),!,

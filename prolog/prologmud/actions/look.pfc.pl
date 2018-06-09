@@ -114,7 +114,7 @@ on_look_show_region(Here,Show):-
 
 on_look_show_agent_region(Agent,Show):-
      member(Show,
-         [selfAgent= Agent,
+         [fmt(selfAgent= Agent),
          mudAtLoc(Agent,value),
          mudHeightOnObj(Agent,value),
          mudFacing(Agent,value),
