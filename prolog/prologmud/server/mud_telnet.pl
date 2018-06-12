@@ -215,13 +215,13 @@ run_session(In,Out):-
      set_local_modules(baseKB),
      get_session_id_local(O),
      ensure_player_attached(In,Out,P),
-     retractall(lmcache:wants_logout(O)))),!,
+     call(retractall,lmcache:wants_logout(O)))),!,
      register_player_stream_local(P,In,Out),
      call_u((repeat,
          once(session_loop(In,Out)),
-         retract(lmcache:wants_logout(O)))),!,
+         call(retract,lmcache:wants_logout(O)))),!,
       % this leaves the session
-      retractall(lmcache:wants_logout(O)),
+      call(retractall,lmcache:wants_logout(O)),
       ignore(current_agent(Agnt)->true;Agnt=P),
       deregister_player_stream_local(Agnt,In,Out))).
 
@@ -350,7 +350,7 @@ fmtevent(Out,NewEvent):-format(Out,'~N~q.~n',[NewEvent]).
 prompt_read_telnet(In,Out,Prompt,Atom):-
       get_session_id_local(O),
       prompt_read(In,Out,Prompt,IAtom),
-      (IAtom==end_of_file -> (ain(lmcache:wants_logout(O)),Atom='quit') ; IAtom=Atom),!.
+      (IAtom==end_of_file -> (call(assert,lmcache:wants_logout(O)),Atom='quit') ; IAtom=Atom),!.
 
 prompt_read(In,Out,Prompt,Atom):-
      with_output_to(Out,ansi_format([reset,hfg(white),bold],'~w',[Prompt])),flush_output(Out),

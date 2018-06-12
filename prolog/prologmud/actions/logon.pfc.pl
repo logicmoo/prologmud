@@ -32,7 +32,7 @@ agent_call_command(Agent,actLogin(Other)):- show_call(become_player(Agent,Other)
 
 % logout
 action_info(actLogout(isOptional(tAgent,isSelfAgent)),"logs out of game (quits)").
-agent_call_command(_Agent,actLogout(Other)):-get_agent_session(Other,O),assert(lmcache:wants_logout(O)).
+agent_call_command(_Agent,actLogout(Other)):-get_agent_session(Other,O),call(asserta(lmcache:wants_logout(O))).
 
 % quit
 verb_alias(quit,actLogout).
