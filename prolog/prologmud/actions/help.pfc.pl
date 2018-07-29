@@ -11,7 +11,7 @@
 isa(tHumanControlled,ttAgentType).
 %genls(ttAgentType,tCol).
 
-:- kb_shared type_action_info/3.
+:- kb_global(baseKB:type_action_info/3).
 
 type_action_info(tHumanControlled,actHelp(isOptional(ftString,"")), "shows this help").
 

@@ -18,6 +18,11 @@
 % local_decl_db_prop(repl_writer(tAgent,term),[prologSingleValued,relationMostInstance(tAgent,default_repl_writer)]).
 % local_decl_db_prop(repl_to_string(tAgent,term),[prologSingleValued,relationMostInstance(tAgent,default_repl_obj_to_string)]).
 
+:-export(default_repl_buffer/4).
+default_repl_buffer(Loc,_TL,_N,_Type,V):- arg(1,Loc,Prev),append(Prev,[V],New),
+  nb_setarg(1,Loc,New).
+default_repl_obj_to_string_buffer(Out,_Type,Out).
+
 :-export(default_repl_writer/4).
 default_repl_writer(TL,N,Type,V):- default_repl_writer_1(TL,N,Type,V),!. 
 :-export(default_repl_obj_to_string/3).
@@ -42,7 +47,19 @@ show_kb_preds(Agent,LOC,List):-
   ignore((once(mudAtLoc(Agent,LOC);localityOfObject(Agent,LOC)))),
   ignore((once(locationToRegion(LOC,Region);localityOfObject(Agent,Region)))),
   show_binds_kb_preds(Agent,[vHere=Region,isSelf=LOC,isSelfAgent=Agent],List).
-  
+
+show_kb_preds_to_buffer(Agent,LOC,List,Buffer):-
+  ignore((once(mudAtLoc(Agent,LOC);localityOfObject(Agent,LOC)))),
+  ignore((once(locationToRegion(LOC,Region);localityOfObject(Agent,Region)))),
+  show_binds_kb_preds_to_buffer(Agent,[vHere=Region,isSelf=LOC,isSelfAgent=Agent],List,Buffer).
+
+
+show_binds_kb_preds_to_buffer(_Agent,Substs,List,Buffer):-
+    must_det_l((         
+        notrace(subst_each(List,Substs,ListR)),
+        dmsg(substs=Substs),
+        show_kb_via_pred(default_repl_buffer(Buffer),
+          default_repl_obj_to_string_buffer,ListR))),!.
 
 show_binds_kb_preds(Agent,Substs,List):-
     must_det_l((

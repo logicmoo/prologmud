@@ -281,7 +281,7 @@ local_term_anglify_np_last(apathFn(Region,Dir),_,["a",fN(Dir,vtDirection),"-ern"
 local_term_anglify_np_last(Obj,Type,[prolog(Obj),fN,Type]):-!.
 local_term_anglify_np_last(Obj,_,["the",noun,with,token,Obj]):-!.
 
-:-ain_expanded(prologBuiltin(anglify_noun_known,3)).
+:-ain_expanded(==>prologBuiltin(anglify_noun_known,3)).
 
 % anglify_noun_known(Self,_Hint,["you"]):- current_agent(Self),!.
 anglify_noun_known(Obj,FT,String):- ttExpressionType(FT),correctFormatType(change(assert,_),Obj,FT,String),!.

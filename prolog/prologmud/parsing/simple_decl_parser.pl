@@ -272,7 +272,10 @@ mudKeyword(tItem,"thing").
 mudKeyword(isSelfRegion,"here").
 mudKeyword(tThing,"object").
 
-type_action_info(tHumanControlled,actAddText(isOptional(tTemporalThing,isThis),ftText),"Development add some Text to a room.  Usage: addtext a sofa is in here").
+==>
+ type_action_info(tHumanControlled,
+   actAddText(isOptional(tTemporalThing,isThis),ftText),
+     "Development add some Text to a room.  Usage: addtext a sofa is in here").
 
 
 a_command(Agent,actAddText(What,StringM)):- ground(What:StringM),

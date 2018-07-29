@@ -65,7 +65,7 @@ want_more_question(G):-call(G),!.
 % ===========================================================
 % PARSE command
 % ===========================================================
-:-ain((type_action_info(tHumanControlled,actParse(tCol,ftListFn(ftString)),"Development test to parse some Text for a human.  Usage: parse 'item' the blue backpack"))).
+:-ain((==>type_action_info(tHumanControlled,actParse(tCol,ftListFn(ftString)),"Development test to parse some Text for a human.  Usage: parse 'item' the blue backpack"))).
 
 agent_command(_Gent,actParse(Type,StringM)):-
    want_more_question(parse_for(Type,StringM,_Term,_LeftOver)).
@@ -73,7 +73,7 @@ agent_command(_Gent,actParse(Type,StringM)):-
 % ===========================================================
 % CMDPARSE command
 % ===========================================================
-:-ain((type_action_info(tHumanControlled,actCmdparse(ftListFn(ftTerm)),"Development test to parse some Text for a human.  Usage: cmdparse take the blue backpack"))).
+:-ain((==>type_action_info(tHumanControlled,actCmdparse(ftListFn(ftTerm)),"Development test to parse some Text for a human.  Usage: cmdparse take the blue backpack"))).
 
 agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAction,StringM,Term,LeftOver),fmt('==>'(parse_for(StringM) , [Term,LeftOver]))).
 
@@ -83,7 +83,7 @@ agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAc
 % ===========================================================
 % parsetempl command
 % ===========================================================
-:-ain((type_action_info(tHumanControlled,actParsetempl(ftListFn(ftTerm)),"Development test to see what verb phrase heads are found. (uses get_vp_templates/4)  Usage: parsetempl who"))).
+:-ain((==>type_action_info(tHumanControlled,actParsetempl(ftListFn(ftTerm)),"Development test to see what verb phrase heads are found. (uses get_vp_templates/4)  Usage: parsetempl who"))).
 
 
 % :- use_module(library(func)).

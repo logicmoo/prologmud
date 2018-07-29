@@ -150,8 +150,8 @@ where_atloc(Agent,'OffStage'):-fail,nonvar(Agent).
 
 
 % All Actions must be called from here!
-agent_call_command_now(Agent,CMD  ):- var(CMD),trace_or_throw(var_agent_call_command_now(Agent,CMD)).
-agent_call_command_now(Agent,Text ):- text_to_string_safe(Text,String)->show_call(loop_check(agent_call_unparsed(Agent,String))).
+agent_call_command_now(Agent,CMD  ):- var(CMD),!,trace_or_throw(var_agent_call_command_now(Agent,CMD)).
+agent_call_command_now(Agent,Text ):- text_to_string_safe(Text,String)->show_call(loop_check(agent_call_unparsed(Agent,String))),!.
 agent_call_command_now(Agent,CMD  ):- subst(CMD,isSelfAgent,Agent,NewCMD),CMD\=@=NewCMD,!,agent_call_command_now(Agent,NewCMD).
 agent_call_command_now(Agent,Words):- is_list(Words),maplist(check_word,Words),loop_check(agent_call_words(Agent,Words)).
 agent_call_command_now(Agent,CMD  ):- correctCommand(Agent,CMD,NewCMD),CMD\=@=NewCMD,!,agent_call_command_now(Agent,NewCMD).

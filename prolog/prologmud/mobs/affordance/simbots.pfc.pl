@@ -262,15 +262,15 @@ stringMatch= " * cupboard",
 stringMatch= " * Cabinet",
 stringMatch= " * cabinate",
 stringMatch= " * FoodStore",
-actionVerb(2)="Put_X_On"]).
+actionVerb(2)=actPutXOn]).
 
 defined_affordance([subjType= "Desk",
 stringMatch= " * Lab Bench",
 stringMatch= " * workbench",
 stringMatch= " * officedesk",
-actionVerb(2)="Put_X_On"]).
+actionVerb(2)=actPutXOn]).
 
-defined_affordance([subjType= "Counter",stringMatch= "Bar",actionVerb(2)="Put_X_On"]).
+defined_affordance([subjType= "Counter",stringMatch= "Bar",actionVerb(2)=actPutXOn]).
 
 defined_affordance([subjType= "Container",stringMatch= "Plastic",actionVerb(2)="Put_X_In"]).
 
@@ -278,9 +278,9 @@ defined_affordance([subjType= "Table",
 stringMatch= " * Coffee Table",
 acceptsChild= tReadAble,
 acceptsChild= tEatAble,
-actionVerb(2)="Put_X_On"]).
+actionVerb(2)=actPutXOn]).
 
-defined_affordance([subjType= "Trash_Container",
+defined_affordance([subjType= tTrashContainer,
    stringMatch= "garbage * c",
    stringMatch= "trash * c",
    stringMatch= "trash * bin",
@@ -294,7 +294,7 @@ stringMatch= " * Bookcase",
 stringMatch= " * Bookshelf",
 stringMatch= " * Bookshelve",
 acceptsChild= tReadAble,
-actionVerb(2)="Put_X_On",
+actionVerb(2)=actPutXOn,
 textName= "Organize books",
 slAnim= anim_YES,
 'Fun'= 10 * 10,
@@ -328,7 +328,7 @@ slAnim= anim_YES_HAPPY,
 'Fun'= 10 * 10,
 'Secure_Room'= 20 * 20]).
 
-defined_affordance([subjType= "Dance_floor",
+defined_affordance([subjType= tDanceFloor,
 actionVerb= "Operate",
 textName= "Dance! Dance!",
 slAnim= anim_DANCE2]).
@@ -375,7 +375,7 @@ slAnim= anim_SIT,
 'Fun'= 1 * 1,
 'Secure_Room'= 1 * 1]).
 
-defined_affordance([subjType= tHasSurface,actionVerb(2)="Put_X_On",
+defined_affordance([subjType= tHasSurface,actionVerb(2)=actPutXOn,
 textName= "This is a Put_X_On placeholder",
 slAnim= anim_FINGER_WAG,
 'Fun'= -2 * 2,
@@ -426,7 +426,7 @@ alsoType= tLookAble,
 'Fun'= 20 * 10]).
 
 defined_affordance([subjType= tContainer,actionVerb= "Search",
-textName= "Eat_from",
+textName= "Eat from",
 slAnim= anim_DRINK,
 'Hygiene'= 0 * -5,
 'NonHunger'= 40 * 20]).
@@ -476,11 +476,15 @@ recreate(F/A):- abolish(F,A),dynamic(F/A),functor(P,F,A),export(F/A),nop(retract
 to_personal(mudEnergy,mudEnergy).
 to_personal(Pred,APred):-atom_concat('',Pred,APred).
 
-do_define_affordance(LIST):-(member(subjType= SType,LIST);member(alsoType= SType,LIST)),i_name('t',SType,Type),!,
-  decl_type(Type),do_define_type_affordance(Type,LIST).
+do_define_affordance(LIST):-(member(subjType= SType,LIST);member(alsoType= SType,LIST)),
+  i_name('t',SType,Type),!,
+  decl_type(Type),
+  do_define_type_affordance(Type,LIST).
 
 do_define_type_affordance1(Type,_= Type):-!.
-do_define_type_affordance1(Type,subjType= String):- ain_expanded(nameString(Type,String)).
+do_define_type_affordance1(Type,subjType= String):-
+ coerce(String,ftString,StringM),
+ ain_expanded(nameString(Type,StringM)).
 
 
 do_define_type_affordance1(Type,alsoType= TWhat):-i_name(t,TWhat,ParentType),ain(genls(Type,ParentType)).
@@ -573,14 +577,14 @@ verb_desc_or_else(ActVerb,Types,verb_desc(ActVerb,Types)):-nonvar(ActVerb),nonva
 
 agent_command_affordance(Agent,Templ):- simbots_templates(Templ), (fmt(agent_command_simbots_real_3(Agent,Templ)),fail).
 
-action_info(actDo(vtVerb,ftListFn(ftTerm)),"reinterps a action").
+==> action_info(actDo(vtVerb,ftListFn(ftTerm)),"reinterps a action").
 agent_command_affordance(Agent,actDo(A)):-CMD=..[A],!,agent_command_affordance(Agent,CMD).
 agent_command_affordance(Agent,actDo(A,B)):-CMD=..[A,B],!,agent_command_affordance(Agent,CMD).
 agent_command_affordance(Agent,actDo(A,B,C)):- CMD=..[A,B,C],!,agent_command_affordance(Agent,CMD).
 agent_command_affordance(Agent,actDo(A,B,C,D)):- CMD=..[A,B,C,D],!,agent_command_affordance(Agent,CMD).
 agent_command_affordance(Agent,actDo(A,B,C,D,E)):- CMD=..[A,B,C,D,E],!,agent_command_affordance(Agent,CMD).
 
-action_info(actTextcmd(ftString),"reinterps a term as text").
+==> action_info(actTextcmd(ftString),"reinterps a term as text").
 agent_command_affordance(Agent,actTextcmd(A)):-sformat(CMD,'~w',[A]),!,do_agent_action(Agent,CMD).
 agent_command_affordance(Agent,actTextcmd(A,B)):-sformat(CMD,'~w ~w',[A,B]),!,do_agent_action(Agent,CMD).
 agent_command_affordance(Agent,actTextcmd(A,B,C)):-sformat(CMD,'~w ~w ~w',[A,B,C]),!,do_agent_action(Agent,CMD).
@@ -626,8 +630,8 @@ verb_alias("observe",actUse).
 verb_alias("operate",actUse).
 
 
-action_info(Templ,DESC):-verb_desc(V,O,DESC),Templ=..[V,O].
-action_info(Templ,text([verb_for_type,V,O,DOC])):- no_repeats([V,O],verb_affordance(V,O,_,_,_)),Templ=..[V,O], 
+==> action_info(Templ,DESC):-verb_desc(V,O,DESC),Templ=..[V,O].
+==> action_info(Templ,text([verb_for_type,V,O,DOC])):- no_repeats([V,O],verb_affordance(V,O,_,_,_)),Templ=..[V,O], 
                   findall(pir(P,I,R),((verb_affordance(V, O,P,I,R))),DOC).
 
 simbots_templates(Templ):-no_repeats(simbots_templates0(Templ)).

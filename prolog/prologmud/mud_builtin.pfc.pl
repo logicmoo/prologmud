@@ -529,6 +529,8 @@ prologIsFlag(tThinking(tAgent)).
 
 ==> prologHybrid(isEach(mudLastCmdSuccess/3,mudLastCommand/2,mudNamed/2, mudSpd/2,mudStr/2,typeGrid/3)).
 
+singleValuedHybrid(F)==>(singleValued(F),prologHybrid(F)).
+
 
 :- dynamic(mudDescription/2).
 :- dynamic((tItem/1, tRegion/1, instVerbOverride/3,mudNamed/2, determinerString/2, mudKeyword/2 ,descriptionHere/2, mudToHitArmorClass0/2, tThinking/1, tDeleted/1, mudWeight/2, mudPermanence/3, act_term/2, mudAgentTurnnum/2, mudAtLoc/2, mudEnergy/2, mudHealth/2, mudDescription/2, mudFacing/2, mudCmdFailure/2, mudSpd/2, typeGrid/3, mudHeight/2, mudMemory/2, isa/2, pathName/3, mudPossess/2, mudScore/2, mudStm/2, mudStr/2, wearsClothing/2)).
@@ -571,42 +573,43 @@ prologSingleValued(location_center(tRegion,xyzFn(tRegion,ftInt,ftInt,ftInt)),pro
 % :- listing( prologSingleValued ).
 
 
-prologSingleValued(mudArmor(tObj,ftInt),prologHybrid).
-prologSingleValued(mudArmorLevel(tWearAble,ftInt),prologHybrid).
+singleValuedHybrid(mudArmor(tObj,ftInt)).
+singleValuedHybrid(mudArmorLevel(tWearAble,ftInt)).
 :- mpred_notrace_exec.
 
-prologSingleValued(mudAtLoc(tObj,xyzFn(tRegion,ftInt,ftInt,ftInt)),prologHybrid).
-prologSingleValued(mudAttack(tObj,ftInt),prologHybrid).
-prologSingleValued(mudBareHandDamage(tAgent,ftInt),prologHybrid).
-% prologSingleValued(mudBareHandDamage(tAgent,ftDiceFn),prologHybrid).
+singleValuedHybrid(mudAtLoc(tObj,xyzFn(tRegion,ftInt,ftInt,ftInt))).
+singleValuedHybrid(mudAttack(tObj,ftInt)).
+singleValuedHybrid(mudBareHandDamage(tAgent,ftInt)).
+% singleValuedHybrid(mudBareHandDamage(tAgent,ftDiceFn)).
 
 
 % prologSingleValued(mudEnergy(tChargeAble,ftInt(90)),prologHybrid).
-prologSingleValued(mudEnergy(tChargeAble,ftInt),prologHybrid).
-prologSingleValued(mudEnergy(tObj,ftInt),[relationMostInstance(tAgent,90),relationMostInstance(tChargeAble,130)],prologHybrid).
-prologSingleValued(mudHygiene(tObj,ftInt),[relationMostInstance(tObj,90)],prologHybrid).
+singleValuedHybrid(mudEnergy(tChargeAble,ftInt)).
+==> prologSingleValued(mudEnergy(tObj,ftInt),[relationMostInstance(tAgent,90),relationMostInstance(tChargeAble,130)],prologHybrid).
+==> prologSingleValued(mudHygiene(tObj,ftInt),[relationMostInstance(tObj,90)],prologHybrid).
 
 :- mpred_notrace_exec.
-:- ain_expanded((prologSingleValued(mudFacing(tObj,vtDirection),[relationMostInstance(tObj,vNorth)],prologHybrid))).
+:- ain(==>((prologSingleValued(mudFacing(tObj,vtDirection),[relationMostInstance(tObj,vNorth)],prologHybrid)))).
 
-prologSingleValued(mudPermanence(tItem,vtVerb,vtPerminance),prologHybrid).
-==> prologSingleValued(mudHealth(tObj,ftInt),prologHybrid).
-prologSingleValued(mudHeight(tObj,ftInt),prologHybrid).
-prologSingleValued(mudHeight(tSpatialThing,ftInt),prologHybrid).
-prologSingleValued(mudID(tObj,ftID),prologHybrid).
-prologSingleValued(mudLevelOf(tCarryAble,ftInt),prologHybrid).
-prologSingleValued(mudWeight(tObj,ftInt),prologHybrid).
 
-prologSingleValued(mudMaxHitPoints(tAgent,ftInt),[prologHybrid],prologHybrid).
-prologSingleValued(mudLastCommand(tAgent,ftAction),prologHybrid).
-prologSingleValued(mudNonHunger(tAgent,ftInt),[relationMostInstance(tAgent,90)],prologHybrid).
+singleValuedHybrid(mudPermanence(tItem,vtVerb,vtPerminance)).
+singleValuedHybrid(mudHealth(tObj,ftInt)).
+singleValuedHybrid(mudHeight(tObj,ftInt)).
+singleValuedHybrid(mudHeight(tSpatialThing,ftInt)).
+singleValuedHybrid(mudID(tObj,ftID)).
+singleValuedHybrid(mudLevelOf(tCarryAble,ftInt)).
+singleValuedHybrid(mudWeight(tObj,ftInt)).
+
+singleValuedHybrid(mudMaxHitPoints(tAgent,ftInt),[prologHybrid],prologHybrid).
+singleValuedHybrid(mudLastCommand(tAgent,ftAction)).
+==> prologSingleValued(mudNonHunger(tAgent,ftInt),[relationMostInstance(tAgent,90)],prologHybrid).
 ==> prologSingleValued(mudMoveDist(tAgent,ftInt),[relationMostInstance(tAgent,1)]).
-prologSingleValued(mudNeedsLook(tAgent,ftBoolean),relationMostInstance(tAgent,vFalse),prologHybrid).
-prologSingleValued(mudScore(tAgent,ftInt),prologHybrid).
-prologSingleValued(mudSpd(tAgent,ftInt),prologHybrid).
-prologSingleValued(mudStm(tAgent,ftInt),prologHybrid).
-prologSingleValued(mudStr(tAgent,ftInt),prologHybrid).
-prologSingleValued(mudToHitArmorClass0(tAgent,ftInt),prologHybrid).
+==> prologSingleValued(mudNeedsLook(tAgent,ftBoolean),relationMostInstance(tAgent,vFalse),prologHybrid).
+singleValuedHybrid(mudScore(tAgent,ftInt)).
+singleValuedHybrid(mudSpd(tAgent,ftInt)).
+singleValuedHybrid(mudStm(tAgent,ftInt)).
+singleValuedHybrid(mudStr(tAgent,ftInt)).
+singleValuedHybrid(mudToHitArmorClass0(tAgent,ftInt)).
 % prologSingleValued(spawn_rate(isPropFn(genls(tObj)),ftInt)).
 
 ==> prologSingleValued(spawn_rate(tCol,ftInt)).
@@ -700,7 +703,7 @@ prologDynamic(use_action_templates(ftTerm)).
 prologHybrid(typeHasGlyph(tCol,ftString)).
 prologHybrid(mudColor(tSpatialThing,vtColor)).
 prologHybrid(mudKnowing(tAgent,ftAssertion)).
-prologHybrid(mudLabelTypeProps(ftString,tCol,ftVoprop)).
+==> prologHybrid(mudLabelTypeProps(ftString,tCol,ftVoprop)).
 prologHybrid(mudListPrice(tItem,ftNumber)).
 :-dynamic(mudOpaqueness/2).
 prologHybrid(mudOpaqueness(ftTerm,ftPercent)).
@@ -735,10 +738,11 @@ prologMultiValued(mudCmdFailure(tAgent,ftAction)).
 prologHybrid(mudToHitArmorClass0 / 2).
 prologHybrid(mudAtLoc/2).
 prologBuiltin((agent_command/2)).
-==> prologHybrid(isEach(argIsa/3, formatted_resultIsa/2, typeHasGlyph/2, inRegion/2, mudContains/2, isa/2, mudLabelTypeProps/3, mudMemory/2, mudPossess/2, mudStowing/2, genls/2, mudToHitArmorClass0/2, 
- pddlSomethingIsa/2, resultIsa/2, subFormat/2, tCol/1, tRegion/1, completeExtentAsserted/1, ttExpressionType/1, typeProps/2)).
-==> prologHybrid(isEach(argIsa/3, formatted_resultIsa/2, typeHasGlyph/2, inRegion/2, mudContains/2, isa/2, mudLabelTypeProps/3, mudMemory/2, mudPossess/2, mudStowing/2, genls/2, mudToHitArmorClass0/2, 
- pddlSomethingIsa/2, resultIsa/2, subFormat/2, tCol/1, tRegion/1, completelyAssertedCollection/1, ttExpressionType/1, typeProps/2)).
+==> prologHybrid(isEach(argIsa/3, formatted_resultIsa/2, typeHasGlyph/2, inRegion/2, 
+  mudContains/2, isa/2, mudLabelTypeProps/3, mudMemory/2, mudPossess/2, mudStowing/2, 
+  genls/2, mudToHitArmorClass0/2, pddlSomethingIsa/2, resultIsa/2,  
+  completeExtentAsserted/1, subFormat/2, tCol/1, tRegion/1, completelyAssertedCollection/1, 
+  ttExpressionType/1, typeProps/2)).
 
 ==> prologHybrid(isEach(tItem/1, tRegion/1, instVerbOverride/3,mudNamed/2, determinerString/2, mudKeyword/2 ,descriptionHere/2, mudToHitArmorClass0/2, tThinking/1, tDeleted/1, mudWeight/2, mudPermanence/3, act_term/2, mudAgentTurnnum/2, mudAtLoc/2, mudEnergy/2, mudHealth/2, mudDescription/2, mudFacing/2, mudCmdFailure/2, mudSpd/2, typeGrid/3, mudHeight/2, mudMemory/2, isa/2, pathName/3, mudPossess/2, mudScore/2, mudStm/2, mudStr/2, wearsClothing/2)).
 ==> prologHybrid(isEach( mudArmorLevel/2, mudLevelOf/2, mudToHitArmorClass0/2, mudBareHandDamage/2, chargeCapacity/2, mudEnergy/2, tCol/1, tAgent/1, tItem/1, tRegion/1, instVerbOverride/3,mudNamed/2, determinerString/2, mudKeyword/2 ,descriptionHere/2, tThinking/1, mudWeight/2, mudPermanence/3, act_term/2, mudAgentTurnnum/2, mudAtLoc/2, mudEnergy/2, mudHealth/2, mudDescription/2, mudFacing/2, failure/2, gridValue/4, mudHeight/2, mudMemory/2, isa/2, pathName/3, mudPossess/2, mudScore/2, mudStm/2, mudStr/2, mudWearing/2)).
@@ -893,8 +897,7 @@ prologHybrid(pathDirLeadsTo(tRegion,vtDirection,tRegion)).
 
 
 
-prologHybrid(mudAreaConnected(tRegion,tRegion)).
-prologHybrid(mudAreaConnected(tRegion,tRegion),rtSymmetricBinaryPredicate).
+==> prologHybrid(mudAreaConnected(tRegion,tRegion),rtSymmetricBinaryPredicate).
 rtArgsVerbatum(mudAreaConnected).
 
 rtSymmetricBinaryPredicate(mudAreaConnected).
@@ -1070,8 +1073,8 @@ genls(tPartofFurnature,tPartofObj).
 
 isa(tRegion,ttSpatialType).
 isa(tRelation,ttAbstractType).
-typeProps(tTorso,[mudColor(isLikeFn(mudColor,tSkin)),mudShape(vUnique)]).
-typeProps(tSkin,[mudColor(vUnique),mudShape(vUnique)]).
+==>typeProps(tTorso,[mudColor(isLikeFn(mudColor,tSkin)),mudShape(vUnique)]).
+==>typeProps(tSkin,[mudColor(vUnique),mudShape(vUnique)]).
 
 %Empty Location
 % You *have* to use 0 as the id of the empty location. (no way!)
