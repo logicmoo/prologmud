@@ -14,6 +14,7 @@
 */
 :- include(prologmud(mud_header)).
 
+:- ensure_loaded(library(instant_prolog_docs)).
 
 :- virtualize_source_file.
 
