@@ -36,7 +36,7 @@ prologHybrid(mudLabelTypeProps/3).
 
 prologHybrid(typeHasGlyph(tCol,ftString)).
 % mudLabelTypeProps('Px',mobExplorer,[]).
-typeHasGlyph(mobExplorer,'Px').
+typeHasGlyph(mobExplorer,"Px").
 
 world_agent_plan(_World,Agent,ActV):-
    tAgent(Agent),

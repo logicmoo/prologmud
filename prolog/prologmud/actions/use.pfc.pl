@@ -15,6 +15,7 @@
 meta_argtypes(action_verb_useable(vtVerb,tCol,ftTerm(tPred),ftTerm(tPred),ftTerm(tPred))).
 
 :- install_constant_renamer_until_eof.
+:- set_prolog_flag(do_renames_sumo,never).
 
 ==>genls(isEach('PortableObject','ProtectiveAttire',tStowAble),tWieldAble).
 genls('FluidReservoir',tDrinkAble).

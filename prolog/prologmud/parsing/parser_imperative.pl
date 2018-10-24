@@ -484,8 +484,9 @@ name_text_compute_now(Obj,Text):- atomic(Obj),
   guess_nameStrings(Obj,Text),!,
   maybe_ain_nameString(Obj,Text).
 
-maybe_ain_nameString(Obj,Text):- name_text_cached(Obj,Text),!.
-maybe_ain_nameString(Obj,Text):- Obj=Text,!.
+maybe_ain_nameString(Obj, Text):- name_text_cached(Obj,Text),!.
+maybe_ain_nameString(_Obj,Text):- Text=="",!,fail.
+maybe_ain_nameString(Obj, Text):- Obj=Text,!.
 %maybe_ain_nameString(Obj,_Text):- string(Obj),!.
 maybe_ain_nameString(Obj,Text):- ain(nameString(Obj,Text)).
 
@@ -514,7 +515,7 @@ guess_mudDescription_0(Name,Desc):- arity(Name,Int),integer(Int), \+ isa(Name,tC
 guess_mudDescription_0(Name,Desc):- atomic(Name),!,atom(Name),to_case_breaks(Name,TextT),
    maplist(to_descriptive_name(Name),TextT,TextL),!,atomics_to_string(TextL,' ',Desc).
 
-guess_nameStrings(O,S):- guess_nameStrings_0(O,OS),must(nonvar(OS)),!,convert_to_cycString(OS,S).
+guess_nameStrings(O,S):- guess_nameStrings_0(O,OS),must(nonvar(OS)),!,convert_to_cycString(OS,S),!,OS\=="".
 guess_nameStrings_0([],_):-!,fail.
 guess_nameStrings_0('',_):-!,fail.
 guess_nameStrings_0("",_):-!,fail.

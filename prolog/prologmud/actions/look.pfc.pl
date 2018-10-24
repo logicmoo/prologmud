@@ -80,7 +80,7 @@ ai_look(Buffer):-
  ignore(current_agent(Agent)),
  findall(Show,on_command_show(Agent,actLook,Show),MORELOOK),
   % implicit in next command clr(props(Agent,mudNeedsLook(_))),
-   show_kb_preds_to_buffer(Agent,LOC,MORELOOK,BufferH),
+   show_kb_preds_to_buffer(Agent,_LOC,MORELOOK,BufferH),
     nop(must(show_inventory(Agent,Agent))),!,arg(1,BufferH,Buffer).
 
  

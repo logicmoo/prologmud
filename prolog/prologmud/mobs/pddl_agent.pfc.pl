@@ -28,7 +28,7 @@ pddl_vette_idea(Agent,Act,Act):-dmsg(pddl_vette_idea(Agent,Act)).
 
 
 % ==>mudLabelTypeProps('oP',mobPddlAgent,[isa(tAgent)]).
-typeHasGlyph(mobPddlAgent,'oP').
+typeHasGlyph(mobPddlAgent,"oP").
 
 world_agent_plan(_World,Agent,ActV):-
    tAgent(Agent),

@@ -514,7 +514,7 @@ make_qlfs:-
 */
 
 :-export(ensure_nl_loaded/1).
-system:ensure_nl_loaded(F):-load_files([F],[expand(true),if(changed),qcompile(auto)]).
+system:ensure_nl_loaded(F):- baseKB:load_files([F],[expand(true),if(changed),qcompile(auto)]).
 
 % :- ensure_loaded(logicmoo(pldata/tiny_kb)).
 /*

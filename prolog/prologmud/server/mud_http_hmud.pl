@@ -22,7 +22,7 @@
 % Ensure hMUD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-ignore_all(G):- ignore(notrace(catch(G,E,wdmsg(G=>E)))).
+ignore_all(G):- ignore(notrace(catch(G,E,wdmsg(=>(G,E))))).
 
 ensure_hmud:-!.
 ensure_hmud:- 

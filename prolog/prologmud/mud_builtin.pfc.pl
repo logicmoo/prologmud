@@ -867,7 +867,6 @@ action_to_able(actObserve,tObserveAble).
 
 genlInverse(mudContains,mudInsideOf).
 
-:- must(ain(((t(genlInverse,P,PSuper), t(P,A,B)) ==> t(PSuper,B,A)))).
 
 arity(mudInsideOf,2).
 

@@ -160,8 +160,8 @@ ensure_player_attached(In,Out,P):-
     current_agent(P)->true;player_connect_menu(In,Out,_,P))).
 
 player_connect_menu(In,Out,Wants,P):-
-  must_det((
-   set_local_modules(baseKB),
+ setup_call_cleanup(set_local_modules(baseKB,Undo),
+  must_det((   
    get_session_id_local(O),
    format('~N~nHello session ~q!~n',[O]),
    foc_current_agent(Wants),
@@ -171,7 +171,7 @@ player_connect_menu(In,Out,Wants,P):-
    register_player_stream_local(P,In,Out),
    format('~N~nWelcome to the MUD ~w!~n',[P]),
    format(Out,'~N~nThe stream ~w!~n',[Out]),
-   colormsg([blink,fg(red)],"this is blinking red!"))),!.
+   colormsg([blink,fg(red)],"this is blinking red!"),!)),Undo),!.
 
 login_and_run_html:-
   login_and_run.
@@ -204,15 +204,18 @@ login_and_run(In,Out):-
   player_connect_menu(In,Out,_,_),!,
   run_session(In,Out).
 
-set_local_modules(BaseKB):-
-  module(BaseKB),'$set_typein_module'(BaseKB),'$set_source_module'(BaseKB),
-  set_fileAssertMt(BaseKB),!.
+set_local_modules(BaseKB,Undo):-
+  '$current_typein_module'(WasTM),'$current_source_module'(WasSM),
+  fileAssertMt(WasFileMt),
+  module(BaseKB),'$set_typein_module'(BaseKB),'$set_source_module'(BaseKB),  
+  set_fileAssertMt(BaseKB),!,
+  Undo = (set_fileAssertMt(WasFileMt),'$set_typein_module'(WasTM),'$set_source_module'(WasSM)),!.
   % set_defaultAssertMt(BaseKB),
   
 
 run_session(In,Out):-
-  must_det((((
-     set_local_modules(baseKB),
+ setup_call_cleanup(set_local_modules(baseKB,Undo),
+  must_det((((     
      get_session_id_local(O),
      ensure_player_attached(In,Out,P),
      call(retractall,lmcache:wants_logout(O)))),!,
@@ -223,7 +226,7 @@ run_session(In,Out):-
       % this leaves the session
       call(retractall,lmcache:wants_logout(O)),
       ignore(current_agent(Agnt)->true;Agnt=P),
-      deregister_player_stream_local(Agnt,In,Out))).
+      deregister_player_stream_local(Agnt,In,Out))),Undo).
 
 
 session_loop(In,Out):-
@@ -748,7 +751,7 @@ telnet_restore :-
          foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
           fmtevent(Out,NewEvent))))),
       must(start_mud_telnet),
-      must(golorp_start).
+      nop(must(golorp_start)).
 
 
 :- all_source_file_predicates_are_transparent.
@@ -756,7 +759,8 @@ telnet_restore :-
 
 golorp_start :- app_argv('--nogolorp'),!.
 golorp_start:- logicmoo_base_port(Port),
-    ensure_loaded('/opt/logicmoo_workspace/packs_xtra/golorp/load'),start_tnet(          golorpish,  Port+25 , "GOLORP Telnet").
+    ensure_loaded('/opt/logicmoo_workspace/packs_xtra/logicmoo_packages/prolog/golorp/load'),
+    start_tnet(golorpish,  Port+25 , "GOLORP Telnet").
 
 
 :- initialization(telnet_restore).
