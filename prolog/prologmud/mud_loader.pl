@@ -65,7 +65,7 @@
 :- whenever_flag_permits(load_network,load_library_system(library(logicmoo_network))).
 :- endif.
 
-:- user:use_module(library(logicmoo_util_common)).
+:- user:use_module(library(logicmoo_utils_all)).
 
 % ==============================================
 % [Required] Load the Logicmoo User System

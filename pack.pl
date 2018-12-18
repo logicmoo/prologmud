@@ -1,5 +1,5 @@
 name(prologmud).
-version('1.1.118').
+version('1.2.111').
 title('Online text adventure game - MUD Server').
 keywords([game,ai]).
 
@@ -9,9 +9,8 @@ packager('TeamSPoon', 'https://github.com/TeamSPoon/').
 maintainer('TeamSPoon', 'https://github.com/TeamSPoon/').
 home('https://github.com/TeamSPoon/prologmud.git').
 download( 'https://github.com/TeamSPoon/prologmud/release/*.zip').
+requires(logicmoo_base).
 
-requires('logicmoo_base').
-requires('pfc').
 
 
 
