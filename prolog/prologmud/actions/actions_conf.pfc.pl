@@ -1,5 +1,5 @@
 % :-swi_module(user). 
-:- module(modions_conf, []).
+:- swi_module(modions_conf, []).
 
 end_of_file.
 

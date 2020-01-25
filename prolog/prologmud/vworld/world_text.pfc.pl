@@ -35,16 +35,16 @@ lmconf:term_to_message_string(T,T):-var(T),!.
 lmconf:term_to_message_string(T,T):-!.
 lmconf:term_to_message_string(txtConcatFn(T),M):-on_x_debug(generatePhrase_local(T,M)),!.
 lmconf:term_to_message_string(fmt(T),M):-on_x_debug(generatePhrase_local(T,M)),!.
-lmconf:term_to_message_string(C,C):-compound(C),functor(C,F,_),is_leave_alone(F),!.
+lmconf:term_to_message_string(C,C):-compound(C),functor(C,F,_),is_leave_alone_msg(F),!.
 lmconf:term_to_message_string((T),M):-on_x_fail(generatePhrase_local(T,M)),!.
 lmconf:term_to_message_string(T,T):-!.
 
-is_leave_alone(exact_message).
-is_leave_alone(todo).
-is_leave_alone((error)).
-is_leave_alone(parserm).
-% is_leave_alone(F):- is_db_prop(F,_,_),!,fail.
-is_leave_alone(A):-on_x_fail((sub_atom(A,_,1,0,S),atom_number(S,_))),!.
+is_leave_alone_msg(exact_message).
+is_leave_alone_msg(todo).
+is_leave_alone_msg((error)).
+is_leave_alone_msg(parserm).
+% is_leave_alone_msg(F):- is_db_prop(F,_,_),!,fail.
+is_leave_alone_msg(A):-on_x_fail((sub_atom(A,_,1,0,S),atom_number(S,_))),!.
 
 :- discontiguous(bakeKB:mudTermAnglify/2).
 

@@ -15,6 +15,7 @@
 
 ==>tCol(mobSimian).
 
+:- dynamic(defined_affordance/1).
 :- discontiguous(defined_affordance/1).
 
 % See the the seemingly white (not dirrectly usable) in some tUsefull way
@@ -476,8 +477,9 @@ recreate(F/A):- abolish(F,A),dynamic(F/A),functor(P,F,A),export(F/A),nop(retract
 to_personal(mudEnergy,mudEnergy).
 to_personal(Pred,APred):-atom_concat('',Pred,APred).
 
-do_define_affordance(LIST):-(member(subjType= SType,LIST);member(alsoType= SType,LIST)),
-  i_name('t',SType,Type),!,
+do_define_affordance(LIST):-
+  (member(subjType= SType,LIST);member(alsoType= SType,LIST)),
+  ti_name('t',SType,Type),!,
   decl_type(Type),
   do_define_type_affordance(Type,LIST).
 
@@ -487,16 +489,16 @@ do_define_type_affordance1(Type,subjType= String):-
  ain_expanded(nameString(Type,StringM)).
 
 
-do_define_type_affordance1(Type,alsoType= TWhat):-i_name(t,TWhat,ParentType),ain(genls(Type,ParentType)).
-do_define_type_affordance1(Type,superType= TWhat):-i_name(t,TWhat,ParentType),ain(genls(Type,ParentType)).
-do_define_type_affordance1(Type,actionVerb= SVerb):-i_name(act,SVerb,Verb),nb_setval(actionVerb,Verb),!,assert_if_new(verb_for_type(Verb,Type)).
-do_define_type_affordance1(Type,actionVerb(2)= SVerb):-i_name(act,SVerb,Verb),nb_setval(actionVerb,Verb),
+do_define_type_affordance1(Type,alsoType= TWhat):-ti_name(t,TWhat,ParentType),ain(genls(Type,ParentType)).
+do_define_type_affordance1(Type,superType= TWhat):-ti_name(t,TWhat,ParentType),ain(genls(Type,ParentType)).
+do_define_type_affordance1(Type,actionVerb= SVerb):-ti_name(act,SVerb,Verb),nb_setval(actionVerb,Verb),!,assert_if_new(verb_for_type(Verb,Type)).
+do_define_type_affordance1(Type,actionVerb(2)= SVerb):-ti_name(act,SVerb,Verb),nb_setval(actionVerb,Verb),
   (nb_current(acceptsChild,ChildType)->true;ChildType=tCarryAble),
   assert_if_new(verb_affordance_2(Verb,Type,ChildType)).
-do_define_type_affordance1(Type,acceptsChild= TWhat):-i_name(t,TWhat,ChildType),
+do_define_type_affordance1(Type,acceptsChild= TWhat):-ti_name(t,TWhat,ChildType),
   nb_setval(acceptsChild,ChildType),!,assert_if_new(can_hold_type(Type,ChildType)),
  (nb_current(actionVerb,Verb)->assert_if_new(verb_affordance_2(Verb,Type,ChildType));dmsg(warn(verb_affordance_3_no_verb(error(vVerb),Type,ChildType)))),!.
-do_define_type_affordance1(Type,SPred= Wants * Gets):-i_name(mud,SPred,Pred),nb_getval(actionVerb,Verb),to_personal(Pred,APred),
+do_define_type_affordance1(Type,SPred= Wants * Gets):-ti_name(mud,SPred,Pred),nb_getval(actionVerb,Verb),to_personal(Pred,APred),
   to_rel_value(Wants,WantsR),
   to_rel_value(Gets,GetsR),
   assert_if_new(verb_affordance(Verb,Type,APred,WantsR,GetsR)).
@@ -629,15 +631,19 @@ genls(tFurniture,tObj).
 verb_alias("observe",actUse).
 verb_alias("operate",actUse).
 
+simbots_t_v_o(Templ,V,O):- any_to_atom(V,A),Templ=..[A,O].
+:- export(simbots_t_v_o/3).
 
-==> action_info(Templ,DESC):-verb_desc(V,O,DESC),Templ=..[V,O].
-==> action_info(Templ,text([verb_for_type,V,O,DOC])):- no_repeats([V,O],verb_affordance(V,O,_,_,_)),Templ=..[V,O], 
-                  findall(pir(P,I,R),((verb_affordance(V, O,P,I,R))),DOC).
+
+==> (action_info(Templ,DESC):-verb_desc(V,O,DESC),simbots_t_v_o(Templ,V,O)).
+==> (action_info(Templ,text([verb_for_type,V,O,DOC])):- no_repeats([V,O],verb_affordance(V,O,_,_,_)),simbots_t_v_o(Templ,V,O), 
+                  findall(pir(P,I,R),((verb_affordance(V, O,P,I,R))),DOC)).
 
 simbots_templates(Templ):-no_repeats(simbots_templates0(Templ)).
-simbots_templates0(Templ):-verb_for_type(V, O),Templ=..[V,O].
-simbots_templates0(Templ):-verb_desc(V,O,_),Templ=..[V,O].
-simbots_templates0(Templ):-verb_affordance(V,O,_,_,_),Templ=..[V,O].
+simbots_templates0(Templ):-verb_for_type(V, O),simbots_t_v_o(Templ,V,O).
+simbots_templates0(Templ):-verb_desc(V,O,_),simbots_t_v_o(Templ,V,O).
+simbots_templates0(Templ):-verb_affordance(V,O,_,_,_),simbots_t_v_o(Templ,V,O).
+
 
 :-forall(defined_affordance(Attrs),
     must(do_define_affordance(Attrs))).
@@ -876,4 +882,5 @@ verb_for_type(actThinkAbout, tLookAble).
 
 
 :-ain({simbots_templates(Templ)} ==> vtActionTemplate(Templ)).
-
+
+:- listing(vtActionTemplate).

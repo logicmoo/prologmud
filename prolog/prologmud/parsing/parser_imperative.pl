@@ -694,12 +694,14 @@ parser_imperative:phrase_parseForTypes_9([isOptional(tRegion, isRandom(tRegion))
 */
  % :- set_prolog_flag(subclause_expansion,false).
 
+:- dynamic(parseIsa/4).
 
 parseIsa(_T, _, [AT|_], _):- var(AT),!,fail.
 parseIsa(FT, B, C, D):- var(FT),trace_or_throw(var_parseIsa(FT, B, C, D)).
 parseIsa(Str,A,B,C) :-string(Str),!, parseIsa(exactStr(Str),A,B,C).
 
 % this parseIsa(isNot(T),Term) --> dcgAnd(dcgNot(parseIsa(T)),theText(Term)).
+
 :- call(call,assert((parseIsa(isNot(Type), Term, C, D) :- !, dcgAnd(dcgNot(parseIsa(Type)), theText(Term), C, D)))).
 
 parseIsa(ftAction,Goal,Left,Right):-!,one_must(parseFmt_vp1(isSelfAgent,Goal,Left,Right),parseFmt_vp2(isSelfAgent,Goal,Left,Right)).

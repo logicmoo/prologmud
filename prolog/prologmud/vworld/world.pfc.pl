@@ -191,6 +191,8 @@ create_instance_now(What,Type,Props):-
 
 :-export(is_creating_now/1).
 :- dynamic(is_creating_now/1).
+:- dynamic(create_instance_0/3).
+
 
 create_instance_0(What,Type,List):- (var(What);var(Type);var(List)),trace_or_throw((var_create_instance_0(What,Type,List))).
 create_instance_0(I,_,_):-is_creating_now(I),!.

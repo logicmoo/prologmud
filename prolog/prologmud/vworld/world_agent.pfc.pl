@@ -286,10 +286,7 @@ guess_session_ids(In):-thread_self(ID),call(call,thread_util:has_console(ID,In,_
 my_random_member(ELE,[LOC]):-nonvar(LOC),!,ELE=LOC.
 my_random_member(LOC,LOCS):- must_det((length(LOCS,Len),Len>0)),random_permutation(LOCS,LOCS2),!,member(LOC,LOCS2).
 
-:-multifile(system:random_instance/3).
-:-export(system:random_instance/3).
 :-meta_predicate(random_instance_no_throw(+,-,0)).
-
 random_instance_no_throw(Type,Value,Test):- random_instance_no_throw0(Type,Value,Test).
 
 random_instance_no_throw0(Type,Value,Test):-var(Test),!,random_instance_no_throw(Type,Value,isa(Test,Type)).
@@ -317,11 +314,17 @@ random_instance_no_throw0(Type,Value,Test):-
    must(( findall(V,isa(V,Type),Possibles),Possibles\==[])),!,must((my_random_member(Value,Possibles),Test)).
 
 
-system:random_instance(Type,Value,Test):- must(random_instance_no_throw(Type,Value,Test)).
-
-
 get_dettached_npc(P):- random_instance_no_throw(tAgent,P, \+ isa(P,tHumanControlled)).
 :- listing(get_dettached_npc/1).
+
+
+:-multifile(system:random_instance/3).
+:-dynamic(system:random_instance/3).
+:-export(system:random_instance/3).
+%:- rtrace.
+system:random_instance(Type,Value,Test):- cwc, must(random_instance_no_throw(Type,Value,Test)).
+%:- nortrace.
+%:- break.
 
 
 generate_new_player(P):- var(P),!,must_det_l((gensym(iExplorer,N), \+ ((isa_asserted(N,tAgent))),P=N,ensure_new_player(P))),!.
