@@ -58,8 +58,6 @@ listing_break(G):- cwc, listing(G),break.
 % :- set_defaultAssertMt(baseKB).
 :- file_begin(pfc).
 
-:- install_constant_renamer_until_eof.
-% :- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 :- file_begin(code).
 
@@ -773,7 +771,7 @@ defnSufficient(ftAction,vtVerb).
 defnSufficient(ftTerm,vtValue).
 
 :- install_constant_renamer_until_eof.
-% :- set_prolog_flag_until_eof(do_renames,term_expansion).
+:- set_prolog_flag(do_renames_sumo,never).
 
 genls('FemaleAnimal',tAgent).
 genls('MaleAnimal',tAgent).
@@ -928,7 +926,7 @@ tChannel(iGossupChannel).
 :-ain_expanded(isa(tRegion,ttTemporalType)).
 
 % cycAssert(A,B):- trace_or_throw(cycAssert(A,B)).
-:- install_constant_renamer_until_eof.
+%:- install_constant_renamer_until_eof.
 %:- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 % genls('SetOrCollection',tCol).

@@ -32,7 +32,7 @@ actSetsPosture(Action,PostureState) ==>
   action_info_prefered(DO,txtConcatFn(PostureState, " on ", tFurniture)).
 
 actSetsPosture(Action,PostureState) ==> 
-  action_info_prefered(Action,txtConcatFn("sets and agent's stance to ",PostureState)).
+  action_info_prefered(Action,txtConcatFn("sets agent's stance to ",PostureState)).
 
 action_info(A,I):-action_info_prefered(A,I).
 

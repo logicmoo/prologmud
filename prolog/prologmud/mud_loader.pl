@@ -470,39 +470,39 @@ Proof end.
    (The atom table (pointers to strings) is of no interest/use during join ops obviouslly.. 
      in which i have to do millions of join ops per semantic parse)
 
-%     logicmoo('pldata/tiny_kb') loaded into tiny_kb 0.02 sec, 9,016 clauses
-%     logicmoo('pldata/nldata_freq_pdat') loaded into nldata_freq_pdat 0.10 sec, 107,709 clauses
-%     logicmoo('pldata/nldata_BRN_WSJ_LEXICON') loaded into nldata_BRN_WSJ_LEXICON 0.09 sec, 113,868 clauses
-%     logicmoo('pldata/nldata_colloc_pdat') loaded into nldata_colloc_pdat 0.06 sec, 64,086 clauses
-%     logicmoo('pldata/nldata_cycl_pos0') loaded into nldata_cycl_pos0 0.00 sec, 2,479 clauses
-%     logicmoo('pldata/nldata_dictionary_some01') loaded into nldata_dictionary_some01 0.00 sec, 264 clauses
-%     logicmoo('pldata/tt0_00022_cycl') loaded into tt0_00022_cycl 0.28 sec, 313,287 clauses
-%     logicmoo('pldata/hl_holds') loaded into hl_holds 1.31 sec, 1,041,321 clauses
-%     logicmoo('pldata/mworld0_declpreds') loaded into dbase 0.00 sec, 679 clauses
-%     logicmoo('pldata/mworld0') loaded into mworld0 0.60 sec, 483,058 clauses
+%     pldata('tiny_kb') loaded into tiny_kb 0.02 sec, 9,016 clauses
+%     pldata('nldata_freq_pdat') loaded into nldata_freq_pdat 0.10 sec, 107,709 clauses
+%     pldata('nldata_BRN_WSJ_LEXICON') loaded into nldata_BRN_WSJ_LEXICON 0.09 sec, 113,868 clauses
+%     pldata('nldata_colloc_pdat') loaded into nldata_colloc_pdat 0.06 sec, 64,086 clauses
+%     pldata('nldata_cycl_pos0') loaded into nldata_cycl_pos0 0.00 sec, 2,479 clauses
+%     pldata('nldata_dictionary_some01') loaded into nldata_dictionary_some01 0.00 sec, 264 clauses
+%     pldata('tt0_00022_cycl') loaded into tt0_00022_cycl 0.28 sec, 313,287 clauses
+%     pldata('hl_holds') loaded into hl_holds 1.31 sec, 1,041,321 clauses
+%     pldata('mworld0_declpreds') loaded into dbase 0.00 sec, 679 clauses
+%     pldata('mworld0') loaded into mworld0 0.60 sec, 483,058 clauses
 
 */
 
 
 % done in 'user' to avoid reloading when we reload dbase
 ensure_q_loaded(File):-
-    expand_file_search_path(logicmoo('pldata/mworld0_declpreds.pl'),Path),exists_file(Path),!,                                 
+    expand_file_search_path(pldata('mworld0_declpreds.pl'),Path),exists_file(Path),!,                                 
    '@'(load_files(File,[if(not_loaded),qcompile(auto),expand(true),derived_from(Path)]),user).
 
 make_qlfs:-
- %ensure_q_loaded(logicmoo('pldata/tiny_kb')),
- ensure_q_loaded(logicmoo('pldata/nldata_freq_pdat')),
- ensure_q_loaded(logicmoo('pldata/nldata_BRN_WSJ_LEXICON')),
- ensure_q_loaded(logicmoo('pldata/nldata_colloc_pdat')),
- ensure_q_loaded(logicmoo('pldata/nldata_cycl_pos0')),
- ensure_q_loaded(logicmoo('pldata/nldata_dictionary_some01')),
- % ensure_q_loaded(logicmoo('pldata/tt0_00022_cycl')),
- %ensure_q_loaded(logicmoo('pldata/hl_holds')),
- %ensure_q_loaded(logicmoo('pldata/mworld0')),
- %ensure_q_loaded(logicmoo('pldata/mworld0_declpreds')),
- nop(catch(ensure_q_loaded(logicmoo('pldata/withvars_988')),_,true)).
+ %ensure_q_loaded(pldata('tiny_kb')),
+ ensure_q_loaded(pldata('nldata_freq_pdat')),
+ ensure_q_loaded(pldata('nldata_BRN_WSJ_LEXICON')),
+ ensure_q_loaded(pldata('nldata_colloc_pdat')),
+ ensure_q_loaded(pldata('nldata_cycl_pos0')),
+ ensure_q_loaded(pldata('nldata_dictionary_some01')),
+ % ensure_q_loaded(pldata('tt0_00022_cycl')),
+ %ensure_q_loaded(pldata('hl_holds')),
+ %ensure_q_loaded(pldata('mworld0')),
+ %ensure_q_loaded(pldata('mworld0_declpreds')),
+ nop(catch(ensure_q_loaded(pldata('withvars_988')),_,true)).
 
-% :- catch(logicmoo('pldata/mworld0_declpreds.qlf'),_,make_qlfs).
+% :- catch(pldata('mworld0_declpreds.qlf'),_,make_qlfs).
 
 
 /*
@@ -516,26 +516,26 @@ make_qlfs:-
 :-export(ensure_nl_loaded/1).
 system:ensure_nl_loaded(F):- baseKB:load_files([F],[expand(true),if(changed),qcompile(auto)]).
 
-% :- ensure_loaded(logicmoo(pldata/tiny_kb)).
+% :- ensure_loaded(pldata(tiny_kb)).
 /*
-:- system:ensure_nl_loaded(logicmoo(pldata/nldata_freq_pdat)).
-:- system:ensure_nl_loaded(logicmoo(pldata/nldata_BRN_WSJ_LEXICON)).
-:- system:ensure_nl_loaded(logicmoo(pldata/nldata_colloc_pdat)).
-:- system:ensure_nl_loaded(logicmoo(pldata/nldata_cycl_pos0)).
-:- system:ensure_nl_loaded(logicmoo(pldata/nldata_dictionary_some01)).
-:- system:ensure_nl_loaded(logicmoo(pldata/nldata_talk_db_pdat)).
+:- system:ensure_nl_loaded(pldata(nldata_freq_pdat)).
+:- system:ensure_nl_loaded(pldata(nldata_BRN_WSJ_LEXICON)).
+:- system:ensure_nl_loaded(pldata(nldata_colloc_pdat)).
+:- system:ensure_nl_loaded(pldata(nldata_cycl_pos0)).
+:- system:ensure_nl_loaded(pldata(nldata_dictionary_some01)).
+:- system:ensure_nl_loaded(pldata(nldata_talk_db_pdat)).
 */
-% :- ensure_loaded(logicmoo(pldata/tt0_00022_cycl)).
-% :- ensure_loaded(logicmoo(pldata/hl_holds)).
-% :- ensure_loaded(logicmoo(pldata/mworld0)).
-% :- system:ensure_nl_loaded(logicmoo(pldata/transform_dump)).
-% :- catch(ensure_loaded(logicmoo(pldata/withvars_988)),_,true).
+% :- ensure_loaded(pldata(tt0_00022_cycl)).
+% :- ensure_loaded(pldata(hl_holds)).
+% :- ensure_loaded(pldata(mworld0)).
+% :- system:ensure_nl_loaded(pldata(transform_dump)).
+% :- catch(ensure_loaded(pldata(withvars_988)),_,true).
 download_and_install_el:-
   shell('wget -N http://logicmoo.org/devel/LogicmooDeveloperFramework/TEMP~/www.logicmoo.org/downloads/datafiles/PlDataBinary.zip',_),
   shell('unzip -u -d ../src_assets/pldata/ PlDataBinary.zip'),
-  catch(ensure_loaded(logicmoo(pldata/el_assertions)),E,fmt('Cant use el_assertions',E)).
+  catch(ensure_loaded(pldata(el_assertions)),E,fmt('Cant use el_assertions',E)).
 
-%:- xperimental_big_data->catch(ensure_loaded(logicmoo(pldata/el_assertions)),_,download_and_install_el);true.
+%:- xperimental_big_data->catch(ensure_loaded(pldata(el_assertions)),_,download_and_install_el);true.
 
 % :- asserta(lmcache:loaded_external_kbs(mud)),show_call(kbp_to_mpred_t).
 
