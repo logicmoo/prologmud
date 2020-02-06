@@ -900,7 +900,8 @@ prologHybrid(pathDirLeadsTo(tRegion,vtDirection,tRegion)).
 rtArgsVerbatum(mudAreaConnected).
 
 rtSymmetricBinaryPredicate(mudAreaConnected).
-:- sanity((listing(mudAreaConnected/2),!)),!.
+
+% :- sanity((listing(mudAreaConnected/2),!)),!.
 
 ttAgentType(mobMonster).
 % instTypeProps(apathFn(Region,_Dir),tPathway,[localityOfObject(Region)]).
