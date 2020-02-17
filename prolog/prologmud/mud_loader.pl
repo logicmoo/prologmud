@@ -226,6 +226,8 @@ hard_work:-
 % [Required] load the mud PFCs
 :- set_prolog_flag(pfc_booted,false).
 
+:- retractall(t_l:disable_px).
+
 :- show_entry(gripe_time(40,ensure_loaded(prologmud('mud_builtin.pfc')))).
 % :- show_entry(gripe_time(40,force_reload_mpred_file(prologmud('mud_builtin.pfc')))).
 
@@ -532,7 +534,7 @@ system:ensure_nl_loaded(F):- baseKB:load_files([F],[expand(true),if(changed),qco
 % :- catch(ensure_loaded(pldata(withvars_988)),_,true).
 download_and_install_el:-
   shell('wget -N http://logicmoo.org/devel/LogicmooDeveloperFramework/TEMP~/www.logicmoo.org/downloads/datafiles/PlDataBinary.zip',_),
-  shell('unzip -u -d ../src_assets/pldata/ PlDataBinary.zip'),
+  shell('unzip -u -d ../src_assets/pldata/PlDataBinary.zip'),
   catch(ensure_loaded(pldata(el_assertions)),E,fmt('Cant use el_assertions',E)).
 
 %:- xperimental_big_data->catch(ensure_loaded(pldata(el_assertions)),_,download_and_install_el);true.

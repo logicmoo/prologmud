@@ -15,7 +15,7 @@
 % :- include(logicmoo(mpred/'mpred_header.pi')).
 
 % :- '$current_source_module'(M),once(M==baseKB;on_x_log_cont(add_import_module(baseKB,M,end))).
-:- use_module(library(pfc)).
+:- use_module(library(pfc_lib)).
 
 %:- kb_shared(get_session_id/1).
 :- enable_mpred_expansion.

@@ -216,19 +216,21 @@ toplevel_type(InstISA):-member(InstISA,[tWorld,tRegion,tAgent,tItem,tObj,ftSpec,
 get_ctx_isa(InstISA,Inst,InstISA):- toplevel_type(InstISA),must((isa(Inst,InstISA))),!.
 get_ctx_isa(Inst,Inst,InstISA):- must(show_call(once(((toplevel_type(InstISA),isa(Inst,InstISA)))))),!.
 
-assert_text(InstIn,String):- get_ctx_isa(InstIn,Inst,InstISA),!,assert_text(Inst,InstISA,String).
+system:assert_text(InstIn,String):- cwc, get_ctx_isa(InstIn,Inst,InstISA),!,assert_text(Inst,InstISA,String).
 
-assert_text(Inst,InstISA,String):-  
-                            % context changed   and not the tWorld?                                                  % v this is for when there was no prior context
-  (parserVars(context,Inst0,_) -> (((Inst0 \==Inst),InstISA\==tWorld) -> (asserta_parserVars(isThis,Inst,InstISA)); true) ; (asserta_parserVars(isThis,Inst,InstISA))), 
-    locally(parserVars(context,Inst,InstISA),assert_text_now(Inst,InstISA,String)).
+assert_text(Inst,InstISA,String):-  cwc, 
+       % context changed   and not the tWorld?                
+          % v this is for when there was no prior context
+  ((parserVars(context,Inst0,_) -> (((Inst0 \==Inst),InstISA\==tWorld) 
+   -> (asserta_parserVars(isThis,Inst,InstISA)); true) ; (asserta_parserVars(isThis,Inst,InstISA))), 
+    locally(parserVars(context,Inst,InstISA),assert_text_now(Inst,InstISA,String))).
 
 assert_text_now(Inst,InstISA,String):-   
  on_f_log_ignore(( 
   % parse the string to attributed text
  to_word_list(String,WL),!,to_icase_strs(WL,IC),!,   
    ((phrase(translation_dbg_on_fail(Inst,InstISA,PrologO),IC),
-   assertz_if_new(asserted_text(Inst,String,PrologO)),     
+   ain(asserted_text(Inst,String,PrologO)),     
      ain(onSpawn(PrologO)))))).
 
 :- kb_shared(asserted_text/3).
@@ -305,12 +307,13 @@ datatype(ftTerm)--> dcgOptional(detn(_)),[value].
 predicate_named(Pred) --> dcgAnd(theText(Text),dcgLenBetween(1,5)),
   {toCamelAtom(Text,O),i_name(mud,O,Pred),ignore(assumed_isa(Pred,tPred))}.
 
+:- listing(predicate_named//1).
 
 assumed_isa(I,C):-isa(I,C),!.
 assumed_isa(I,C):-loosePass,assert_isa(I,C),!.
 
 :- call(must(dcgAnd(dcgLenBetween(5,1),theText(_Text),[a,b,c],[]))).
-:- call(must(predicate_named(_P,[proper,-,named],[]))).
+:- must_or_rtrace(call(must(predicate_named(_P,[proper,-,named],[])))).
 
 
 :-assertz_if_new(parserTest(iWorld7,"An object can be proper-named or improper-named.",partitionedInto(tObj,tProperNamed,tImproperNamed))).

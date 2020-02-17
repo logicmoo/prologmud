@@ -1390,16 +1390,16 @@ mud_listing(M):- cwc, xlisting((M,-completely_expanded,-spft,-nt,-pt,- (==>))).
 
 % :- mud_listing(iExplorer7).
 
-:- must(mudFun(iExplorer7,_W)).
+==> onQueueEmpty(must(mudFun(iExplorer7,_W))).
 
 vtActionTemplate(actImprove(rtStatPred)).
 
 :- listing(vtActionTemplate/1).
 
 % check to make sure the canonicalizer left the compound..
-:- sanity(clause(baseKB:vtActionTemplate(actImprove(rtStatPred)),true)).
+==> onQueueEmpty(sanity(clause(baseKB:vtActionTemplate(actImprove(rtStatPred)),true))).
 % instead of replacing with..
-:- sanity( \+ clause(baseKB:vtActionTemplate(actImprove),true)).
+==> onQueueEmpty(sanity( \+ clause(baseKB:vtActionTemplate(actImprove),true))).
 
 
  
