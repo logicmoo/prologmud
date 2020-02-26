@@ -143,7 +143,7 @@ listing_break(G):- cwc, listing(G),break.
 %:- kb_shared t_l:infMustArgIsa/0.
 :- thread_local t_l:repl_to_string/2.
 :- thread_local t_l:repl_writer/2.
-:- thread_local t_l:into_form_code/0.
+:- thread_local(t_l:into_form_code/0).
 % :- thread_local t_l:current_local_why/2.
 % :- break.
 :- kb_shared   loading_module_h/1.
