@@ -193,7 +193,7 @@ lstra :- forall(baseKB:how_virtualize_file(_,F),baseKB:ensure_loaded(F)).
 % Sanity tests
 % ==============================================
 :- if( \+ app_argv('--noworld')).
-sanity_test_ifood_rez:- ignore((
+sanity_test(ifood_rez):- ignore((
      user:ensure_loaded(init_mud_server),
      % mpred_notrace_exec,
      % flag_call(runtime_debug>true),
@@ -203,8 +203,10 @@ sanity_test_ifood_rez:- ignore((
 :- after_boot_sanity_test((dmsg(sanity_test_ifood_rez))).
 
 
-:- after_boot_sanity_test((gripe_time(1.0,must(coerce("s",vtDirection,_))))).
-:- after_boot_sanity_test((gripe_time(2.0,must( \+ coerce(l,vtDirection,_))))).
+sanity_test(s_direction):- gripe_time(1.0,must(coerce("s",vtDirection,_))).
+sanity_test(l_not_a_direction):- gripe_time(2.0,must( \+ coerce(l,vtDirection,_))).
+%:- after_boot_sanity_test().
+%:- after_boot_sanity_test().
 :- endif.
 :- after_boot_sanity_test((statistics)).
 :- after_boot_sanity_test(check_clause_counts).
@@ -248,12 +250,14 @@ lar :- % set_prolog_flag(dmsg_level,never),
 
 :- else.
 
+
 :- set_prolog_flag(runtime_debug,1).
 :- set_prolog_flag(runtime_safety,1).
 :- set_prolog_flag(runtime_speed,1).
 
 :- endif.
-
+:- during_boot('$set_typein_module'(baseKB)).
+:- during_boot('$set_source_module'(baseKB)).
 :- during_boot(ain(tSourceData(iWorldData8))).
 
 start_runtime:- 
@@ -267,6 +271,7 @@ start_runtime:-
 :- add_history(listing(inRegion)).
 :- add_history(listing(localityOfObject)).                  
 :- add_history(listing(mudAtLoc)).
+:- add_history(baseKB:lst).
 
 :- listing(feature_test).
 :- listing(sanity_test).

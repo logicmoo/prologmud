@@ -633,7 +633,7 @@ ttPredAndValueType(Str)/
       argIsa(Pred,2,VT),
       argIsa(Pred,1,tTemporalThing)).
 
-:- mpred_trace_exec.
+%:- mpred_trace_exec.
 ttPredAndValueType("size").
 ttPredAndValueType("texture").
 ttPredAndValueType("color").
@@ -713,8 +713,7 @@ prologHybrid(mudTexture(tSpatialThing,vtTexture)).
 meta_argtypes(aDirectionsFn(ftTerm,ftListFn(ftTerm))).
 
 ==>prologListValued(mudGetPrecepts(tAgent,ftListFn(tSpatialThing))). % [predicateConventionMt(abox)].
-:- mpred_notrace_exec.
-:- mpred_trace_exec.
+
 prologListValued(mudNearBody(tAgent,ftListFn(tSpatialThing)),[]).
 prologListValued(mudNearReach(tAgent,ftListFn(tSpatialThing))). % [predicateConventionMt(abox)].
 prologMultiValued(action_rules(tAgent,vtVerb,ftListFn(ftVar),ftVoprop)).

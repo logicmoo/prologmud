@@ -94,7 +94,7 @@ ensure_pfc_loaded(F):-atom_concat(F,'.pfc',FF),ensure_loaded(FF).
 :- ensure_pfc_loaded(world_agent).
 :- ensure_pfc_loaded(world_npc).
 
-:- if_file_exists(include(logicmoo('vworld/world_spawning.pl'))).
+% :- if_file_exists(include(logicmoo('vworld/world_spawning.pl'))).
 
 :-export(isaOrSame/2).
 isaOrSame(A,B):-A==B,!.
