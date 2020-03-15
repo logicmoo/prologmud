@@ -47,8 +47,8 @@ agent_call_command(_Agent,actHide(A)):-!, A==isValueMissing -> (set_show_dmsg(fa
 % ===========================================================
 % DEBUG/NODEBUG command
 % ===========================================================
-verb_alias(debug,actShow).
-verb_alias(nodebug,actHide).
+text_actverb(debug,actShow).
+text_actverb(nodebug,actHide).
 
 
 :- include(prologmud(mud_footer)).

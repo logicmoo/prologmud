@@ -628,8 +628,8 @@ genls(tBathTub,tFurniture).
 genls(tFurniture,tUseAble).
 genls(tFurniture,tObj).
 
-verb_alias("observe",actUse).
-verb_alias("operate",actUse).
+text_actverb("observe",actUse).
+text_actverb("operate",actUse).
 
 simbots_t_v_o(Templ,V,O):- any_to_atom(V,A),Templ=..[A,O].
 :- export(simbots_t_v_o/3).

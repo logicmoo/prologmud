@@ -71,7 +71,7 @@ listing_break(G):- cwc, listing(G),break.
 :- kb_global(baseKB:   update_charge/2).
 :- kb_global(baseKB:   update_stats/2).
 :- kb_global(baseKB:   use_usable/4).
-:- kb_global(baseKB:   verb_alias/2).
+:- kb_global(baseKB:   text_actverb/2).
 :- kb_global(baseKB:   vtActionTemplate/1).
 % :- kb_global(baseKB:   mud_test/0).
 :- kb_global(baseKB:  mud_test/1).
@@ -209,7 +209,7 @@ listing_break(G):- cwc, listing(G),break.
 :- kb_global(baseKB:   update_charge/2).
 :- kb_global(baseKB:   update_stats/2).
 :- kb_global(baseKB:   use_usable/4).
-:- kb_global(baseKB:   verb_alias/2).
+:- kb_global(baseKB:   text_actverb/2).
 :- kb_global(baseKB:   vtActionTemplate/1).
 :- kb_global(baseKB:  mud_test/0).
 :- kb_global(baseKB:  mud_test/1).
@@ -658,8 +658,8 @@ prologHybrid(mudMaxHitPoints(tAgent,ftInt)).
 prologHybrid(mudStowing(tAgent,tItem)).
 % :- break.
 
-prologHybrid(verb_alias(ftText,vtVerb)).
-:- sanity(((argIsa(verb_alias,1,C);argQuotedIsa(verb_alias,1,C)))).
+prologHybrid(text_actverb(ftText,vtVerb)).
+:- sanity(((argIsa(text_actverb,1,C);argQuotedIsa(text_actverb,1,C)))).
 
 :-dynamic((latitude/2, mudMoveDist/2, longitude/2)).
 prologHybrid(typeHasGlyph,2).

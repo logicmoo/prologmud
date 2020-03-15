@@ -22,12 +22,12 @@
 % actPut
 action_info(actPut(tCarryAble,txtPrepSpatial,tPutTargetAble),"actPut [obj] [onto|inside] [somewhere]").
 
-verb_alias(T,V):-vtVerb(V),name_text_cached(V,T).
-verb_alias(set,actPut).
-verb_alias(place,actPut).
-verb_alias(hide,actPut).
-verb_alias(display,actPut).
-verb_alias(stow,actPut).
+text_actverb(T,V):-vtVerb(V),name_text_cached(V,T).
+text_actverb(set,actPut).
+text_actverb(place,actPut).
+text_actverb(hide,actPut).
+text_actverb(display,actPut).
+text_actverb(stow,actPut).
 
 %targeted
 agent_call_command(Agent,actPut(Other,Prep,Where)):-actPut(Agent,Other,Prep,Where).

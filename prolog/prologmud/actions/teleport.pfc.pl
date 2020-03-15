@@ -22,7 +22,7 @@
 % teleport
 action_info(actTeleport(isOptional(isAnd([tObj,isNot(tRegion)]),isSelfAgent),isOptionalStr("to"),isOptional(tRegion,isRandom(tRegion))),"teleport [obj] [to] [somewhere]").
 
-verb_alias(tp,actTeleport).
+text_actverb(tp,actTeleport).
 
 %targeted
 agent_call_command(_Agent,actTeleport(Other,_TO,Where)):-

@@ -363,18 +363,18 @@ parse_agent_text_command_1(Agent,SVERB,ARGS,Agent,GOAL):-
    dmsg_parserm(parserm("chooseBestGoal"=GOAL)).
 
 
-verb_alias("i",actInventory).
-verb_alias("l",actLook).
-verb_alias("lo",actLook).
-verb_alias("s",actMove(vSouth)).
-verb_alias("go",actMove).
-verb_alias("where is",actWhere).
-% verb_alias(["where","is"],actWhereTest).
+text_actverb("i",actInventory).
+text_actverb("l",actLook).
+text_actverb("lo",actLook).
+text_actverb("s",actMove(vSouth)).
+text_actverb("go",actMove).
+text_actverb("where is",actWhere).
+% text_actverb(["where","is"],actWhereTest).
 
 % remove nonstringed aliases
-:-ain(((verb_alias(NonStr, Act), {\+ is_ftText(NonStr),convert_to_cycString(NonStr,EStr)}) ==> 
-    verb_alias(EStr, Act),
-   { ignore(call(call,retractall(( verb_alias(NonStr, Act)) ))) } )).
+:-ain(((text_actverb(NonStr, Act), {\+ is_ftText(NonStr),convert_to_cycString(NonStr,EStr)}) ==> 
+    text_actverb(EStr, Act),
+   { ignore(call(call,retractall(( text_actverb(NonStr, Act)) ))) } )).
 
 ttTypeType(ttCoercable).
 
@@ -387,19 +387,19 @@ nameString(O,S):-nonvar(O),nonvar(S),nameString(O,SU),same_ci(S,SU).
   ==> 
    ( \+ P,{coerce(NonStr,StringType,EStr)},Q)).
 
-:- listing(verb_alias/2).
+:- listing(text_actverb/2).
 
 
-% :- sanity((clause_u(verb_alias(S,actWhere)),argIsa(verb_alias,1,C),isa(S,C))).
+% :- sanity((clause_u(text_actverb(S,actWhere)),argIsa(text_actverb,1,C),isa(S,C))).
 
-:- must((clause_u(verb_alias(S,actWhere))))->must(((argIsa(verb_alias,1,C);argQuotedIsa(verb_alias,1,C)),(isa(S,C);quotedIsa(S,C)))).
+:- must((clause_u(text_actverb(S,actWhere))))->must(((argIsa(text_actverb,1,C);argQuotedIsa(text_actverb,1,C)),(isa(S,C);quotedIsa(S,C)))).
 
-%:- listing(verb_alias/2).
+%:- listing(text_actverb/2).
 %:- break.
 
 % pos_word_formula('infinitive',Verb,Formula):- 'infinitive'(TheWord, Verb, _, _G183), 'verbSemTrans'(TheWord, 0, 'TransitiveNPCompFrame', Formula, _, _).
 
-verb_alias_to_verb(IVERB,SVERB):- verb_alias(L,Look),verb_matches(L,IVERB),SVERB=Look,!.
+verb_alias_to_verb(IVERB,SVERB):- text_actverb(L,Look),verb_matches(L,IVERB),SVERB=Look,!.
 verb_alias_to_verb(IVERB,SVERB):- coerce(IVERB,vtVerb,SVERB), IVERB \= SVERB.
 
 subst_parser_vars(Agent,TYPEARGS,TYPEARGS_R):- subst(TYPEARGS,isSelfAgent,Agent,S1),where_atloc(Agent,Here),subst(S1,vHere,Here,TYPEARGS_R).

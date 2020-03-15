@@ -21,10 +21,10 @@ action_info(actRename(ftString),"Rename your player").
 agent_call_command(Agent,actRename(Other)):- padd(Agent,mudNamed(Other)).
 
 % become
-verb_alias(become,actLogin).
+text_actverb(become,actLogin).
 
 % logon
-verb_alias(logon,actLogin).
+text_actverb(logon,actLogin).
 
 % login
 action_info(actLogin(isOptional(tAgent,isRandom(tAgent))),"(Re)Login and assume the role of an agent").
@@ -35,10 +35,10 @@ action_info(actLogout(isOptional(tAgent,isSelfAgent)),"logs out of game (quits)"
 agent_call_command(_Agent,actLogout(Other)):-get_agent_session(Other,O),call(asserta(lmcache:wants_logout(O))).
 
 % quit
-verb_alias(quit,actLogout).
+text_actverb(quit,actLogout).
 
 % logoff
-verb_alias(logoff,actLogout).
+text_actverb(logoff,actLogout).
 
 
 :- include(prologmud(mud_footer)).
