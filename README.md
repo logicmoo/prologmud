@@ -1,10 +1,12 @@
 # Installation using SWI-Prolog 7.1 or later:
 
-```prolog
-?- pack_install('https://github.com/TeamSPoon/prologmud').
+``` prolog
+?- pack_install(prologmud).
+?- pack_install(prologmud_samples).
+?- pack_install(logtalk).
 
-?- pack_install('https://github.com/TeamSPoon/prologmud_sampleworld').
-
+%% to run
+?- consult(library(prologmud_sample_games/run_mud_server)).
 ```
 
 # A Prolog based MUD
@@ -54,7 +56,9 @@ PrologMUD would been OK in LISP but propositional resolution is a type of calcul
 
 * Added Cutted Forward Chaining =!=> as a signal to stop processing rules on first success
 
+## What to Expect during Installation
 
+``` prolog
 ?- pack_install(prologmud).
 % Contacting server at http://www.swi-prolog.org/pack/query ... ok
 Install prologmud@1.1.117 from GIT at https://github.com/TeamSPoon/prologmud.git Y/n?
@@ -336,3 +340,4 @@ true.
 
 
 ?- consult(library(prologmud_sample_games/run_mud_server)).
+```
