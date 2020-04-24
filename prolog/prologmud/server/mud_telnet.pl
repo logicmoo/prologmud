@@ -101,14 +101,24 @@ start_mud_telnet:-
    WebPort is Base, % + 1000,
   whenever(run_network,start_mud_telnet(WebPort)).
 
+port_busy(Port):-
+    tcp_socket(ServerSocket),
+    tcp_setopt(ServerSocket, reuseaddr),
+    catch((tcp_bind(ServerSocket, Port),tcp_listen(ServerSocket, 5)),Error,true),    
+    tcp_close_socket(ServerSocket),
+    !,nonvar(Error).
 
-
+:- dynamic(started_mud_telnet/1).
+start_mud_telnet(_):- started_mud_telnet(_),!.
+start_mud_telnet(Port):- port_busy(Port),!, NewPort is Port+100, start_mud_telnet(NewPort).
 start_mud_telnet(Port):-      
+      asserta(started_mud_telnet(Port)),
       start_tnet(login_and_run_nodbg , Port  , "MUD Server"),
       start_tnet(login_and_run_debug,  Port+1  , "MUD Debug"),
       start_tnet(login_and_run_xhtml,  Port+2  , "MUDLET Telnet"),
       start_tnet(               repl,  Port+3  , "WAM-CL Telnet"),
-      start_tnet(             prolog,  Port+23 , "PROLOG Telnet").
+      start_tnet(             prolog,  Port+23 , "PROLOG Telnet"),
+      !.
 
 golorpish:- nodebugx(golorp).
 
@@ -627,7 +637,8 @@ prolog_tnet_server(Port, Options):-
  atomic_list_concat([Call,'_',Port],Alias),!, 
  prolog_tnet_server(Port, [alias(Alias)|Options]).
 
-prolog_tnet_server(_Port, Options) :- member(alias(Alias),Options),thread_property(Base, status(running)),Base==Alias,!.
+prolog_tnet_server(_Port, Options) :- 
+  member(alias(Alias),Options),thread_property(Base, status(running)),Base==Alias,!.
 
 prolog_tnet_server(Port, Options) :-
     tcp_socket(ServerSocket),

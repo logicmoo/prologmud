@@ -454,7 +454,7 @@ dividesBetween(tAgent,tHumanControlled,tNpcAgent).
 
 % slow... ttObjectType(Col1) ==> ~ttExpressionType(Col1).
 
-neg(isa(I,Super)) <- {ground(isa(I,Super))}, (isa(I,Sub), disjointWith(Sub, Super)).
+neg(isa(I,Super)) :- {ground(isa(I,Super))}, (isa(I,Sub), disjointWith(Sub, Super)).
 % disjointWith(P1,P2) ==> {\+(isa(P1,rtAvoidForwardChain)),\+(isa(P2,rtAvoidForwardChain))},(neg(isa(C,P1)) <==> isa(C,P2)).
 
 
