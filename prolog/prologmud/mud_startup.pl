@@ -221,7 +221,9 @@ sanity_test(l_not_a_direction):- gripe_time(2.0,must( \+ coerce(l,vtDirection,_)
 
 :- if( \+ app_argv('--noworld')).
 :- if(app_argv('--world')).
-:- lst.
+% :- lst.
+:- dmsg("Dont forget to ?- lst. ").
+:- add_history(lst).
 :- endif.
 :- retractall(t_l:disable_px).
 %:- xlisting('/mnt/sde1/packs_sys/logicmoo_base/prolog/logicmoo/pfc/system_basic.pfc.pl').
@@ -231,7 +233,8 @@ sanity_test(l_not_a_direction):- gripe_time(2.0,must( \+ coerce(l,vtDirection,_)
 
 lar0 :- app_argv('--repl'),!,dmsg("Ctrl-D to start MUD"),prolog,lar.
 lar0 :- lar.
-       
+
+:- add_history(lar).
 lar :- % set_prolog_flag(dmsg_level,never),
      start_runtime,
        if_defined(login_and_run,wdmsg("MUD code not loaded")).
@@ -239,6 +242,7 @@ lar :- % set_prolog_flag(dmsg_level,never),
 
 %:- after_boot(qsave_lm(lm_init_mud)).
 %:- after_boot(lar0).
+
 
 :- after_boot((statistics,dmsg("Type lar.<enter> at the '?-' prompt to start the MUD (a shortcut for ?- login_and_run. )"))).
 
@@ -272,6 +276,7 @@ start_runtime:-
 :- add_history(listing(localityOfObject)).                  
 :- add_history(listing(mudAtLoc)).
 :- add_history(baseKB:lst).
+:- add_history(logicmoo_i_cyc_xform).
 
 :- listing(feature_test).
 :- listing(sanity_test).
