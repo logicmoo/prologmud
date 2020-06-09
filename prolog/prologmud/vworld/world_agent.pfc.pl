@@ -263,8 +263,9 @@ foc_current_agent(P):-
 
 :-user:ensure_loaded(library(http/http_session)).
 
-:-export(get_session_id/1).
 get_session_id(IDIn):-guess_session_ids(ID),nonvar(ID),!,ID=IDIn.
+:-export(get_session_id/1).
+:-system:import(get_session_id/1).
 
 % return any thread locally set session
 guess_session_ids(ID):-t_l:session_id(ID).

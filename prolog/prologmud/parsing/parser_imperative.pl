@@ -599,7 +599,7 @@ excluded_in_parse(I):-mpred_prop(_,_,meta_argtypes(I)).
 excluded_in_parse(apathFn(_ = _)).
 
 instance_for_parse(I):-is_counted_for_parse(I).
-insttype_for_parse(I):-findall(C,(instance_for_parse(I),isa(I,C)),List),list_to_set(List,Set),member(I,Set).
+insttype_for_parse(I):-findall(C,(instance_for_parse(I),isa_or_type(I,C)),List),list_to_set(List,Set),member(I,Set).
 
 optional_strings_opt.
 
@@ -753,8 +753,8 @@ coerce_as(B,A,C):-coerce(A,B,C).
 coerce_hook(A,B,C):- (var(A);var(B)),!,fail,trace_or_throw(freeze(A,coerce_hook(A,B,C))).
 % futureAssertion: THIS IS WHAT I THINKL THE CODE SHOULD LIKE
 % coerce_hook(A,B,C):- to_arg_value(A,AStr),A\=@=AStr,!,coerce_hook(AStr,B,C).
-coerce_hook(A,B,C):- to_arg_value(A,AStr),isa(AStr,B),AStr=C.
-coerce_hook(A,B,C):- no_repeats(C,(coerce0(A,B,C0),to_arg_value(C0,C))),(show_failure(ereq(isa(C,B)))->!;true).
+coerce_hook(A,B,C):- to_arg_value(A,AStr),isa_or_type(AStr,B),AStr=C,!.
+coerce_hook(A,B,C):- no_repeats(C,(coerce0(A,B,C0),to_arg_value(C0,C))),(show_failure(isa_or_type(C,B))->!;true).
 % THIS SHOULD BEEN OK.. coerce_hook(AStr,B,C):- any_to_string(AStr,A), no_repeats(C,(coerce0(A,B,C0),to_arg_value(C0,C))),(show_failure(ereq(isa(C,B)))->!;true).
 
 % Error conditions
@@ -774,7 +774,7 @@ coerce0(IsList,ftListFn(How),Result):- is_list(IsList),!,maplist(coerce_as(How),
 coerce0(IsList,ftListFn(How),Result):- !,maplist(coerce_as(How),[IsList],Result).
 
 coerce0([A],B,C):- string(A),coerce_hook(A,B,C),!.
-coerce0(String,Type,Inst):- string(String),string_to_atom(String,Inst),isa(Inst,Type),!.
+coerce0(String,Type,Inst):- string(String),string_to_atom(String,Inst),isa_or_type(Inst,Type),!.
 
 
 % Handles text
@@ -789,7 +789,7 @@ coerce0(Any,_,_):- empty_string(Any),!,fail.
 
 % User overloaded
 coerce0(Text,Type,Inst):- (no_repeats_old(call_no_cuts(impl_coerce_hook(Text,Type,Inst)))).
-coerce0(Inst,Type,Inst):- instances_of_type(Inst,Type),!.
+coerce0(Inst,Type,InstO):- instances_of_type(Inst,Type),!,InstO=Inst.
 
 
 
@@ -812,7 +812,7 @@ available_instances_of_type(Agent,Obj,Type):- must(current_agent(Agent)), curren
 % test_with ?- coerce(s,vtDirection,O).
 %TODO add back if usefull instances_of_type_0(Inst,Type):- \+ current_prolog_flag(unsafe_speedups , true) , instances_sortable(Type,HOW),!,get_sorted_instances(Inst,Type,HOW).
 % should never need this but .. instances_of_type_0(Inst,Type):- genls(SubType,Type),isa(Inst,SubType).
-instances_of_type_0(Inst,Type):- isa(Inst,Type).
+instances_of_type_0(Inst,Type):- isa_or_type(Inst,Type).
 
 instances_sortable(TYPE,HOW):-instances_sortable0(TYPE,HOW),!.
 instances_sortable(TYPE,HOW):-genls(TYPE,SUPER),instances_sortable0(SUPER,HOW),!.

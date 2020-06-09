@@ -309,7 +309,6 @@ is_in_world(Obj):-lookup_u(mudStowing(Who,Obj)),!,is_in_world(Who).
 is_in_world(Obj):-lookup_u(mudSubPart(Who,Obj)),!,is_in_world(Who).
 
 
-
 put_in_world(Obj):- mudAtLoc(Obj,_XYZFn),!.
 put_in_world(Obj):- is_in_world(Obj),!.
 put_in_world(Obj):- localityOfObject(Obj,Loc),  
