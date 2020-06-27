@@ -17,7 +17,7 @@
 %:- if(( ( \+ ((current_prolog_flag(logicmoo_include,Call),Call))) )). 
 % :- module(mud_loader,[]).
 %:- endif.
-:- set_prolog_flag(pfc_booted,false).
+%:- set_prolog_flag(pfc_booted,false).
 
 
 
@@ -224,11 +224,14 @@ hard_work:-
    )))),!.
 
 % [Required] load the mud PFCs
-:- set_prolog_flag(pfc_booted,false).
+%:- set_prolog_flag(pfc_booted,false).
 
 :- retractall(t_l:disable_px).
 
+:- set_prolog_flag(expect_pfc_file,soon).
 :- show_entry(gripe_time(40,ensure_loaded(prologmud('mud_builtin.pfc')))).
+:- set_prolog_flag(expect_pfc_file,never).
+
 % :- show_entry(gripe_time(40,force_reload_mpred_file(prologmud('mud_builtin.pfc')))).
 
 slow_work:- locally_hide( set_prolog_flag(subclause_expansion,false) , within_user(after_boot(hard_work))).
@@ -437,6 +440,7 @@ Proof end.
 
 % :- ensure_loaded_no_mpreds(prologmud(server/mud_telnet)).
 :- ensure_loaded(prologmud(server/mud_irc)).
+:- set_prolog_flag(expect_pfc_file,soon).
 :- if(app_argv1('--profile')).
 :- profile(ensure_loaded(prologmud('vworld/world.pfc'))).
 :- else.
@@ -694,7 +698,7 @@ lundef :- A = [],
 %.
 
 ==> tSourceCode(iSourceCode7).
-:- set_prolog_flag(pfc_booted,true).
+:- current_prolog_flag(pfc_booted,true).
 % should happen *after game loaded %
 % :- set_prolog_flag(assert_attvars,true).
 :- ain(isLoaded(iSourceCode7)).

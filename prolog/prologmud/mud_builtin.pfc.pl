@@ -39,6 +39,9 @@
 :- set_prolog_flag(runtime_debug, 2).
 :- set_prolog_flag(unsafe_speedups, false).
 
+:- set_prolog_flag(expect_pfc_file,always).
+
+
 listing_break(G):- cwc, listing(G),break.
 
 :- dynamic(agent_call_command/2).
@@ -482,7 +485,7 @@ typeCheckDecl(vtActionTemplate(ArgTypes),is_declarations(ArgTypes)).
 % Representations
 vtActionTemplate(ArgTypes)/is_declarations(ArgTypes) ==> meta_argtypes(ArgTypes).
 
-vtVerb(F),(meta_argtypes(ArgTypes)/get_functor(ArgTypes,F))==>vtActionTemplate(ArgTypes).
+((meta_argtypes(ArgTypes)/get_functor(ArgTypes,F)),vtVerb(F))==>vtActionTemplate(ArgTypes).
 
 
 
