@@ -131,7 +131,7 @@ save_error_stream:- ignore((thread_self_main,(quintus:current_stream(2, write, E
 :- save_error_stream.
 
 get_main_thread_error_stream(ES):-lmcache:main_thread_error_stream(ES),!.
-get_main_thread_error_stream(main_error).
+get_main_thread_error_stream(Main_error):- stream_property(Main_error, file_no(2)).
 
 get_session_io(In,Out):-
   get_session_id_local(O),
@@ -684,6 +684,7 @@ call_service_mud_client(Host, Alias, ClientSock, In, Out, Peer, Options):-
   call(call,service_mud_client(Host, Alias, ClientSock, In, Out, Peer, Options)).
 
 service_mud_client(Host,Alias,ClientSock,In,Out,Peer,Options) :-
+    stream_property(Main_error, file_no(2)),
     option(allow(PeerAllow),Options,ip(127,0,0,1))-> PeerAllow=Peer,
     !,
     thread_self(Id),
@@ -708,7 +709,7 @@ service_mud_client(Host,Alias,ClientSock,In,Out,Peer,Options) :-
     call(asserta,thread_util:has_console(Id, In, Out, Out)),
 
     option(call(Call), Options, prolog),
-    format(main_error,'~N~n~q~n~n',[service_mud_client_call(Call,Id,Alias,ClientSock,In,Out,Host,Peer,Options)]),
+    format(Main_error,'~N~n~q~n~n',[service_mud_client_call(Call,Id,Alias,ClientSock,In,Out,Host,Peer,Options)]),
     format(user_error,
            'Welcome to the SWI-Prolog LogicMOO ~q on thread ~w~n~n',
            [Call,Id]),

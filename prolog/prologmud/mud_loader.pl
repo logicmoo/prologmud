@@ -206,7 +206,7 @@ start_boxer:-
    %threads,
    ensure_loaded(logicmoo(candc/parser_boxer)),
    % make,   
-   after_boot(prolog_repl).
+   during_runtime(prolog_repl).
 
 
 
@@ -357,7 +357,7 @@ cmdresult(statistics,true)
 % :- prolog.
 
 % :-foc_current_agent(P),assertz_if_new(agent_action_queue(P,chat80)).
-:- if_flag_true(was_runs_tests_pl, after_boot(login_and_run)).
+:- if_flag_true(was_runs_tests_pl, during_runtime(login_and_run)).
 
 
 % So scripted versions don't just exit

@@ -19,6 +19,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [Mostly Required] Load the Logicmoo Plan Generator System
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+:- absolute_file_name(library(logicmoo_planner),P,[file_type(prolog),access(read)]),wdmsg(library(logicmoo_planner)=P).
 :- load_library_system(library(logicmoo_planner)).
 
 

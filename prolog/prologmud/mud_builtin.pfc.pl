@@ -1091,7 +1091,7 @@ genls(tIndoorsIsolatedFromOutside, tRegion).
 genls(tPlaceLikeSpaceInAHOC,tRegion).
 
 :- if( \+ current_prolog_flag(address_bits, 32)).
-%:- during_boot(set_prolog_stack_gb(16)).
+%:- before_boot(set_prolog_stack_gb(16)).
 :- endif.
 
 

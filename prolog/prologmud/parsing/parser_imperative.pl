@@ -186,9 +186,9 @@ object_string(O,String):-mudKeyword(O,String).
 
 nameString(O,S)==>mudKeyword(O,S).
 
-:- begin_tests(parser_imparative,[setup(foc_current_agent(_))]).
+%:- begin_tests(parser_imparative,[setup(foc_current_agent(_))]).
 
-:- end_tests(parser_imparative).
+%:- end_tests(parser_imparative).
 
 /*
 object_string(O,String) :-  object_string(_,O,1-4,String),!.

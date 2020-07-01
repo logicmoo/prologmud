@@ -34,7 +34,8 @@
 % ==============================================
 
 :- if( \+ user:file_search_path(sample_games,_Dir)).
-:- must((absolute_file_name(pack('prologmud_samples/prolog/prologmud_sample_games'),Dir),asserta(user:file_search_path(sample_games,Dir)))).
+:- must((absolute_file_name(library('prologmud_sample_games/'),Dir,[file_type(directory), access(read)]),
+   asserta(user:file_search_path(sample_games,Dir)))).
 :- sanity(user:file_search_path(sample_games,_Dir)).
 :- endif.
 
@@ -186,7 +187,7 @@ lstra :- forall(baseKB:how_virtualize_file(_,F),baseKB:ensure_loaded(F)).
 
 :- sanity(argIsa(genlPreds,2,_)).
 
-:- after_boot_sanity_test(argIsa(genlPreds,2,_)).
+:- runtime_sanity_test(argIsa(genlPreds,2,_)).
 
 
 % ==============================================
@@ -200,16 +201,16 @@ sanity_test(ifood_rez):- ignore((
      ain(isa(iFoodRez2,tFood)),must(isa(iFoodRez2,tEatAble)))),
     must((call(call,parseIsa_Call(tEatAble,O,["food"],Rest)),O=iFoodRez2,Rest=[])).
 
-:- after_boot_sanity_test((dmsg(sanity_test_ifood_rez))).
+:- runtime_sanity_test((dmsg(sanity_test_ifood_rez))).
 
 
 sanity_test(s_direction):- gripe_time(1.0,must(coerce("s",vtDirection,_))).
 sanity_test(l_not_a_direction):- gripe_time(2.0,must( \+ coerce(l,vtDirection,_))).
-%:- after_boot_sanity_test().
-%:- after_boot_sanity_test().
+%:- runtime_sanity_test().
+%:- runtime_sanity_test().
 :- endif.
-:- after_boot_sanity_test((statistics)).
-:- after_boot_sanity_test(check_clause_counts).
+:- runtime_sanity_test((statistics)).
+:- runtime_sanity_test(check_clause_counts).
 
 
 % ==============================================
@@ -217,7 +218,7 @@ sanity_test(l_not_a_direction):- gripe_time(2.0,must( \+ coerce(l,vtDirection,_)
 % ==============================================
 
 % :- after_boot(set_prolog_flag(runtime_debug,0)).
-:- during_boot(set_prolog_flag(unsafe_speedups,false)).
+:- before_boot(set_prolog_flag(unsafe_speedups,false)).
 
 :- if( \+ app_argv('--noworld')).
 :- if(app_argv('--world')).
@@ -260,8 +261,9 @@ lar :- % set_prolog_flag(dmsg_level,never),
 :- set_prolog_flag(runtime_speed,1).
 
 :- endif.
-:- during_boot('$set_typein_module'(baseKB)).
-:- during_boot('$set_source_module'(baseKB)).
+
+:- before_boot('$set_typein_module'(baseKB)).
+:- before_boot('$set_source_module'(baseKB)).
 :- during_boot(ain(tSourceData(iWorldData8))).
 
 start_runtime:- 

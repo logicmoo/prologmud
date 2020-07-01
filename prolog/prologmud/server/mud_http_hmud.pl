@@ -22,6 +22,7 @@
 % Ensure hMUD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+:- meta_predicate ignore_all(0).
 ignore_all(G):- ignore(notrace(catch(G,E,wdmsg(=>(G,E))))).
 
 ensure_hmud:-!.
