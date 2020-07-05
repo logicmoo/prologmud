@@ -27,7 +27,7 @@
          login_and_run_nodbg/0,
          login_and_run_debug/0,
          login_and_run_xhtml/0,
-         telnet_restore/0
+         start_telnet/0
       )).
 
 % Initial Telnet/Text console
@@ -98,7 +98,7 @@ sanify_thread(ID):-
 start_mud_telnet :-  app_argv1('--nonet'),!.
 start_mud_telnet:-
   logicmoo_base_port(Base),
-   WebPort is Base, % + 1000,
+  WebPort is Base, % + 1000,
   whenever(run_network,start_mud_telnet(WebPort)).
 
 port_busy(Port):-
@@ -162,7 +162,7 @@ login_and_run_debug:-
    % fav_debug,!,
    must_det(login_and_run),!.
 
-get_session_id_local(O):- must(get_session_id(O)),!.
+get_session_id_local(O):- must(baseKB:get_session_id(O)),!.
 
 
 ensure_player_attached(In,Out,P):-
@@ -174,14 +174,14 @@ player_connect_menu(In,Out,Wants,P):-
   must_det((   
    get_session_id_local(O),
    format('~N~nHello session ~q!~n',[O]),
-   foc_current_agent(Wants),
+   baseKB:foc_current_agent(Wants),
    % must((foc_current_agent(P),sanity(nonvar(P)))),
-   must((foc_current_agent(P),nonvar(P))),
+   must((baseKB:foc_current_agent(P),nonvar(P))),
    ain(isa(P,tHumanControlled)),
    register_player_stream_local(P,In,Out),
    format('~N~nWelcome to the MUD ~w!~n',[P]),
    format(Out,'~N~nThe stream ~w!~n',[Out]),
-   colormsg([blink,fg(red)],"this is blinking red!"),!)),Undo),!.
+   colormsg([blink,fg(red)],"this is not blinking red!"),!)),Undo),!.
 
 login_and_run_html:-
   login_and_run.
@@ -328,7 +328,7 @@ setup_stream_props(Name,Stream):-
    %set_stream_ice(Stream, write_errors(warn)),   
    %set_stream_ice(Stream, eof_action(eof_code)),
    %set_stream_ice(Stream, buffer_size(1)),   
-   (input_stream(Stream)->set_stream_ice(Stream, newline(detect));true),
+   (stream_property(Stream,input)->set_stream_ice(Stream, newline(detect));true),
    set_stream_ice(Stream, tty(true)),
    nop(forall(stream_property(Stream,Prop),dmsg(stream_info(Name,Stream,Prop)))))).
    
@@ -406,10 +406,10 @@ code_list_to_next_command(NewCodes,Atom):-atom_codes(Atom,NewCodes),!.
 :-export(scan_src_updates/0).
 
 tick_tock:-
-           scan_src_updates,!,fmt('tick tock',[]),sleep(0.1),!.
+         scan_src_updates,!,fmt('tick tock',[]),sleep(0.1),!.
 
 scan_src_updates:- !.
-scan_src_updates:- ignore((thread_self_main,ignore((catch(make,E,dmsg(E)))))).
+scan_src_updates:- ignore((thread_self_main,ignore((catch(mmake,E,dmsg(E)))))).
 
 
 % ===========================================================
@@ -752,16 +752,18 @@ set_stream_ice(Stream, NV):- catch(set_stream(Stream,NV),E,(dmsg(set_stream(Stre
 
 
 
+baseKB:deliver_event_hooks(A,Event):-
+   subst(Event,reciever,you,NewEventM),
+   subst(NewEventM,A,you,NewEvent),
+   foreach(no_repeats(call_u(get_agent_sessions(A,O))),
+     foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
+      fmtevent(Out,NewEvent))).
 
 % correct_o_stream:-current_error(E),set_stream_ice(E).
 
-telnet_restore :-  app_argv('--notelnet'),!.
-telnet_restore :-
+start_telnet :-  app_argv('--notelnet'),!.
+start_telnet :-
       % add_import_module(mud_telnet,baseKB,end),
-      assert_if_new(( baseKB:deliver_event_hooks(A,Event):-subst(Event,reciever,you,NewEventM),subst(NewEventM,A,you,NewEvent),
-        foreach(no_repeats(call_u(get_agent_sessions(A,O))),
-         foreach(no_repeats(lmcache:session_io(O,_In,Out,_Id)),
-          fmtevent(Out,NewEvent))))),
       must(start_mud_telnet),
       nop(must(golorp_start)).
 
@@ -774,9 +776,6 @@ golorp_start:- logicmoo_base_port(Port),
     ensure_loaded('/opt/logicmoo_workspace/packs_xtra/logicmoo_packages/prolog/golorp/load'),
     start_tnet(golorpish,  Port+25 , "GOLORP Telnet").
 
-
-:- initialization(telnet_restore).
-:- initialization(telnet_restore,now).
-:- initialization(telnet_restore,restore).
+:- after_boot(start_telnet).
 
 

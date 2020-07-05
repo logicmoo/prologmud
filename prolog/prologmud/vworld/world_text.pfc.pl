@@ -10,7 +10,7 @@
 */
 % :-swi_module(world_text,[]).
 %      default_repl_obj_to_string/3,default_repl_writer/4,show_kb_via_pred/3,show_kb_preds/2,show_kb_preds/3,wasSuccess/2
-% :- include(prologmud(mud_header)).
+:- include(prologmud(mud_header)).
 
 % :-export(eng_fully_expand/2).
 

@@ -206,7 +206,7 @@ start_boxer:-
    %threads,
    ensure_loaded(logicmoo(candc/parser_boxer)),
    % make,   
-   during_runtime(prolog_repl).
+   runtime_boot(prolog_repl).
 
 
 
@@ -265,7 +265,7 @@ debug_repl_w_cyc(Module,CallFirst):- !,
           locally_hide(t_l:useOnlyExternalDBs,
             locally(baseKB:use_cyc_database,
                ((decl_type(person),          
-                ensure_mpred_file_loaded(logicmoo('rooms/startr ek.all.pfc.pl')),
+                ensure_mpred_file_loaded(logicmoo('rooms/startrek.all.pfc.pl')),
                 module(Module),
                 show_call(CallFirst), 
                 prolog_repl)))).
@@ -273,7 +273,7 @@ debug_repl_wo_cyc(Module,CallFirst):- !,
           locally(t_l:useOnlyExternalDBs,
             locally_hide(baseKB:use_cyc_database,
                ((decl_type(person),          
-                ensure_mpred_file_loaded(logicmoo('rooms/startrek.all.p fc.pl')),
+                ensure_mpred_file_loaded(logicmoo('rooms/startrek.all.pfc.pl')),
                 module(Module),
                 show_call(CallFirst), 
                 prolog_repl)))).
@@ -357,7 +357,7 @@ cmdresult(statistics,true)
 % :- prolog.
 
 % :-foc_current_agent(P),assertz_if_new(agent_action_queue(P,chat80)).
-:- if_flag_true(was_runs_tests_pl, during_runtime(login_and_run)).
+:- if_flag_true(was_runs_tests_pl, runtime_boot(login_and_run)).
 
 
 % So scripted versions don't just exit
@@ -558,13 +558,6 @@ download_and_install_el:-
 
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_lisp)).
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_chr)).
-
-:- if(false).
-:- statistics.
-:- endif.
-
-:- set_prolog_flag(runtime_debug,3).
-:- set_prolog_flag(runtime_safety,3).
 
 :- if(app_argv1('--profile')).
 include_prolog_file_mask(F):- wdmsg(include_prolog_file_mask(F)), absolute_file_name(F,I),expand_file_name(I,O),profile(maplist(ensure_mpred_file_loaded,O)).

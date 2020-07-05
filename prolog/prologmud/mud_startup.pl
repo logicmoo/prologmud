@@ -15,6 +15,8 @@
 %:-pfc_untrace.
 %:-pfc_no_spy_all.
 
+use_baseKB :- '$set_typein_module'(baseKB),'$set_source_module'(baseKB),module(baseKB).
+:- use_baseKB.
 
 % ==============================================
 % ============= MUD SERVER CODE LOADED =============
@@ -147,7 +149,7 @@ onSpawn(mudAreaConnected(tLivingRoom,tOfficeRoom)).
 
 
 
-start_telnet:- 
+start_mud_server:- 
    user:ensure_loaded(init_mud_server),
   on_x_log_cont((call(call,start_mud_telnet))).
 
@@ -155,7 +157,7 @@ start_telnet:-
 % [Optionaly] Start the telent server % iCommanderdata66
 % ==============================================
 :- if( \+ app_argv('--nonet')).
-:- after_boot(start_telnet).
+:- after_boot(start_mud_server).
 % :- assert_setting01(lmconf:eachFact_Preconditional(isRuntime)).
 :- endif.
 
@@ -166,8 +168,8 @@ start_telnet:-
 % isa(starTrek,mtHybrid).
 %lst :- !.
 lst :- baseKB:ensure_loaded(sample_games('src_game_startrek/?*.pfc*')).
-lstr :- forall((baseKB:how_virtualize_file(heads,F), \+ mpred_unload_option(F, never)), baseKB:ensure_loaded(F)).
-lstra :- forall(baseKB:how_virtualize_file(_,F),baseKB:ensure_loaded(F)).
+lstr :- forall((baseKB:how_virtualize_file(heads,F,0), \+ mpred_unload_option(F, never)), baseKB:ensure_loaded(F)).
+lstra :- forall(baseKB:how_virtualize_file(_,F,0),baseKB:ensure_loaded(F)).
 
 % ==============================================
 % [Optional] the following game files though can be loaded separate instead
@@ -187,7 +189,7 @@ lstra :- forall(baseKB:how_virtualize_file(_,F),baseKB:ensure_loaded(F)).
 
 :- sanity(argIsa(genlPreds,2,_)).
 
-:- runtime_sanity_test(argIsa(genlPreds,2,_)).
+:- test_runtime_boot(argIsa(genlPreds,2,_)).
 
 
 % ==============================================
@@ -201,16 +203,16 @@ sanity_test(ifood_rez):- ignore((
      ain(isa(iFoodRez2,tFood)),must(isa(iFoodRez2,tEatAble)))),
     must((call(call,parseIsa_Call(tEatAble,O,["food"],Rest)),O=iFoodRez2,Rest=[])).
 
-:- runtime_sanity_test((dmsg(sanity_test_ifood_rez))).
+:- test_runtime_boot((dmsg(sanity_test_ifood_rez))).
 
 
 sanity_test(s_direction):- gripe_time(1.0,must(coerce("s",vtDirection,_))).
 sanity_test(l_not_a_direction):- gripe_time(2.0,must( \+ coerce(l,vtDirection,_))).
-%:- runtime_sanity_test().
-%:- runtime_sanity_test().
+%:- test_runtime_boot().
+%:- test_runtime_boot().
 :- endif.
-:- runtime_sanity_test((statistics)).
-:- runtime_sanity_test(check_clause_counts).
+:- test_runtime_boot((statistics)).
+:- test_runtime_boot(check_clause_counts).
 
 
 % ==============================================
@@ -237,7 +239,7 @@ lar0 :- lar.
 
 :- add_history(lar).
 lar :- % set_prolog_flag(dmsg_level,never),
-     start_runtime,
+     start_runtime_mud,
        if_defined(login_and_run,wdmsg("MUD code not loaded")).
 
 
@@ -262,15 +264,20 @@ lar :- % set_prolog_flag(dmsg_level,never),
 
 :- endif.
 
-:- before_boot('$set_typein_module'(baseKB)).
-:- before_boot('$set_source_module'(baseKB)).
+
+:- before_boot(use_baseKB).
+:- during_boot(use_baseKB).
 :- during_boot(ain(tSourceData(iWorldData8))).
 
-start_runtime:- 
+start_runtime_mud:- 
+   use_baseKB,
    ain(isLoaded(iWorldData8)),
+   listing(feature_test),
+   listing(sanity_test),
+   listing(regression_test),
    with_mpred_trace_exec(ain(isRuntime)).
 
-:- after_boot(start_runtime).
+:- after_boot(start_runtime_mud).
 
 %:- setenv('DISPLAY', '').
 :- add_history(profile(ain(tAgent(foofy)))).
@@ -280,7 +287,4 @@ start_runtime:-
 :- add_history(baseKB:lst).
 :- add_history(logicmoo_i_cyc_xform).
 
-:- listing(feature_test).
-:- listing(sanity_test).
-:- listing(regression_test).
 

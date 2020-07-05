@@ -178,8 +178,8 @@ create_instance(What,Type,Props):-
 
 create_instance_now(What,Type,Props):-
   must((var(Type);atom_concat('t',_,Type ))),!,
- locally_tl(agenda_suspend_scans,
-  locally_tl(deduceArgTypes(_),
+ locally_tl(t_l:agenda_suspend_scans,
+  locally_tl(t_l:deduceArgTypes(_),
   locally_hide(t_l:useOnlyExternalDBs,
    locally_hide(t_l:noRandomValues(_),
      locally_hide(t_l:infInstanceOnly(_),   

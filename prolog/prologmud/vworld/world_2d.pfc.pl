@@ -402,6 +402,7 @@ calc_from_center_xyz(Region1,Dir,R,X2,Y2,Z2):-
 
 prologBuiltin(random_path_dir/1).
 
+system:sys_random_path_dir(Dir):- random_path_dir(Dir).
 % random_path_dir(Dir):- nonvar(Dir),random_path_dir(Dir0),Dir=Dir0,!.
 random_path_dir(Dir):- no_repeats(random_path_dir0(Dir)).
 random_travel_dir(Dir):- no_repeats(random_path_dir1(Dir)).

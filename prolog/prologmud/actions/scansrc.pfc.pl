@@ -13,9 +13,9 @@
 
 % :- register_module_type (mtCommand).
 
-:- export(found_undef/3).
-found_undef(_,_,_).
-:- dynamic undef/2.
+%:- export(found_undef/3).
+%found_undef(_,_,_).
+%:- dynamic undef/2.
 
 /*
 % when we import new and awefull code base (the previous )this can be helpfull

@@ -382,5 +382,8 @@ display_stats(Agents) :-
 		  write('Score = '), write(Scr), nl,
 		  write('Inventory = '), write(Inv), nl)).
 
+:- fixup_exports.
 :- all_source_file_predicates_are_transparent.
+
+
 

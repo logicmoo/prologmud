@@ -76,7 +76,7 @@ agent_command(_Gent,actParse(Type,StringM)):-
 % ===========================================================
 :-ain((==>type_action_info(tHumanControlled,actCmdparse(ftListFn(ftTerm)),"Development test to parse some Text for a human.  Usage: cmdparse take the blue backpack"))).
 
-agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAction,StringM,Term,LeftOver),fmt('==>'(parse_for(StringM) , [Term,LeftOver]))).
+agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAction,StringM,Term,LeftOver)),fmt('==>'(parse_for(StringM) , [Term,LeftOver])).
 
 % baseKB:mud_test("cmdparse test",...)
   
@@ -349,7 +349,7 @@ parse_agent_text_command_0(Agent,IVERB,ARGS,NewAgent,GOAL):-
    parse_agent_text_command(Agent,SVERB,ARGS,NewAgent,GOAL).
 
 parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),functor(PROLOGTERM,F,A),
-  mpred_prop(F,A,_),!.
+  mpred_prop(_,F,A,_),!.
 parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),is_callable(PROLOGTERM),!.
 
 :-export(parse_agent_text_command_1/5).

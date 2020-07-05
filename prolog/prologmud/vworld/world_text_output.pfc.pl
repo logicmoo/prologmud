@@ -9,6 +9,8 @@
 % Dec 13, 2035
 %
 */
+:- include(prologmud(mud_header)).
+
 
 % :- include(prologmud(mud_header)).
 

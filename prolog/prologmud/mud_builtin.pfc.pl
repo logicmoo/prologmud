@@ -23,10 +23,11 @@
 :- multifile baseKB:agent_action_queue/3.
 :- dynamic baseKB:agent_action_queue/3.
 
-:- must(\+ t_l:disable_px).
-
 :- thread_local(t_l:disable_px/0).
 :- retractall(t_l:disable_px).
+
+:- must(\+ t_l:disable_px).
+
 
 /*
 :- dynamic   lmcache:session_io/4, lmcache:session_agent/2, lmcache:agent_session/2,   telnet_fmt_shown/3,   agent_action_queue/3.
@@ -978,7 +979,7 @@ arity(mudAreaConnected,2).
 (mudAreaConnected(R1,R2)/
  (ground(mudAreaConnected(R1,R2)),
    \+ pathDirLeadsTo(R1,_,R2),
-  random_path_dir(Dir),reverse_dir(Dir,Rev),\+ pathDirLeadsTo(R1,Dir,_NotR2), 
+  {sys_random_path_dir(Dir)},reverse_dir(Dir,Rev),\+ pathDirLeadsTo(R1,Dir,_NotR2), 
    \+ pathDirLeadsTo(R2,Rev,_NotR1))) ==>
   pathDirLeadsTo(R1,Dir,R2).
   
