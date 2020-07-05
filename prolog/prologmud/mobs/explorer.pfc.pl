@@ -17,6 +17,10 @@
 % Declare the module name and the exported (public) predicates.
 :-swi_module(mobExplorer,[]).
 
+%:- dmsg( dumpST).
+
+%:- backtrace(200).
+ 
 :- include(prologmud(mud_header)).
 % :- register_module_type (planning).
 

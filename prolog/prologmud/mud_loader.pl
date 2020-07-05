@@ -72,6 +72,8 @@
 % ==============================================
 :- user:load_library_system(library(logicmoo_lib)).
 
+:- use_module(library(logicmoo/butterfly_console)).
+
 
 :- if(\+ app_argv('--nonet')).
 :- whenever_flag_permits(load_network,load_library_system(library(logicmoo_webbot))).
@@ -559,11 +561,11 @@ download_and_install_el:-
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_lisp)).
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_chr)).
 
-:- if(app_argv1('--profile')).
-include_prolog_file_mask(F):- wdmsg(include_prolog_file_mask(F)), absolute_file_name(F,I),expand_file_name(I,O),profile(maplist(ensure_mpred_file_loaded,O)).
-:- else.
-include_prolog_file_mask(F):- wdmsg(include_prolog_file_mask(F)), absolute_file_name(F,I),expand_file_name(I,O),maplist(ensure_mpred_file_loaded,O).
-:- endif.
+include_prolog_file_mask(F):- 
+  wdmsg(include_prolog_file_mask(F)), 
+  absolute_file_name(F,I),
+  expand_file_name(I,O),
+  maplist(ensure_mpred_file_loaded,O).
 
 
 % NPC planners
