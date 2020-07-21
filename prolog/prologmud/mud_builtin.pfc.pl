@@ -673,6 +673,7 @@ prologHybrid(mudColor/2).
 prologHybrid(mudHealth,2).
 prologHybrid(mudMaterial/2).
 prologHybrid(mudNeedsLook,2).
+:- kb_global(baseKB:mudNeedsLook/2).
 prologHybrid(mudNeedsLook/2,[completeExtentAsserted]).
 prologHybrid(mudShape/2).
 prologHybrid(mudSize/2).
@@ -1324,6 +1325,9 @@ Unsuccessful attempt by is a rulebook. [19]
 */
 
 
+:- dynamic(baseKB:mudNeedsLook/2).
+:- export(baseKB:mudNeedsLook/2).
+:- pfc_lib:import(baseKB:mudNeedsLook/2).
 
 
 prologBuiltin(onEachLoad/0).
