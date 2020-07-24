@@ -326,7 +326,7 @@ parse_agent_text_command(Agent,PROLOGTERM,[],Agent,actProlog(PROLOGTERM)):- nonv
 parse_agent_text_command(Agent,SVERB,ARGS,NewAgent,GOAL):-
  dmsg(failed_parse_agent_text_command_0(Agent,SVERB,ARGS,NewAgent,GOAL)),
  debugging_logicmoo(logicmoo(parser)),
- debug,visible(+all),leash(+all), 
+ % debug,visible(+all),leash(+all), 
  parse_agent_text_command_0(Agent,SVERB,ARGS,NewAgent,GOAL),!.
 
 parse_agent_text_command(Agent,IVERB,ARGS,Agent,GOAL):- 
@@ -350,7 +350,7 @@ parse_agent_text_command_0(Agent,IVERB,ARGS,NewAgent,GOAL):-
 
 parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),functor(PROLOGTERM,F,A),
   mpred_prop(_,F,A,_),!.
-parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),is_callable(PROLOGTERM),!.
+parse_agent_text_command_0(Agent,PROLOGTERM,[],Agent,actProlog(req1(PROLOGTERM))):- compound(PROLOGTERM),pfc_is_callable(PROLOGTERM),!.
 
 :-export(parse_agent_text_command_1/5).
 % parses a verb phrase and retuns one interpretation (action)

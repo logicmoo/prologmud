@@ -140,12 +140,12 @@ onSpawn(mudAreaConnected(tLivingRoom,tOfficeRoom)).
 :- endif.
 
 :- if( \+ is_startup_script(_) ).
-:- init_why("run_mud_server").
+%:- init_why("run_mud_server").
 :- endif.
 
 
 :- set_prolog_flag(access_level,system).
-:- debug.
+%:- debug.
 
 
 

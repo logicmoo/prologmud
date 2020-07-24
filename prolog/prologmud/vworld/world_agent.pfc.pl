@@ -210,7 +210,8 @@ correctCommand_0(Who,CMD,OUT):-
 acceptableArg(Arg,Type):-dmsg(acceptableArg(Arg,Type)).
 
 :-export(current_agent/1).
-current_agent(PIn):- get_session_id(O),get_agent_session(P,O),!,P=PIn.
+current_agent(PIn):- ((get_session_id(O),get_agent_session(P,O),!,P=PIn)),!.
+current_agent(PIn):- thread_self(PIn).
 % :-mpred_core:import(current_agent/1).
 
 :-export(current_agent_or_var/1).
@@ -263,7 +264,7 @@ foc_current_agent(P):-
 
 :-user:ensure_loaded(library(http/http_session)).
 
-get_session_id(IDIn):-guess_session_ids(ID),nonvar(ID),!,ID=IDIn.
+get_session_id(IDIn):- guess_session_ids(ID),nonvar(ID),!,ID=IDIn.
 :-export(get_session_id/1).
 :-system:import(get_session_id/1).
 
@@ -281,6 +282,7 @@ guess_session_ids(ID):-thread_self(TID),thread_property(TID,alias(ID)).
 guess_session_ids(ID):-thread_self(ID), \+ thread_property(ID,alias(ID)).
 % anonymous sessions
 guess_session_ids(In):-thread_self(ID),call(call,thread_util:has_console(ID,In,_Out,_Err)).
+guess_session_ids(In):-current_input(In).
 
 
 :-export(my_random_member/2).

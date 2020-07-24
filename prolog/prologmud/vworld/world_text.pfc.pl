@@ -46,7 +46,7 @@ is_leave_alone_msg(parserm).
 % is_leave_alone_msg(F):- is_db_prop(F,_,_),!,fail.
 is_leave_alone_msg(A):-on_x_fail((sub_atom(A,_,1,0,S),atom_number(S,_))),!.
 
-:- discontiguous(bakeKB:mudTermAnglify/2).
+:- discontiguous(baseKB:mudTermAnglify/2).
 
 prologDynamic(mudTermAnglify/2).
 prologBuiltin(term_anglify_args/6).
