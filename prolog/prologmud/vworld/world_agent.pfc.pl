@@ -57,7 +57,7 @@ do_agent_action(P,C,_):- var(C),!,fmt('unknown_var_command(~q,~q).',[P,C]).
 do_agent_action(_,EOF,_):- end_of_file == EOF, !, npc_tick_tock.
 do_agent_action(_,'',_):-!, npc_tick_tock.
 do_agent_action(P,C,O):- do_gc,with_session(O,agent_call_unparsed(P, C)),!.
-do_agent_action(P,C,_):-wdmsg("skipping_unknown_player_action(~q,~q).~n",[P,C]),!.
+do_agent_action(P,C,_):- dmsg("skipping_unknown_player_action(~q,~q).~n",[P,C]),!.
 
 %check_word(SVERB):- var_non_attvar(SVERB),!, when(nonvar(SVERB),check_word(SVERB)),!.
 check_word(SVERB):- atom(SVERB), atom_concat('[',_,SVERB),trace_or_throw(bad_parse_agent_text_command(SVERB)).
@@ -318,7 +318,7 @@ random_instance_no_throw0(Type,Value,Test):-
 
 
 get_dettached_npc(P):- random_instance_no_throw(tAgent,P, \+ isa(P,tHumanControlled)).
-:- listing(get_dettached_npc/1).
+:- dmsg(call(listing(get_dettached_npc/1))).
 
 
 :-multifile(system:random_instance/3).

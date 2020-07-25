@@ -650,11 +650,12 @@ simbots_templates0(Templ):-verb_affordance(V,O,_,_,_),simbots_t_v_o(Templ,V,O).
 
 :-ain((verb_affordance(Verb, Obj, _,_,_)==>verb_for_type(Verb, Obj))).
 
-:-listing(verb_desc/3).
-:-listing(verb_for_type/2).
-:-listing(verb_affordance_2/2).
-:-listing(can_hold_type/2).
-:-listing(verb_affordance/5).
+
+:- dmsg(call((listing(verb_desc/3),
+      listing(verb_for_type/2),
+      listing(verb_affordance_2/2),
+      listing(can_hold_type/2),
+      listing(verb_affordance/5)))).
 
 
 /*
@@ -883,4 +884,4 @@ verb_for_type(actThinkAbout, tLookAble).
 
 :-ain({simbots_templates(Templ)} ==> vtActionTemplate(Templ)).
 
-:- listing(vtActionTemplate).
+:- dmsg(call(listing(vtActionTemplate))).

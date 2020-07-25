@@ -1401,7 +1401,7 @@ mud_listing(M):- cwc, xlisting((M,-completely_expanded,-spft,-nt,-pt,- (==>))).
 
 vtActionTemplate(actImprove(rtStatPred)).
 
-:- listing(vtActionTemplate/1).
+%:- listing(vtActionTemplate/1).
 
 % check to make sure the canonicalizer left the compound..
 ==> onQueueEmpty(sanity(clause(baseKB:vtActionTemplate(actImprove(rtStatPred)),true))).

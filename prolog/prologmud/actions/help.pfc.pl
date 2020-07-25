@@ -33,7 +33,7 @@ get_good_templates(Templ):- isa(Templ,vtActionTemplate),good_template(Templ).
 get_bad_templates(Templ):- no_repeats_old((action_info(Templ,_),not(good_template(Templ)))).
 
 
-:- sanity((fully_expand_real(foo,action_info(TEMPL, txtConcatFn(_Text,"does: ",do(_A2,TEMPL))),O),wdmsg(O))).
+:- sanity((fully_expand_real(foo,action_info(TEMPL, txtConcatFn(_Text,"does: ",do(_A2,TEMPL))),O),dmsg(O))).
 
 % :- mpred_core:import(baseKB:get_agent_text_command_0/4).
 

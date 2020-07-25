@@ -562,7 +562,7 @@ download_and_install_el:-
 %:- ensure_loaded(logicmoo(dbase/mpred_ext_chr)).
 
 include_prolog_file_mask(F):- 
-  wdmsg(include_prolog_file_mask(F)), 
+  dmsg(include_prolog_file_mask(F)), 
   absolute_file_name(F,I),
   expand_file_name(I,O),
   maplist(ensure_mpred_file_loaded,O).

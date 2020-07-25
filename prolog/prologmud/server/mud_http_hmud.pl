@@ -23,7 +23,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- meta_predicate ignore_all(0).
-ignore_all(G):- ignore(notrace(catch(G,E,wdmsg(=>(G,E))))).
+ignore_all(G):- ignore(notrace(catch(G,E,dmsg(=>(G,E))))).
 
 ensure_hmud:-!.
 ensure_hmud:- 

@@ -15,4 +15,4 @@ test(1):- must_once(fail).
 
 all_tests:- forall(test(_),true).
 
-:- listing(test(_)).
+:- dmsg(call(listing(test(_)))).

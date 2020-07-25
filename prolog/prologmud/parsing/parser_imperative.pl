@@ -387,7 +387,7 @@ nameString(O,S):-nonvar(O),nonvar(S),nameString(O,SU),same_ci(S,SU).
   ==> 
    ( \+ P,{coerce(NonStr,StringType,EStr)},Q)).
 
-:- listing(text_actverb/2).
+:- dmsg(call(listing(text_actverb/2))).
 
 
 % :- sanity((clause_u(text_actverb(S,actWhere)),argIsa(text_actverb,1,C),isa(S,C))).

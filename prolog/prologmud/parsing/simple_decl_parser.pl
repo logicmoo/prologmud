@@ -13,8 +13,10 @@
 :- include(prologmud(mud_header)).
 :- check_clause_counts.
 
-:-discontiguous((translation_spo/6,parserTest/2,parserTest/3,translation_w//1)).
-:-dynamic((translation_spo/6,parserTest/2,parserTest/3,translation_w//1)).
+:-discontiguous((translation_spo/6,parserTest/2,parserTest/3,translation_w//
+                                                                              1)).
+:-dynamic((translation_spo/6,parserTest/2,parserTest/3,translation_w//
+                                                                         1)).
 :-thread_local(loosePass/0).
 :-thread_local(debugPass/0).
 :-dynamic(parserVars/4).
@@ -307,7 +309,8 @@ datatype(ftTerm)--> dcgOptional(detn(_)),[value].
 predicate_named(Pred) --> dcgAnd(theText(Text),dcgLenBetween(1,5)),
   {toCamelAtom(Text,O),i_name(mud,O,Pred),ignore(assumed_isa(Pred,tPred))}.
 
-:- listing(predicate_named//1).
+:- dmsg(call(listing(predicate_named//1
+              ))).
 
 assumed_isa(I,C):-isa(I,C),!.
 assumed_isa(I,C):-loosePass,assert_isa(I,C),!.

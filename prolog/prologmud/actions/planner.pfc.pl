@@ -19,7 +19,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [Mostly Required] Load the Logicmoo Plan Generator System
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-:- absolute_file_name(library(logicmoo_planner),P,[file_type(prolog),access(read)]),wdmsg(library(logicmoo_planner)=P).
+:- absolute_file_name(library(logicmoo_planner),P,[file_type(prolog),access(read)]),dmsg(library(logicmoo_planner)=P).
 :- load_library_system(library(logicmoo_planner)).
 
 
@@ -35,9 +35,9 @@ action_info(actPlan(ftTerm),"carry out a plan").
 % Plan something
 agent_call_command(Agent,actPlan(Goal)) :-
    ain(agentGOAL(Agent,Goal)),
-   listing(agentGOAL(Agent,_)),
+   dmsg(call(listing(agentGOAL(Agent,_)))),
    pddl_idea(Agent,Act),
-   listing(agentTODO(Agent,_)),
+   dmsg(call(listing(agentTODO(Agent,_)))),
    pddl_vette_idea(Agent,Act,_ActV).
   
 

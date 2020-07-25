@@ -292,7 +292,7 @@ enqueue_session_action(A,L,S):- show_call(must(call_u(enqueue_agent_action(A,L,S
 setup_streams:-
   get_session_io(In,Out),
   setup_streams(In, Out),
-  call(listing,thread_util:has_console/4).
+  dmsg(call(call(listing,thread_util:has_console/4))).
 
 setup_streams(In,Out):- var(In),!,current_input(In),setup_streams(In,Out).
 setup_streams(In,Out):- var(Out),!,current_output(Out),setup_streams(In,Out).

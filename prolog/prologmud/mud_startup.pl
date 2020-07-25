@@ -24,7 +24,7 @@ use_baseKB :- '$set_typein_module'(baseKB),'$set_source_module'(baseKB),module(b
 
 :- with_mpred_trace_exec(ain(isLoaded(iSourceCode7))).
 
-:- flag_call(runtime_debug=true).
+%:- flag_call(runtime_debug=3).
 
 :- if((gethostname(ubuntu),fail)). % INFO this fail is so we can start faster
 :- show_entry(gripe_time(40, doall(baseKB:regression_test))).
@@ -272,9 +272,9 @@ lar :- % set_prolog_flag(dmsg_level,never),
 start_runtime_mud:- 
    use_baseKB,
    ain(isLoaded(iWorldData8)),
-   listing(feature_test),
-   listing(sanity_test),
-   listing(regression_test),
+   dmsg(call(listing(feature_test))),
+   dmsg(call(listing(sanity_test))),
+   dmsg(call(listing(regression_test))),
    with_mpred_trace_exec(ain(isRuntime)).
 
 :- after_boot(start_runtime_mud).
