@@ -144,13 +144,12 @@ onSpawn(mudAreaConnected(tLivingRoom,tOfficeRoom)).
 :- endif.
 
 
-:- set_prolog_flag(access_level,system).
+%:- set_prolog_flag(access_level,system).
 %:- debug.
 
 
 
-start_mud_server:- 
-   user:ensure_loaded(init_mud_server),
+start_mud_server:-  
   on_x_log_cont((call(call,start_mud_telnet))).
 
 % ==============================================
@@ -197,7 +196,7 @@ lstra :- forall(baseKB:how_virtualize_file(_,F,0),baseKB:ensure_loaded(F)).
 % ==============================================
 :- if( \+ app_argv('--noworld')).
 sanity_test(ifood_rez):- ignore((
-     user:ensure_loaded(init_mud_server),
+     %user:ensure_loaded(init_mud_server),
      % mpred_notrace_exec,
      % flag_call(runtime_debug>true),
      ain(isa(iFoodRez2,tFood)),must(isa(iFoodRez2,tEatAble)))),
