@@ -282,7 +282,7 @@ guess_session_ids(ID):-thread_self(TID),thread_property(TID,alias(ID)).
 guess_session_ids(ID):-thread_self(ID), \+ thread_property(ID,alias(ID)).
 % anonymous sessions
 guess_session_ids(In):-thread_self(ID),call(call,thread_util:has_console(ID,In,_Out,_Err)).
-guess_session_ids(In):-current_input(In).
+% guess_session_ids(In):-current_input(In).
 
 
 :-export(my_random_member/2).
