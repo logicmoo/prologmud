@@ -57,7 +57,7 @@ do_agent_action(P,C,_):- var(C),!,fmt('unknown_var_command(~q,~q).',[P,C]).
 do_agent_action(_,EOF,_):- end_of_file == EOF, !, npc_tick_tock.
 do_agent_action(_,'',_):-!, npc_tick_tock.
 do_agent_action(P,C,O):- do_gc,with_session(O,agent_call_unparsed(P, C)),!.
-do_agent_action(P,C,_):- dmsg("skipping_unknown_player_action(~q,~q).~n",[P,C]),!.
+do_agent_action(P,C,_):-wdmsg("skipping_unknown_player_action(~q,~q).~n",[P,C]),!.
 
 %check_word(SVERB):- var_non_attvar(SVERB),!, when(nonvar(SVERB),check_word(SVERB)),!.
 check_word(SVERB):- atom(SVERB), atom_concat('[',_,SVERB),trace_or_throw(bad_parse_agent_text_command(SVERB)).
@@ -210,8 +210,7 @@ correctCommand_0(Who,CMD,OUT):-
 acceptableArg(Arg,Type):-dmsg(acceptableArg(Arg,Type)).
 
 :-export(current_agent/1).
-current_agent(PIn):- ((get_session_id(O),get_agent_session(P,O),!,P=PIn)),!.
-current_agent(PIn):- thread_self(PIn).
+current_agent(PIn):- get_session_id(O),get_agent_session(P,O),!,P=PIn.
 % :-mpred_core:import(current_agent/1).
 
 :-export(current_agent_or_var/1).
@@ -264,7 +263,7 @@ foc_current_agent(P):-
 
 :-user:ensure_loaded(library(http/http_session)).
 
-get_session_id(IDIn):- guess_session_ids(ID),nonvar(ID),!,ID=IDIn.
+get_session_id(IDIn):-guess_session_ids(ID),nonvar(ID),!,ID=IDIn.
 :-export(get_session_id/1).
 :-system:import(get_session_id/1).
 
@@ -282,7 +281,6 @@ guess_session_ids(ID):-thread_self(TID),thread_property(TID,alias(ID)).
 guess_session_ids(ID):-thread_self(ID), \+ thread_property(ID,alias(ID)).
 % anonymous sessions
 guess_session_ids(In):-thread_self(ID),call(call,thread_util:has_console(ID,In,_Out,_Err)).
-% guess_session_ids(In):-current_input(In).
 
 
 :-export(my_random_member/2).
@@ -318,7 +316,7 @@ random_instance_no_throw0(Type,Value,Test):-
 
 
 get_dettached_npc(P):- random_instance_no_throw(tAgent,P, \+ isa(P,tHumanControlled)).
-:- dmsg(call(listing(get_dettached_npc/1))).
+:- listing(get_dettached_npc/1).
 
 
 :-multifile(system:random_instance/3).
