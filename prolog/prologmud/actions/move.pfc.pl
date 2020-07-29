@@ -68,6 +68,7 @@ move_command_1(Agent,Dir) :-
 move_command_1(Agent,Dir) :-
 	mudAtLoc(Agent,LOC),
         from_dir_target(LOC,Dir,XXYY),
+        trace,
         is_3d(XXYY),
          mudAtLoc(Obj,LOC),        
          prop_or(Obj,mudHeight,ObjHt,1),
@@ -85,10 +86,10 @@ move_command_1(Agent,Dir) :-
 % Another Agent is in the way
 move_command_1(Agent,Dir):- 
 	mudAtLoc(Agent,LOC),
-	from_dir_target(LOC,Dir,XXYY),
+	from_dir_target(LOC,Dir,XXYY),       
 	is_3d(XXYY),
         mudAtLoc(Agent2,XXYY),
-	isa(Agent2,tAgent),
+	isa(Agent2,tAgent),!,
 	call_update_stats(Agent,collide),
 	call_update_charge(Agent,actMove),
         raise_location_event(XXYY,collide(Agent,Agent2)),
