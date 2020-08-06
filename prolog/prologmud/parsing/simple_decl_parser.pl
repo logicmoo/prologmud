@@ -330,7 +330,7 @@ translation_w(relationMostInstance(isa,C1,C2)) --> collection(C1),[is,usually],c
 translation_w(relationSomeInstance(isa,C1,C2)) --> collection(C1),[be],collection(C2).  
 
 :-assertz_if_new(parserTest(iWorld7,"The outside is a direction.", t(isa,vOutside,vtDirection))).
-translation_w(isa(C1,C2)) --> detn(def),col(v,C1),[is,a],col(vt,C2).  
+translation_w(isa(C1,C2)) --> detn(exists),col(v,C1),[is,a],col(vt,C2).  
 
 col(Pfx,C)-->subject(C,_,true),{atom_concat(Pfx,_,C)}.
 col(_Pfx,C)-->{loosePass},subject(C,_,true).
