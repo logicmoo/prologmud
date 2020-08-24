@@ -13,6 +13,7 @@
 %
 */
 :- include(prologmud(mud_header)).
+:- use_module(library(pfc)).
 
 :- ensure_loaded(library(instant_prolog_docs)).
 
@@ -31,7 +32,8 @@
     get_agent_text_command_0/4,
     phrase_parseForTypes_9//2,
     guess_nameStrings/2,
-    parseForTypes//2)).
+    parseForTypes//
+    2)).
 
 % :- register_module_type (utility).
 
@@ -106,7 +108,7 @@ agent_command(Agent,actParsetempl(StringM)):-
 % should not be used really
 % parse_for(Type,StringM):- parse_for(Type,StringM, _Term).
 
-parse_for(Type,StringM, Term):-parse_for(Type,StringM, Term, Out),Out=[].
+parse_for(Type,StringM, Term):-parse_for(Type,StringM, Term, Out),Out==[].
 
 list_tail(_,[]).
 list_tail(String,LeftOver):-ground(String),to_word_list(String,List),length(List,L),!,between(1,L,X),length(LeftOver,X).
@@ -189,7 +191,7 @@ nameString(O,S)==>mudKeyword(O,S).
 %:- begin_tests(parser_imparative,[setup(foc_current_agent(_))]).
 
 %:- end_tests(parser_imparative).
-
+        
 /*
 object_string(O,String) :-  object_string(_,O,1-4,String),!.
 object_string_0_5(O,String):-object_string(_,O,0-5,String),!.
@@ -233,6 +235,7 @@ save_fmt_a_0(O,E):-to_case_breaks(E,List),must_maplist(save_fmt_a(O),List).
 
 object_name_is_descriptive(O):- (isa(O,tCol);isa(O,tPred);t(functorDeclares,O);isa(O,ttValueType),isa(O,name_is_descriptive)).
 */
+
 /*
 :-export(object_print_details/5).
 
@@ -375,17 +378,17 @@ text_actverb("where is",actWhere).
 :-ain(((text_actverb(NonStr, Act), {\+ is_ftText(NonStr),convert_to_cycString(NonStr,EStr)}) ==> 
     text_actverb(EStr, Act),
    { ignore(call(call,retractall(( text_actverb(NonStr, Act)) ))) } )).
-
+                     
 ttTypeType(ttCoercable).
 
 genls(ttStringType,ttCoercable).
 
 nameString(O,S):-nonvar(O),nonvar(S),nameString(O,SU),same_ci(S,SU).
 
-((ttCoercable(StringType),argIsa(F,N,StringType),arity(F,A),
+:- ain(((ttCoercable(StringType),argIsa(F,N,StringType),arity(F,A),
   {functor(P,F,A),P,arg(N,P,NonStr),\+ isa(NonStr,StringType),coerce(NonStr,StringType,EStr),replace_arg(P,N,EStr,Q)})
   ==> 
-   ( \+ P,{coerce(NonStr,StringType,EStr)},Q)).
+   ( \+ P,{coerce(NonStr,StringType,EStr)},Q))).
 
 :- dmsg(call(listing(text_actverb/2))).
 

@@ -279,6 +279,7 @@ start_runtime_mud:-
 :- after_boot(start_runtime_mud).
 
 %:- setenv('DISPLAY', '').
+
 :- add_history(profile(ain(tAgent(foofy)))).
 :- add_history(listing(inRegion)).
 :- add_history(listing(localityOfObject)).                  
