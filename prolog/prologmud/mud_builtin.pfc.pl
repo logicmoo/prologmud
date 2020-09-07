@@ -774,6 +774,8 @@ defnSufficient(ftAction,is_vtActionTemplate).
 defnSufficient(ftAction,vtVerb).
 defnSufficient(ftTerm,vtValue).
 
+:- use_module(library(logicmoo_plarkc)).
+
 :- install_constant_renamer_until_eof.
 :- set_prolog_flag(do_renames_sumo,never).
 
