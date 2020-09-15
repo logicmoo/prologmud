@@ -295,6 +295,7 @@ translation_w(Prolog) --> translation_spo(More2,P,S,O),!,{conjoin(More2,t(P,S,O)
 
 :-assertz_if_new(parserTest(iWorld7,"An emitter has a truth state called action keeping silent.",
    relationAllExists(mudActionKeepingSilient,tEmitter,ftBool))).
+
 translation_w(relationAllExists(mudActionKeepingSilient,tEmitter,ftBoolean))
   --> ['An',emitter,has,a,truth,state,called,action,keeping,silent].
 
