@@ -1,5 +1,5 @@
 name(prologmud).
-version('1.4.111').
+version('2.0.1').
 title('Online text adventure game - MUD Server').
 keywords([game,ai]).
 
