@@ -34,10 +34,12 @@ use_baseKB :- '$set_typein_module'(baseKB),'$set_source_module'(baseKB),module(b
 % ==============================================
 % [Optional] Creates or suppliments a world
 % ==============================================
+set_default_sample_games:- 
+   must((catch((absolute_file_name(library('prologmud_sample_games/'),Dir,[file_type(directory), access(read)])),_,(dumpST,break)),
+   nonvar(Dir),asserta(user:file_search_path(sample_games,Dir)))).
 
 :- if( \+ user:file_search_path(sample_games,_Dir)).
-:- must((absolute_file_name(library('prologmud_sample_games/'),Dir,[file_type(directory), access(read)]),
-   asserta(user:file_search_path(sample_games,Dir)))).
+:- set_default_sample_games.
 :- sanity(user:file_search_path(sample_games,_Dir)).
 :- endif.
 
@@ -83,7 +85,8 @@ genls(mobExplorer,tHominid))).
 % [Required] isRuntime Hook
 % ==============================================
 (((localityOfObject(P,_),isRuntime)==>{if_defined(put_in_world(P))})).
-%:- user:use_module(library('file_scope')).
+
+
 :- set_prolog_flag_until_eof(do_renames,term_expansion).
 
 
