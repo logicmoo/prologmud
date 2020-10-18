@@ -34,14 +34,15 @@ use_baseKB :- '$set_typein_module'(baseKB),'$set_source_module'(baseKB),module(b
 % ==============================================
 % [Optional] Creates or suppliments a world
 % ==============================================
+set_default_sample_games:- user:file_search_path(sample_games,_Dir),!.
 set_default_sample_games:- 
-   must((catch((absolute_file_name(library('prologmud_sample_games/'),Dir,[file_type(directory), access(read)])),_,(dumpST,break)),
-   nonvar(Dir),asserta(user:file_search_path(sample_games,Dir)))).
+   must((catch(absolute_file_name(library('prologmud_sample_games/'),Dir,[file_type(directory), access(read)]),_,true),
+   ignore((nonvar(Dir),asserta(user:file_search_path(sample_games,Dir)))))).
 
-:- if( \+ user:file_search_path(sample_games,_Dir)).
+%:- if( \+ user:file_search_path(sample_games,_Dir)).
 :- set_default_sample_games.
-:- sanity(user:file_search_path(sample_games,_Dir)).
-:- endif.
+%:- sanity(user:file_search_path(sample_games,_Dir)).
+%:- endif.
 
 :- dynamic(lmconf:eachRule_Preconditional/1).
 :- dynamic(lmconf:eachFact_Preconditional/1).
