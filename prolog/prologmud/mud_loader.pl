@@ -46,6 +46,22 @@
 :- set_prolog_flag(verbose_load,true).
 
 
+
+:- dynamic user:prolog_load_file/2.
+:- multifile user:prolog_load_file/2.
+:- module_transparent user:prolog_load_file/2.
+
+user:prolog_load_file(ModuleSpec, Options) :-
+ Found = f(_),
+ once((
+ strip_module(ModuleSpec, Module, Spec),
+ nonvar(Spec),
+ contains_wildcard(Spec),
+ forall((enumerate_files(ModuleSpec,Result),exists_file(Result)),
+   (load_files(Module:Result,Options),nb_setarg(1,Found,true))))),
+ ground(Found),!.
+ 
+
 %:- include(mud_header).
 
 
