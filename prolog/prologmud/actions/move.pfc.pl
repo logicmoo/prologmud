@@ -68,7 +68,7 @@ move_command_1(Agent,Dir) :-
 move_command_1(Agent,Dir) :-
 	mudAtLoc(Agent,LOC),
         from_dir_target(LOC,Dir,XXYY),
-        trace,
+        % trace,
         is_3d(XXYY),
          mudAtLoc(Obj,LOC),        
          prop_or(Obj,mudHeight,ObjHt,1),
