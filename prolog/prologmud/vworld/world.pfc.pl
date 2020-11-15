@@ -171,7 +171,7 @@ create_agent(P,List):- must(create_instance(P,tAgent,List)),!.
 create_instance(P):- must(call_u((isa(P,What),ttSpatialType(What)))),must(create_instance(P,What,[])),!.
 :-export(create_instance/2).
 create_instance(Name,Type):-create_instance(Name,Type,[]).
-create_instance(Name,Type):-create_instance(Name,Type,[]).
+%create_instance(Name,Type):-create_instance(Name,Type,[]).
 :-export(create_instance/3).
 create_instance(What,Type,Props):- 
   loop_check(time_call(create_instance_now(What,Type,Props)),dmsg(already_create_instance(What,Type,Props))).
