@@ -11,7 +11,7 @@
 
 :- check_clause_counts.
 :- include(prologmud(mud_header)).
-:- use_module(library(pfc)).
+:- expects_dialect(pfc).
 :- check_clause_counts.
 
 :-discontiguous((translation_spo/6,parserTest/2,parserTest/3,translation_w//
@@ -33,19 +33,19 @@ toCamelAtom00(I,O):-toCamelcase(I,O).
  % :- set_prolog_flag(subclause_expansion,true).
 
 
-vtColor(vRed).
+==>vtColor(vRed).
 
-ttValueType(vtColor).
+==>ttValueType(vtColor).
 
 '==>'((isa(X,ttValueType)/(X\==vtValue)),
   (genls(X,vtValue),completelyAssertedCollection(X))).
 
-completelyAssertedCollection(vtValue).
+==>completelyAssertedCollection(vtValue).
 
-isa(vtValue,ttValueType).
+==>isa(vtValue,ttValueType).
 
 
-typeGenls(ttValueType,vtValue).
+==>typeGenls(ttValueType,vtValue).
 
 
 :-must(vtColor(vRed)).
@@ -159,6 +159,10 @@ predicate0(isa)-->[is].
 
  % :- set_prolog_flag(subclause_expansion,true).
 
+
+:- kb_shared((onSpawn)/1).
+
+:- expects_dialect(pfc).
 
 tCol('tRoom').
 
@@ -278,7 +282,7 @@ mudKeyword(isSelfRegion,"here").
 mudKeyword(tThing,"object").
 
 ==>
- type_action_info(tHumanControlled,
+ baseKB:type_action_info(tHumanControlled,
    actAddText(isOptional(tTemporalThing,isThis),ftText),
      "Development add some Text to a room.  Usage: addtext a sofa is in here").
 

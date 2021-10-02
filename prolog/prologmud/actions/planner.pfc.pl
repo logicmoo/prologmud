@@ -30,10 +30,10 @@
 on_command_show(Agent,actLook,goals=nop(SHOW)):- findall(Value,agentGOAL(Agent,Value),SHOW),SHOW\==[].
 on_command_show(Agent,actLook,todo=nop(SHOW)):- findall(Value,agentTODO(Agent,Value),SHOW),SHOW\==[].
 
-action_info(actPlan(ftTerm),"carry out a plan").
+baseKB:action_info(actPlan(ftTerm),"carry out a plan").
 
 % Plan something
-agent_call_command(Agent,actPlan(Goal)) :-
+baseKB:agent_call_command(Agent,actPlan(Goal)) :-
    ain(agentGOAL(Agent,Goal)),
    dmsg(call(listing(agentGOAL(Agent,_)))),
    pddl_idea(Agent,Act),

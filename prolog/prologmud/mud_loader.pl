@@ -43,7 +43,7 @@
 
 :- op(200,fy,(-)).
 
-:- set_prolog_flag(verbose_load,true).
+%:- set_prolog_flag(verbose_load,true).
 
 
 
@@ -129,8 +129,8 @@ user:prolog_load_file(ModuleSpec, Options) :-
 % [Optionaly] Solve the Halting problem
 :-use_module(library(process)).
 % :-use_module(library(pce)).
-:- has_gui_debug -> true ; remove_pred(pce_principal,send,2).
-:- has_gui_debug -> true ; remove_pred(pce_principal,new,2).
+%:- has_gui_debug -> true ; remove_pred(pce_principal,send,2).
+%:- has_gui_debug -> true ; remove_pred(pce_principal,new,2).
 
 
 :- export(add_game_dir/2).
@@ -148,8 +148,9 @@ now_try_game_dir(Else):-
 :-context_module(CM),assert(loading_from_cm(CM)).
 create_module(M):-current_module(M),!.
 create_module(M):-context_module(CM),module(M),asserta(M:this_is_a_module(M)),writeq(switching_back_to_module(M,CM)),module(CM).
-:-create_module(user).
 :-create_module(t_l).
+:-create_module(user).
+
 %:-create_module(baseKB).
 %:-create_module(moo).
 
@@ -282,19 +283,15 @@ run_setup:- within_user(after_boot(run_setup_now)).
 debug_repl_w_cyc(Module,CallFirst):- !,         
           locally_hide(t_l:useOnlyExternalDBs,
             locally(baseKB:use_cyc_database,
-               ((decl_type(person),          
+               ((ain(tCol(person)),
                 ensure_mpred_file_loaded(logicmoo('rooms/startrek.all.pfc.pl')),
-                module(Module),
-                show_call(CallFirst), 
-                prolog_repl)))).
+                 call_with_typein_and_source(Module,Module,(show_call(CallFirst), prolog_repl)))))).
 debug_repl_wo_cyc(Module,CallFirst):- !,         
           locally(t_l:useOnlyExternalDBs,
             locally_hide(baseKB:use_cyc_database,
-               ((decl_type(person),          
+               ((ain(tCol(person)),          
                 ensure_mpred_file_loaded(logicmoo('rooms/startrek.all.pfc.pl')),
-                module(Module),
-                show_call(CallFirst), 
-                prolog_repl)))).
+                 call_with_typein_and_source(Module,Module,(show_call(CallFirst), prolog_repl)))))).
 
 %  bug.. swi does not maintain context_module(CM) outside
 %  of the current caller (so we have no idea what the real context module is!?!)
@@ -594,7 +591,7 @@ rescan_disk_files:-
 
 :- multifile(prolog:make_hook/2).
 :- dynamic(prolog:make_hook/2).
-prolog:make_hook(after, []):- rescan_disk_files.
+prolog:make_hook(after, []):- once(rescan_disk_files),fail.
 
 :- rescan_disk_files.
 
@@ -615,7 +612,7 @@ prolog:make_hook(after, []):- rescan_disk_files.
 :-create_agent(explorer(2),[]).
 */
 
-:- ain((agent_text_command(Agent,["run",Term], Agent,actProlog(Term)):- ignore(Term=someCode))).
+:- ain((baseKB:agent_text_command(Agent,["run",Term], Agent,actProlog(Term)):- ignore(Term=someCode))).
 
 %:-forall(make_tabled_perm(get_all_templates(TEMPL)),dmsg(TEMPL)).
 %:-forall(make_tabled_perm(grab_argsIsa(F,Types)),dmsg(grab_argsIsa(F,Types))).

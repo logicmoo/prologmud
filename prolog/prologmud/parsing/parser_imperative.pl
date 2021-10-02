@@ -13,7 +13,7 @@
 %
 */
 :- include(prologmud(mud_header)).
-:- use_module(library(pfc)).
+:- expects_dialect(pfc).
 
 :- ensure_loaded(library(instant_prolog_docs)).
 
@@ -60,7 +60,7 @@ get_agent_text_command(Agent,VERBOrListIn,AgentR,CMD):-
 
 get_agent_text_command_0(Agent,ListIn,AgentR,CMD):- 
    (is_list(ListIn) -> UseList=ListIn ; UseList=[ListIn]),
-       call_no_cuts(agent_text_command(Agent,UseList,AgentR,CMD)).
+       call_no_cuts(baseKB:agent_text_command(Agent,UseList,AgentR,CMD)).
 
 
 want_more_question(G):-call(G),!.
@@ -68,17 +68,17 @@ want_more_question(G):-call(G),!.
 % ===========================================================
 % PARSE command
 % ===========================================================
-:-ain((==>type_action_info(tHumanControlled,actParse(tCol,ftListFn(ftString)),"Development test to parse some Text for a human.  Usage: parse 'item' the blue backpack"))).
+:-ain((==>baseKB:type_action_info(tHumanControlled,actParse(tCol,ftListFn(ftString)),"Development test to parse some Text for a human.  Usage: parse 'item' the blue backpack"))).
 
-agent_command(_Gent,actParse(Type,StringM)):-
+baseKB:agent_command(_Gent,actParse(Type,StringM)):-
    want_more_question(parse_for(Type,StringM,_Term,_LeftOver)).
 
 % ===========================================================
 % CMDPARSE command
 % ===========================================================
-:-ain((==>type_action_info(tHumanControlled,actCmdparse(ftListFn(ftTerm)),"Development test to parse some Text for a human.  Usage: cmdparse take the blue backpack"))).
+:-ain((==>baseKB:type_action_info(tHumanControlled,actCmdparse(ftListFn(ftTerm)),"Development test to parse some Text for a human.  Usage: cmdparse take the blue backpack"))).
 
-agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAction,StringM,Term,LeftOver)),fmt('==>'(parse_for(StringM) , [Term,LeftOver])).
+baseKB:agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAction,StringM,Term,LeftOver)),fmt('==>'(parse_for(StringM) , [Term,LeftOver])).
 
 % baseKB:mud_test("cmdparse test",...)
   
@@ -86,16 +86,16 @@ agent_command(_Gent,actCmdparse(StringM)):- !, want_more_question(parse_for(ftAc
 % ===========================================================
 % parsetempl command
 % ===========================================================
-:-ain((==>type_action_info(tHumanControlled,actParsetempl(ftListFn(ftTerm)),"Development test to see what verb phrase heads are found. (uses get_vp_templates/4)  Usage: parsetempl who"))).
+:-ain((==>baseKB:type_action_info(tHumanControlled,actParsetempl(ftListFn(ftTerm)),"Development test to see what verb phrase heads are found. (uses get_vp_templates/4)  Usage: parsetempl who"))).
 
 
 % :- use_module(library(func)).
 % guess_nameStrings $ actParsetempl
-% agent_text_command(Agent,[guess_nameStrings $ actParsetempl|List],Agent,actParsetempl(List)):- cwc.
-agent_text_command(Agent,[Result|List],Agent,actParsetempl(List)):- guess_nameStrings( actParsetempl, Result).
+% baseKB:agent_text_command(Agent,[guess_nameStrings $ actParsetempl|List],Agent,actParsetempl(List)):- cwc.
+baseKB:agent_text_command(Agent,[Result|List],Agent,actParsetempl(List)):- guess_nameStrings( actParsetempl, Result).
 
 
-agent_command(Agent,actParsetempl(StringM)):-
+baseKB:agent_command(Agent,actParsetempl(StringM)):-
   to_word_list(StringM,[SVERB|ARGS]),
   get_vp_templates(Agent,SVERB,ARGS,TEMPLATES),fmt(templates=TEMPLATES),
   ignore((
@@ -337,11 +337,11 @@ parse_agent_text_command(Agent,IVERB,ARGS,Agent,GOAL):-
 
 % try directly parsing first
 parse_agent_text_command_0(Agent,SVERB,ARGS,NewAgent,GOAL):- 
-   call_no_cuts(agent_text_command(Agent,[SVERB|ARGS],NewAgent,GOAL)),nonvar(NewAgent),nonvar(GOAL),!.   
+   call_no_cuts(baseKB:agent_text_command(Agent,[SVERB|ARGS],NewAgent,GOAL)),nonvar(NewAgent),nonvar(GOAL),!.   
 
 % try indirectly parsing
 parse_agent_text_command_0(Agent,SVERB,ARGS,NewAgent,GOAL):- 
-   call_no_cuts(agent_text_command(Agent,[VERB|ARGS],NewAgent,GOAL)),ground(GOAL),nonvar(VERB),
+   call_no_cuts(baseKB:agent_text_command(Agent,[VERB|ARGS],NewAgent,GOAL)),ground(GOAL),nonvar(VERB),
    verb_matches(SVERB,VERB).
 
 parse_agent_text_command_0(Agent,SVERB,ARGS,Agent,GOAL):-
@@ -366,22 +366,22 @@ parse_agent_text_command_1(Agent,SVERB,ARGS,Agent,GOAL):-
    dmsg_parserm(parserm("chooseBestGoal"=GOAL)).
 
 
-text_actverb("i",actInventory).
-text_actverb("l",actLook).
-text_actverb("lo",actLook).
-text_actverb("s",actMove(vSouth)).
-text_actverb("go",actMove).
-text_actverb("where is",actWhere).
-% text_actverb(["where","is"],actWhereTest).
+==>baseKB:text_actverb("i",actInventory).
+==>baseKB:text_actverb("l",actLook).
+==>baseKB:text_actverb("lo",actLook).
+==>baseKB:text_actverb("s",actMove(vSouth)).
+==>baseKB:text_actverb("go",actMove).
+==>baseKB:text_actverb("where is",actWhere).
+% baseKB:text_actverb(["where","is"],actWhereTest).
 
 % remove nonstringed aliases
-:-ain(((text_actverb(NonStr, Act), {\+ is_ftText(NonStr),convert_to_cycString(NonStr,EStr)}) ==> 
-    text_actverb(EStr, Act),
-   { ignore(call(call,retractall(( text_actverb(NonStr, Act)) ))) } )).
+:-ain(((baseKB:text_actverb(NonStr, Act), {\+ is_ftText(NonStr),convert_to_cycString(NonStr,EStr)}) ==> 
+    baseKB:text_actverb(EStr, Act),
+   { ignore(call(call,retractall(( baseKB:text_actverb(NonStr, Act)) ))) } )).
                      
-ttTypeType(ttCoercable).
+==>ttTypeType(ttCoercable).
 
-genls(ttStringType,ttCoercable).
+==>genls(ttStringType,ttCoercable).
 
 nameString(O,S):-nonvar(O),nonvar(S),nameString(O,SU),same_ci(S,SU).
 
@@ -390,19 +390,20 @@ nameString(O,S):-nonvar(O),nonvar(S),nameString(O,SU),same_ci(S,SU).
   ==> 
    ( \+ P,{coerce(NonStr,StringType,EStr)},Q))).
 
-:- dmsg(call(listing(text_actverb/2))).
+:- dmsg(call(listing(baseKB:text_actverb/2))).
 
 
-% :- sanity((clause_u(text_actverb(S,actWhere)),argIsa(text_actverb,1,C),isa(S,C))).
+% :- sanity((clause_u(baseKB:text_actverb(S,actWhere)),argIsa(text_actverb,1,C),isa(S,C))).
 
-:- must((clause_u(text_actverb(S,actWhere))))->must(((argIsa(text_actverb,1,C);argQuotedIsa(text_actverb,1,C)),(isa(S,C);quotedIsa(S,C)))).
+:- must((clause_u(baseKB:text_actverb(S,actWhere))))
+  ->must(((argIsa(text_actverb,1,C);call_u(argQuotedIsa(text_actverb,1,C))),(isa(S,C);quotedIsa(S,C)))).
 
-%:- listing(text_actverb/2).
+%:- listing(baseKB:text_actverb/2).
 %:- break.
 
 % pos_word_formula('infinitive',Verb,Formula):- 'infinitive'(TheWord, Verb, _, _G183), 'verbSemTrans'(TheWord, 0, 'TransitiveNPCompFrame', Formula, _, _).
 
-verb_alias_to_verb(IVERB,SVERB):- text_actverb(L,Look),verb_matches(L,IVERB),SVERB=Look,!.
+verb_alias_to_verb(IVERB,SVERB):- baseKB:text_actverb(L,Look),verb_matches(L,IVERB),SVERB=Look,!.
 verb_alias_to_verb(IVERB,SVERB):- coerce(IVERB,vtVerb,SVERB), IVERB \= SVERB.
 
 subst_parser_vars(Agent,TYPEARGS,TYPEARGS_R):- subst(TYPEARGS,isSelfAgent,Agent,S1),where_atloc(Agent,Here),subst(S1,vHere,Here,TYPEARGS_R).
@@ -418,7 +419,7 @@ get_vp_templates(_Agent,SVERB,_ARGS,TEMPLATES):-
     ((
       get_all_templates(TEMPL),
      %isa(Agent,What),
-     %action_info(What,TEMPL,_),
+     %baseKB:action_info(What,TEMPL,_),
      TEMPL=..[VERB|TYPEARGS],
      (verb_matches(SVERB,VERB)))),
      TEMPLATES_FA),
@@ -566,6 +567,8 @@ to_descriptive_name(_For,Desc,Atom):-any_to_atom(Desc,Atom),!.
 :-ain((vtActionTemplate(AT)/(get_functor(AT,F))) ==> vtVerb(F)).
 
 freeze_safe(A,G):- nonvar(A),freeze(A,G).
+
+:- kb_shared(baseKB:(onSpawn)/1).
 
 onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u(nameString(F,_)),once(guess_nameStrings(F,Txt))}==>(nameString(F,Txt)))).
 onSpawn((ttKeyworded(T),{freeze_safe(F,atomic(F))},isa(F,T),{ \+ call_u(mudDescription(F,_)),once(guess_mudDescription(F,Txt))}==>(mudDescription(F,Txt)))).
@@ -753,10 +756,10 @@ parseIsaMost(List,Term) --> parseIsa(isAnd(List),Term),{!}.
 
 coerce_as(B,A,C):-coerce(A,B,C).
 
-coerce_hook(A,B,C):- (var(A);var(B)),!,fail,trace_or_throw(freeze(A,coerce_hook(A,B,C))).
+% coerce_hook(A,B,C):- (var(A);var(B)),!,fail,trace_or_throw(freeze(A,coerce_hook(A,B,C))).
 % futureAssertion: THIS IS WHAT I THINKL THE CODE SHOULD LIKE
 % coerce_hook(A,B,C):- to_arg_value(A,AStr),A\=@=AStr,!,coerce_hook(AStr,B,C).
-coerce_hook(A,B,C):- to_arg_value(A,AStr),isa_or_type(AStr,B),AStr=C,!.
+coerce_hook(A,B,C):- to_arg_value(A,AStr),call_u(isa_or_type(AStr,B)),AStr=C,!.
 coerce_hook(A,B,C):- no_repeats(C,(coerce0(A,B,C0),to_arg_value(C0,C))),(show_failure(isa_or_type(C,B))->!;true).
 % THIS SHOULD BEEN OK.. coerce_hook(AStr,B,C):- any_to_string(AStr,A), no_repeats(C,(coerce0(A,B,C0),to_arg_value(C0,C))),(show_failure(ereq(isa(C,B)))->!;true).
 

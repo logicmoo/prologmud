@@ -15,7 +15,7 @@
 %:-pfc_untrace.
 %:-pfc_no_spy_all.
 
-use_baseKB :- '$set_typein_module'(baseKB),'$set_source_module'(baseKB),module(baseKB).
+use_baseKB :- nop('$set_typein_module'( baseKB)),nop('$set_source_module'( baseKB)),nop(module( baseKB)),ignore(notrace(update_changed_files)).
 :- use_baseKB.
 
 % ==============================================
@@ -30,17 +30,27 @@ use_baseKB :- '$set_typein_module'(baseKB),'$set_source_module'(baseKB),module(b
 :- show_entry(gripe_time(40, doall(baseKB:regression_test))).
 :- endif.
 
+user:file_search_path(sample_games, Dir):- try_samples_game_dir(Dir).
+try_samples_game_dir('./'):- exists_source('./src_game_nani/objs_misc_household.pfc').
+try_samples_game_dir('~/'):- exists_source('~/src_game_nani/objs_misc_household.pfc').
+try_samples_game_dir('/opt/logicmoo_workspace/prologmud_server/'):- 
+  exists_source('/opt/logicmoo_workspace/prologmud_server/src_game_nani/objs_misc_household.pfc').
+try_samples_game_dir(library('prologmud_sample_games/')).
 
 % ==============================================
 % [Optional] Creates or suppliments a world
 % ==============================================
+/*% 
+set_default_sample_games:- try_samples_game_dir(Try), 
+   catch(absolute_file_name(Try,Dir,[file_type(directory), access(read)]),_,true),
+   ignore((nonvar(Dir),asserta(user:file_search_path(sample_games,Dir)))),!.
 set_default_sample_games:- user:file_search_path(sample_games,_Dir),!.
 set_default_sample_games:- 
    must((catch(absolute_file_name(library('prologmud_sample_games/'),Dir,[file_type(directory), access(read)]),_,true),
    ignore((nonvar(Dir),asserta(user:file_search_path(sample_games,Dir)))))).
-
 %:- if( \+ user:file_search_path(sample_games,_Dir)).
 :- set_default_sample_games.
+*/
 %:- sanity(user:file_search_path(sample_games,_Dir)).
 %:- endif.
 
@@ -113,8 +123,9 @@ mudStowing(iExplorer7,'iPhaser776'))).
 
 :- kb_shared(baseKB:tCol/1).
 :- kb_shared(baseKB:ttCoercable/1).
+:- kb_shared(baseKB:(onSpawn)/1).
 % :- add_import_module(mpred_type_isa,baseKB,end).
-onSpawn(localityOfObject(iExplorer7,tLivingRoom)).
+==>onSpawn(localityOfObject(iExplorer7,tLivingRoom)).
 
 ==>((
 pddlSomethingIsa('iBoots773',['tBoots','ProtectiveAttire','PortableObject','tWearAble']),
@@ -138,8 +149,8 @@ pddlSomethingIsa('iGoldUniform675',['tGoldUniform','ProtectiveAttire','PortableO
 pddlSomethingIsa('iPhaser676',['tPhaser','Handgun',tWeapon,'LightingDevice','PortableObject','Device-SingleUser','tWearAble']))).
 
 
-onSpawn(localityOfObject(iCommanderdata66,tOfficeRoom)).
-onSpawn(mudAreaConnected(tLivingRoom,tOfficeRoom)).
+==>onSpawn(localityOfObject(iCommanderdata66,tOfficeRoom)).
+==>onSpawn(mudAreaConnected(tLivingRoom,tOfficeRoom)).
 :- endif.
 :- endif.
 
@@ -159,10 +170,10 @@ start_mud_server:-
 % ==============================================
 % [Optionaly] Start the telent server % iCommanderdata66
 % ==============================================
-:- if( \+ app_argv('--nonet')).
+%:- if( \+ app_argv('--nonet')).
 :- after_boot(start_mud_server).
 % :- assert_setting01(lmconf:eachFact_Preconditional(isRuntime)).
-:- endif.
+%:- endif.
 
 % [Manditory] This loads the game and initializes so test can be ran
 :- baseKB:ensure_loaded(sample_games('src_game_nani/objs_misc_household.pfc')).
@@ -186,7 +197,7 @@ lstra :- forall(baseKB:how_virtualize_file(_,F,0),baseKB:ensure_loaded(F)).
 % :- add_game_dir(sample_games('src_game_sims'),prolog_repl).
 % :- add_game_dir(sample_games('src_game_nani'),prolog_repl).
 %:- add_game_dir(sample_games('src_game_startrek'),prolog_repl).
-:- declare_load_dbase(sample_games('src_game_startrek/?*.pfc*')).
+%:- declare_load_dbase(sample_games('src_game_startrek/?*.pfc*')).
 
 %:- check_clause_counts.
 
@@ -270,15 +281,28 @@ lar :- % set_prolog_flag(dmsg_level,never),
 
 :- before_boot(use_baseKB).
 :- during_boot(use_baseKB).
-:- during_boot(ain(tSourceData(iWorldData8))).
+:- after_boot(use_baseKB).
+
+:- during_boot(baseKB:ain(tSourceData(iWorldData8))).
 
 start_runtime_mud:- 
+   update_changed_files,
+   forall(tCol(X),call(baseKB:kb_shared,X/1)),
+   forall(tSet(X),call(baseKB:kb_shared,X/1)),
+   %forall(tCol(X),call(baseKB:make_as_dynamic,X/1)),
+   %forall(tSet(X),call(baseKB:make_as_dynamic,X/1)),
    use_baseKB,
-   ain(isLoaded(iWorldData8)),
-   dmsg(call(listing(feature_test))),
-   dmsg(call(listing(sanity_test))),
-   dmsg(call(listing(regression_test))),
-   with_mpred_trace_exec(ain(isRuntime)).
+   notrace(baseKB:ain(isLoaded(iWorldData8))),
+   notrace(with_mpred_trace_exec(baseKB:ain(isRuntime))),
+   show_lm_tests.
+
+
+show_lm_tests:-
+  dmsg(call(listing(baseKB:feature_test))),
+  dmsg(call(listing(baseKB:sanity_test))),
+  dmsg(call(listing(baseKB:regression_test))),
+  !.
+
 
 :- after_boot(start_runtime_mud).
 
@@ -291,4 +315,5 @@ start_runtime_mud:-
 :- add_history(baseKB:lst).
 :- add_history(logicmoo_i_cyc_xform).
 
+:- fixup_exports.
 
